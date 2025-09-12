@@ -1,0 +1,353 @@
+/* ===================== THEME ===================== */
+:root{
+  --primary:#6c47ff; --primary-2:#8f5cff; --primary-dark:#241946; --accent:#ffc700;
+  --bg-dark:#141126; --white:#fff; --ink:#1f2030;
+  --radius:16px; --radius-lg:24px;
+  --shadow-sm:0 6px 18px rgba(60,40,140,.10); --shadow:0 10px 32px rgba(60,40,140,.16);
+  --ease-snappy:cubic-bezier(.47,1.64,.41,.8); --t-fast:.18s var(--ease-snappy); --t-med:.28s var(--ease-snappy);
+  --s-1:clamp(6px,.6vw,12px); --s-2:clamp(10px,1.1vw,18px); --s-3:clamp(16px,1.6vw,28px); --s-4:clamp(24px,2.4vw,44px); --s-5:clamp(32px,3.4vw,72px);
+  --fs-200:clamp(.92rem,.25vw + .85rem,1rem); --fs-300:clamp(1rem,.35vw + .92rem,1.06rem); --fs-400:clamp(1.08rem,.55vw + .96rem,1.22rem); --fs-500:clamp(1.38rem,1vw + 1.1rem,2rem); --fs-600:clamp(2rem,2.6vw + 1.1rem,3.2rem);
+  --lh-tight:1.15; --lh-base:1.55; --lh-relaxed:1.75;
+}
+/* ===================== GLOBAL ===================== */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Montserrat',Arial,sans-serif; color:var(--ink); font-size:var(--fs-300); line-height:var(--lh-base);
+  background:linear-gradient(-45deg,#141126,#2c1c5e,#161334,#3b346d);
+  background-size:400% 400%; animation:gradientBG 20s ease infinite; overflow-x:hidden;
+}
+html,body{ width:100%; max-width:100%; overflow-x:clip; } /* tránh tràn ngang */
+
+/* Starfield canvas sits behind */
+#stars, #stars2, #stars3{ position:fixed; inset:0; z-index:-3; display:block }
+.scanline{ position:fixed; inset:0; pointer-events:none; z-index:2;
+  background: repeating-linear-gradient(transparent 0 2px,#ffffff08 2px 4px);
+  mix-blend-mode: overlay; opacity:.4;
+}
+/* Soft grid mask */
+body::after{ content:""; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+   linear-gradient(#ffffff0a 1px, transparent 1px) 0 0/ 24px 24px,
+   linear-gradient(90deg,#ffffff0a 1px, transparent 1px) 0 0/ 24px 24px;
+  mask: radial-gradient(230% 60% at 50% -10%, #000 30%, transparent 70%);
+  opacity:.35;
+}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes floatY{0%{transform:translateY(0)}100%{transform:translateY(-18px)}}
+@keyframes flowLine{0%{background-position:0% 0}100%{background-position:300% 0}}
+@keyframes spin{to{ --angle: 360deg; }}
+
+/* ===================== NAV ===================== */
+nav{
+  position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between;
+  padding:calc(var(--s-1)*.8) var(--s-3); background:rgba(255,255,255,.86);
+  -webkit-backdrop-filter:saturate(140%) blur(10px); backdrop-filter:saturate(140%) blur(10px);
+  box-shadow:0 2px 16px rgba(20,17,38,.12);
+}
+/* ẩn mặc định trên desktop */
+.nav-close{ display:none; }
+.nav-left{display:flex;align-items:center;gap:.9rem}
+.logo{display:flex;align-items:center;gap:.45rem;font-weight:800;letter-spacing:.4px;color:var(--primary);font-size:1.2rem}
+.logo img{width:32px;height:32px;display:block}
+.nav-links{display:flex;align-items:center;gap:var(--s-3);margin-left:1.2rem;transition:var(--t-med)}
+.nav-links a{position:relative;text-decoration:none;color:#1f2030;font-weight:600;padding:6px 0}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--primary-2));opacity:0;transform:translateY(4px);transition:var(--t-fast)}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a:hover::after{opacity:1;transform:translateY(0)}
+.nav-right{display:flex;gap:.7rem}
+.nav-btn{border:none;outline:none;cursor:pointer;padding:.55rem 1.4rem;border-radius:999px;font-weight:800;letter-spacing:.2px;transition:var(--t-fast);box-shadow:var(--shadow-sm)}
+.nav-btn.login{color:#fff;background:linear-gradient(90deg,var(--primary) 0%,var(--primary-2) 100%)}
+.nav-btn.login:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.nav-btn.register{background:#191730;color:#fff}
+.nav-btn.register:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.hamburger{display:none;width:40px;height:40px;justify-content:center;align-items:center;flex-direction:column;gap:6px;border:none;background:transparent;cursor:pointer}
+.hamburger span{width:26px;height:3px;border-radius:2px;background:var(--primary);transition:var(--t-fast)}
+.nav-links-btns{display:none}
+a {
+  text-decoration: none;
+}
+@media (max-width:1000px){
+  .hamburger{display:flex}
+  .nav-right{display:none}
+  nav{flex-wrap:wrap;padding:var(--s-1) var(--s-2)}
+  .nav-links{
+    position:absolute;top:0%;background:#fff;
+    width: 100%;
+    right: 0%;
+    flex-direction:column;align-items:flex-start;gap:var(--s-2);
+    padding:calc(var(--s-2) ) var(--s-3) var(--s-2); /* chừa chỗ cho nút X */
+    box-shadow:0 16px 24px rgba(108,71,255,.12);
+    opacity:0;pointer-events:none;transform:translateY(-18px)
+  }
+  
+   /* nút X */
+  .nav-close{
+    display:grid; place-items:center;
+    position:absolute; top:8px; right:10px;
+    width:40px; height:40px; border:none; border-radius:12px;
+    background:#f5f3ff; box-shadow:var(--shadow-sm); cursor:pointer;
+  }
+    .nav-close:hover{ filter:brightness(1.02); transform:translateY(-1px); }
+
+  /* icon X bằng CSS */
+  .nav-close .x{ position:relative; width:22px; height:22px; }
+  .nav-close .x::before,
+  .nav-close .x::after{
+    content:""; position:absolute; left:50%; top:50%;
+    width:2px; height:22px; background:var(--primary); border-radius:2px;
+    transform-origin:center;
+  }
+   .nav-close .x::before{ transform:translate(-50%,-50%) rotate(45deg); }
+  .nav-close .x::after { transform:translate(-50%,-50%) rotate(-45deg); }
+
+  .nav-links.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+  .nav-links-btns{display:flex;flex-direction:column;gap:.7rem;width:100%;margin-top:.6rem}
+  .nav-links-btns .nav-btn{width:100%}
+}
+
+/* ===================== HERO ===================== */
+.hero{display:flex;align-items:center;justify-content:space-between;gap:var(--s-5);padding:var(--s-5) var(--s-3);color:#fff}
+.hero-text{flex:1.1}
+.hero-title{font-family:'Orbitron',system-ui,sans-serif;font-size:var(--fs-600);line-height:var(--lh-tight);font-weight:800;letter-spacing:.6px;margin:0 0 var(--s-2);text-shadow:0 8px 30px rgba(136,59,255,.26)}
+.hero-desc{color:#e9e6fa;font-size:var(--fs-400);line-height:var(--lh-relaxed);margin-bottom:var(--s-3)}
+.hero-btn{display:inline-block;border:none;outline:none;cursor:pointer;padding:1.05rem 2.5rem;border-radius:40px;font-weight:900;letter-spacing:.6px;color:#161334;background:linear-gradient(180deg,#ffd973 0%,#ffc700 60%,#ffb72d 100%);box-shadow:0 12px 30px rgba(253,199,0,.28);transition:var(--t-fast);position:relative;overflow:hidden}
+.hero-btn::after{content:"";position:absolute;inset:-60% -60%;background:conic-gradient(#6c47ff,#8f5cff,#ffc700,#6c47ff);animation:spin 8s linear infinite;opacity:.25}
+.hero-btn:hover{transform:translateY(-2px) scale(1.03)}
+.hero-img{flex:1;display:flex;justify-content:flex-end}
+.hero-img img{width:100%;max-width:clamp(280px,36vw,440px);border-radius:var(--radius-lg);filter:drop-shadow(0 16px 40px rgba(136,59,255,.35));animation:floatY 3.4s ease-in-out infinite alternate}
+
+/* ===================== SECTION ===================== */
+.section{
+  width:100%; margin:var(--s-4) 0 0 0; padding:var(--s-5) var(--s-3) var(--s-3);
+  background:#fff;border-radius:0;box-shadow:none;color:var(--ink);text-align:left;
+  opacity:0;transform:translateY(24px); transition:opacity .6s ease, transform .6s ease;
+}
+.section.is-visible{opacity:1;transform:none}
+.section-title{font-size:var(--fs-500);line-height:var(--lh-tight);font-weight:900;color:var(--primary-dark);margin:0 0 var(--s-2)}
+.section-title.decor{position:relative;display:inline-block;padding-bottom:.3rem}
+.section-title.decor::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:4px;border-radius:4px;background:linear-gradient(90deg,#6c47ff,#8f5cff,#ffc700,#6c47ff);background-size:300% 100%;animation: flowLine 5s linear infinite;box-shadow: 0 6px 18px #6c47ff33}
+.section-desc{font-size:var(--fs-300);color:#2b2a49;line-height:var(--lh-relaxed);margin:0 0 var(--s-3)}
+
+/* ===================== ABOUT GRID ===================== */
+#about .card-list{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(16px,2.2vw,24px); margin-top:var(--s-3);
+}
+@media (max-width:1200px){ #about .card-list{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:900px) { #about .card-list{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:600px) { #about .card-list{ grid-template-columns:1fr; } }
+
+/* Neon glass card + hologram border + tilt */
+#about .card-box{
+  position:relative; display:flex; flex-direction:column; align-items:center; text-align:center;
+  justify-content:flex-start; min-height:100%;
+  padding: clamp(20px,2vw,28px); border-radius:22px;
+  background: linear-gradient(180deg,#ffffffee, #ffffffd6);
+  backdrop-filter: saturate(140%) blur(6px);
+  box-shadow: 0 14px 40px rgba(108,71,255,.12);
+  isolation:isolate; transform-style:preserve-3d;
+  transition: transform .25s, box-shadow .25s;
+  border:1px solid #efeaff;
+}
+#about .card-box::before{
+  content:""; position:absolute; inset:-1.5px; border-radius:24px;
+  background: conic-gradient(from var(--angle,0deg), #6c47ff, #8f5cff, #ffc700, #6c47ff);
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0) border-box;
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: spin 8s linear infinite; opacity:.25; z-index:-1; filter: blur(.6px);
+}
+#about .card-box:hover{ box-shadow: 0 22px 60px rgba(108,71,255,.20) }
+#about .card-icon{
+  width:64px;height:64px;border-radius:16px;display:grid;place-items:center;margin-bottom:1rem;
+  background: radial-gradient(90% 90% at 30% 20%, #fff, #efeaff);
+  box-shadow: inset 0 0 0 2px #e6dfff, 0 16px 40px #6c47ff18;
+  transform: translateZ(30px);
+}
+#about .card-icon img{ width:62%; height:62%; object-fit:contain; filter: drop-shadow(0 4px 10px #6c47ff28); }
+#about .card-box h4{ margin:.2rem 0 .4rem; font-weight:900; font-size:clamp(1.08rem,.7vw + 1rem,1.34rem) }
+#about .card-box p{ margin:0 0 1.2rem; color:#4a458a; line-height:1.7; max-width: 80ch; flex:1 1 auto }
+#about .card-box a{
+  position:relative; margin-top:auto; width:min(240px,80%);
+  display:inline-grid; place-items:center; padding:.85rem 1.2rem; border-radius:14px; font-weight:900;
+  color:#261a63; background:#f3f0ff; border:2px solid #d9d0ff;
+  box-shadow: inset 0 0 0 1px #ffffffaa, 0 6px 20px #6c47ff14;
+  overflow:hidden; transition: transform .22s, border-color .22s, background .22s, filter .22s;
+  text-decoration:none;
+}
+#about .card-box a::after{ content:""; position:absolute; inset:-40% -60%;
+  background: linear-gradient(105deg, transparent 35%, #ffffff90 50%, transparent 65%);
+  transform: translateX(-60%) rotate(6deg); transition: transform .7s ease;
+}
+#about .card-box:hover a::after{ transform: translateX(60%) rotate(6deg) }
+#about .card-box a:hover{ transform: translateY(-2px); border-color:#bdb0ff; filter:hue-rotate(20deg) }
+
+/* ===================== HOW TO PLAY ===================== */
+.howto-enhanced{position:relative;width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-3);margin:var(--s-2) 0 var(--s-3)}
+.howto-enhanced::before{
+  content:""; position:absolute; left:0; right:0; top:calc(50% + 36px);
+  height:3px; background:linear-gradient(90deg,#6c47ff,#8f5cff,#ffc700,#6c47ff); background-size:300% 100%;
+  transform-origin:left center; transform:scaleX(0); transition:transform .8s ease-out; animation:flowLine 4s linear infinite;
+}
+.howto-enhanced.connect-visible::before{transform:scaleX(1)}
+.howto-enhanced .step{
+  position:relative; background:#fff;border:1px solid #efeaff;border-radius:18px;
+  box-shadow:0 8px 24px rgba(108,71,255,.10); padding:var(--s-3) var(--s-2) var(--s-2); overflow:hidden;
+  opacity:0; transform:translateX(24px);
+  transition:transform .5s var(--ease-snappy), opacity .5s ease, box-shadow .18s var(--ease-snappy), filter .5s ease;
+  filter: blur(6px);
+}
+.howto-enhanced.connect-visible .step{opacity:1;transform:translateX(0);filter:blur(0)}
+.howto-enhanced.connect-visible .step:nth-child(1){transition-delay:.12s}
+.howto-enhanced.connect-visible .step:nth-child(2){transition-delay:.22s}
+.howto-enhanced.connect-visible .step:nth-child(3){transition-delay:.32s}
+.howto-enhanced.connect-visible .step:nth-child(4){transition-delay:.42s}
+.step-badge{
+  position:absolute; top:12px; left:50%; transform:translateX(-50%);
+  width:46px;height:46px;border-radius:50%; display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;font-weight:900;font-size:1.05rem; box-shadow:0 10px 22px rgba(108,71,255,.28); z-index:1;
+}
+.step-body{ margin-top: calc(var(--s-2) + 36px) }
+.step-title{ text-align: center; margin:0 0 .35rem 0; font-size:clamp(1.02rem,.5vw + .95rem,1.2rem); line-height:var(--lh-tight); color:#1e0a47; font-weight:800 }
+.step-text{ margin:0; color:#3a3574; font-size:var(--fs-300); line-height:var(--lh-relaxed) }
+.step-text{text-align: center;}
+/* ===================== FOOTER ===================== */
+footer{
+  color:#e9e6fa; text-align:center; padding:2.2rem 1rem 2.8rem; font-size:.95rem;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width:900px){
+  .hero{flex-direction:column;align-items:flex-start;gap:var(--s-4);padding:var(--s-5) var(--s-3)}
+  .hero-img{width:100%;justify-content:center}
+}
+@media (max-width:600px){
+  nav{padding:var(--s-1) var(--s-2)}
+  .section{padding:var(--s-4) var(--s-2) var(--s-2)}
+  .howto-enhanced{grid-template-columns:1fr;gap:var(--s-2)}
+  .howto-enhanced::before{display:none}
+}
+
+/* ====== Running neon border chỉ cho ICON ở #about ====== */
+@property --sweep {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+#about .card-icon{
+  position: relative;
+  overflow: visible;       /* để glow không bị cắt */
+  z-index: 0;
+}
+
+/* Dải sáng chạy quanh viền (chỉ giữ lại viền bằng mask) */
+#about .card-icon::before{
+  content:"";
+  position:absolute; inset:-1.5px;          /* phủ sát mép ngoài */
+  border-radius: 16px;                       /* khớp bo góc icon */
+  padding: 3px;                              /* ĐỘ DÀY VIỀN */
+  background:
+    conic-gradient(from var(--sweep),
+      transparent 0 318deg,                  /* phần mờ */
+      #ffd973 326deg, #8f5cff 344deg, #6c47ff 360deg); /* tia sáng */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,   /* giữ phần viền (padding-box) */
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: neonSweep 2.5s linear infinite;   /* TỐC ĐỘ CHẠY */
+  filter: drop-shadow(0 0 8px #8f5cff66)
+          drop-shadow(0 0 16px #ffc70055);
+  pointer-events: none;
+}
+
+/* Viền nền nhẹ (đường ray) để luôn thấy khung */
+#about .card-icon::after{
+  content:"";
+  position:absolute; inset:-1px;
+  border-radius:16px;
+  box-shadow: inset 0 0 0 1.5px #e6dfff, 0 8px 20px #6c47ff14;
+  pointer-events:none;
+}
+
+@keyframes neonSweep { to { --sweep: 360deg; } }
+
+/* Tăng nhịp khi hover thẻ card để “bắt mắt” hơn (tuỳ chọn) */
+#about .card-box:hover .card-icon::before{
+  animation-duration: 1.6s;
+  filter: drop-shadow(0 0 10px #8f5cffaa)
+          drop-shadow(0 0 24px #ffc70099);
+}
+
+/* (tuỳ chọn) Lệch pha giữa các card để không chạy đồng bộ */
+#about .card-box:nth-child(2n) .card-icon::before{ animation-delay: -.6s }
+#about .card-box:nth-child(3n) .card-icon::before{ animation-delay: -1.2s }
+/* ===== Infinite sequential float for How-to steps (1→2→3→4) ===== */
+
+/* Khi section đã vào viewport (class connect-visible do JS của bạn thêm),
+   mỗi .step sẽ "nổi" (lift) theo thứ tự và lặp vô hạn. */
+.howto-enhanced.connect-visible .step{
+  animation: stepLift 8s ease-in-out infinite;
+  animation-fill-mode: both;
+  will-change: transform, box-shadow, filter;
+}
+
+/* Lệch pha để nổi theo thứ tự 1-2-3-4 */
+.howto-enhanced.connect-visible .step:nth-child(1){ animation-delay: 0s; }
+.howto-enhanced.connect-visible .step:nth-child(2){ animation-delay: 0.4s; }
+.howto-enhanced.connect-visible .step:nth-child(3){ animation-delay: 0.8s; }
+.howto-enhanced.connect-visible .step:nth-child(4){ animation-delay: 1.2s; }
+
+/* Nhấn nhá viền phát sáng khi tới lượt */
+.howto-enhanced .step::before{
+  content:"";
+  position:absolute; inset:-1px; border-radius:18px;
+  padding:1px;
+  background: conic-gradient(#6c47ff, #8f5cff, #ffc700, #6c47ff);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;         /* chỉ giữ phần viền */
+  opacity:0;
+  filter: blur(.4px) drop-shadow(0 0 16px rgba(108,71,255,.25));
+  pointer-events:none;
+  animation: stepGlow 8s linear infinite;
+}
+
+/* Đồng bộ delay của viền với hiệu ứng nổi */
+.howto-enhanced .step:nth-child(1)::before{ animation-delay: 0s; }
+.howto-enhanced .step:nth-child(2)::before{ animation-delay: 0.4s; }
+.howto-enhanced .step:nth-child(3)::before{ animation-delay: 0.8s; }
+.howto-enhanced .step:nth-child(4)::before{ animation-delay: 1.2s; }
+
+@keyframes stepLift{
+  0%   { transform: translateY(0) scale(1);    box-shadow:0 8px 24px rgba(108,71,255,.10); }
+  6%   { transform: translateY(-6px) scale(1.02); box-shadow:0 16px 36px rgba(108,71,255,.22); }
+  14%  { transform: translateY(-6px) scale(1.02); box-shadow:0 16px 36px rgba(108,71,255,.22); }
+  20%,100% { transform: translateY(0) scale(1); box-shadow:0 8px 24px rgba(108,71,255,.10); }
+}
+
+@keyframes stepGlow{
+  0%   { opacity: .0; }
+  6%   { opacity: .95; }
+  14%  { opacity: .95; }
+  20%,100% { opacity: 0; }
+}
+
+/* Tôn cảm giác nổi khi hover (tuỳ chọn) */
+.howto-enhanced .step:hover{
+  transform: translateY(-4px);
+  box-shadow:0 14px 34px rgba(108,71,255,.16);
+}
+
+/* Tôn trọng người dùng giảm chuyển động */
+@media (prefers-reduced-motion: reduce){
+  .howto-enhanced.connect-visible .step{ animation: none !important; }
+  .howto-enhanced .step::before{ display:none; }
+}
+#about .card-box p {
+  white-space: nowrap;
+}

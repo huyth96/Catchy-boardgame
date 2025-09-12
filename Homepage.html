@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boardgame Học Tiếng Anh</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <!-- AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+      <link rel="stylesheet" href="stylehome.css">
+
+ 
+</head>
+<body>
+  <!-- Starfield layers -->
+  <canvas id="stars"></canvas>
+  <canvas id="stars2"></canvas>
+  <canvas id="stars3"></canvas>
+  <div class="scanline"></div>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-left">
+      <div class="logo">
+        <img src="./logo.png" alt="dice">
+      </div>
+      <div class="nav-links">
+          <button class="nav-close" aria-label="Close menu"><span class="x"></span></button>
+
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="index.html">Cards</a>
+        <a href="#howtoplay">How to Play</a>
+        <a href="#download">Downloads</a>
+        <div class="nav-links-btns">
+
+        </div>
+      </div>
+    </div>
+
+    
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+<div class="container">   <!-- Hero -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-title">
+        <span id="typewriter-text"></span><br>
+        <span style="color:var(--primary);">learn & play together!</span>
+      </div>
+      <div class="hero-desc">
+        Experience over 170 vocabulary, idiom, and dare cards to boost your English communication skills with friends.<br>
+        Scan the QR code on each card to look up meanings, listen to pronunciation, get explanations, and play & learn together every day!
+      </div>
+      <a class="hero-btn" href="#cards">Start Playing!</a>
+    </div>
+    <div class="hero-img">
+      <img src="./3D.png" alt="Boardgame Cards" />
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="section-title decor" data-aos="fade-right">A boardgame for everyone!</div>
+    <div class="section-desc" data-aos="fade-up" data-aos-delay="100">
+      Easy to play—perfect for classrooms, friends, or family! Improve your speaking, pronunciation, and real-life idiom skills.<br>
+      <b>Every card comes with a QR code</b> so you can instantly look up meanings, pronunciation, and example sentences!
+    </div>
+
+<div class="card-list" id="cards">
+  <div class="card-box">
+    <div class="card-icon"><img src="./function.png" alt="Function Icon"></div>
+    <h4>Function Cards</h4>
+    <p>Skip turns, reverse order,<br>attack, defend smartly</p>
+    <a href="#">Learn more</a>
+  </div>
+
+  <div class="card-box">
+    <div class="card-icon"><img src="./Alphabet.png" alt="Vocabulary Icon"></div>
+    <h4>Vocabulary</h4>
+    <p>Fifty word cards with<br>meaning and pronunciation</p>
+    <a href="#">Learn more</a>
+  </div>
+
+  <div class="card-box">
+    <div class="card-icon"><img src="./idiom.png" alt="Idioms Icon"></div>
+    <h4>Idioms</h4>
+    <p>Fun idioms for daily<br>life English conversation</p>
+    <a href="#">Learn more</a>
+  </div>
+
+  <div class="card-box">
+    <div class="card-icon"><img src="./Dare.png" alt="Dare Icon"></div>
+    <h4>Dare Cards</h4>
+    <p>Exciting challenges that boost<br> creativity and communication</p>
+    <a href="#">Learn more</a>
+  </div>
+</div>
+
+  </section>
+
+  <!-- How to Play -->
+<section class="section" id="howtoplay">
+  <div class="section-title decor">How to Play</div>
+
+  <div class="howto-enhanced">
+    <div class="step">
+      <span class="step-badge">1</span>
+      <div class="step-body">
+        <h4 class="step-title">Shuffle & Deal</h4>
+        <p class="step-text">Shuffle the deck well, then deal to all players</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-badge">2</span>
+      <div class="step-body">
+        <h4 class="step-title">Draw & Act</h4>
+        <p class="step-text">Draw one card and follow its effect or challenge</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-badge">3</span>
+      <div class="step-body">
+        <h4 class="step-title">Scan & Learn</h4>
+        <p class="step-text">Scan the QR code to learn, practice, and improve</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-badge">4</span>
+      <div class="step-body">
+        <h4 class="step-title">Score & Win</h4>
+        <p class="step-text">Collect more points to win and improve your English</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="hero-btn" href="#">See Full Rules</a>
+</section>
+
+
+  <!-- Download -->
+  <section class="section" id="download" data-aos="fade-up">
+    <div class="section-title decor" data-aos="fade-right">Downloads & Resources</div>
+    <div class="section-desc" data-aos="fade-up" data-aos-delay="100">
+      Download printable cards, rulebook, audio pronunciation, posters, and other helpful resources to organize your best game sessions!
+      <br>
+      <a class="hero-btn" href="#" style="margin-top: 1.2rem;">Download now</a>
+    </div>
+  </section></div>
+
+
+  <footer>
+    © 2025 English Boardgame | Contact: <a href="mailto:huytruong09062k4@gmail.com" style="color:#ffd973;text-decoration:none">huytruong09062k4@gmail.com</a>
+  </footer>
+
+  <!-- AOS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+  <script>
+/* ============ Typewriter ============ */
+const txt = "English Learning Boardgame";
+let i = 0; const speed = 80;
+function typeWriter(){
+  const el = document.getElementById("typewriter-text");
+  if(!el) return;
+  if(i < txt.length){ el.innerHTML += txt.charAt(i); i++; setTimeout(typeWriter, speed); }
+}
+
+/* ============ Hamburger ============ */
+const hamburger = (()=> {
+  const btn = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  const overlay  = document.querySelector('.nav-overlay'); // nếu có
+  const closeBtn = document.querySelector('.nav-close');
+  if(!btn || !navLinks) return;
+
+  const setOpen = (open) => {
+    navLinks.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    overlay?.classList.toggle('show', open);
+    document.body.classList.toggle('menu-open', open);
+    if(open) closeBtn?.focus();
+  };
+
+  btn.addEventListener('click', () => setOpen(!navLinks.classList.contains('open')));
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  overlay?.addEventListener('click', () => setOpen(false));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> setOpen(false)));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+})();
+
+/* ============ Section reveal + Howto line ============ */
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+      const howto = entry.target.querySelector('.howto-enhanced');
+      if (howto) howto.classList.add('connect-visible');
+      sectionObserver.unobserve(entry.target);
+    }
+  });
+},{ root: null, threshold: 0.15 });
+document.querySelectorAll('.section').forEach(sec => sectionObserver.observe(sec));
+
+
+
+/* ============ Cursor trail particles (neon) ============ */
+const cursorTrail = (() => {
+  let last = 0;
+  window.addEventListener('mousemove', e => {
+    const now = performance.now();
+    if (now - last < 20) return; // throttle
+    last = now;
+    const dot = document.createElement('div');
+    const size = Math.random()*8 + 6;
+    dot.style.cssText = `
+      position:fixed; left:${e.clientX - size/2}px; top:${e.clientY - size/2}px;
+      width:${size}px; height:${size}px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #6c47ff);
+      box-shadow: 0 0 18px #8f5cff88, 0 0 36px #ffc70055;
+      pointer-events:none; z-index:9999; opacity:.9; transform:translateZ(0);
+      transition: transform .6s ease-out, opacity .6s ease-out, filter .6s ease-out;
+      filter: hue-rotate(${Math.random()*60-30}deg);
+    `;
+    document.body.appendChild(dot);
+    requestAnimationFrame(()=> {
+      dot.style.transform = 'translateY(-24px) scale(.6)';
+      dot.style.opacity = '0';
+      dot.style.filter = 'blur(2px)';
+    });
+    setTimeout(() => dot.remove(), 700);
+  });
+})();
+
+/* ============ Starfield parallax (3 layers) ============ */
+function starfield(canvasId, density=0.00012, speed=0.02, size=2){
+  const c = document.getElementById(canvasId);
+  const ctx = c.getContext('2d');
+  function resize(){ c.width = innerWidth; c.height = innerHeight; init(); }
+  let stars = [];
+  function init(){
+    stars = [];
+    const count = Math.floor(c.width * c.height * density);
+    for(let i=0;i<count;i++){
+      stars.push({
+        x: Math.random()*c.width,
+        y: Math.random()*c.height,
+        z: Math.random()*1,
+        r: Math.random()*size + .2,
+        o: Math.random()*.8 + .2
+      });
+    }
+  }
+  function tick(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for(const s of stars){
+      s.x += speed*(s.z+.2);
+      if(s.x > c.width+10) s.x = -10, s.y = Math.random()*c.height;
+      ctx.globalAlpha = s.o;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  addEventListener('resize', resize); resize(); tick();
+}
+starfield('stars', 0.00010, 0.05, 1.3);
+starfield('stars2',0.00006, 0.025,1.8);
+starfield('stars3',0.00003, 0.010,2.2);
+
+/* ============ Init ============ */
+window.addEventListener('load', ()=>{
+  AOS.init({ duration:900, once:true, offset:100 });
+  typeWriter();
+});
+  </script>
+</body>
+</html>
