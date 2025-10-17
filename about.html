@@ -75,6 +75,14 @@
       .stats{grid-template-columns:1fr}
     }
 
+    .contact-list{list-style:none;display:grid;gap:14px;margin:0;padding:0}
+    .contact-item{display:flex;align-items:flex-start;gap:12px;line-height:1.6;color:var(--ink)}
+    .contact-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;min-width:38px;border-radius:50%;background:linear-gradient(135deg,#f0edff,#ffffff);border:1px solid #e0d8ff;color:var(--primary);box-shadow:0 8px 18px rgba(108,71,255,.08);flex:0 0 38px}
+    .contact-icon svg{width:20px;height:20px}
+    .contact-item b{color:var(--ink)}
+    .contact-item a{color:#2f3dcf;font-weight:600;text-decoration:none}
+    .contact-item a:hover{text-decoration:underline}
+
     /* ===== Features strip (icons refreshed) */
     .features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-2)}
     .feature{position:relative;background:linear-gradient(180deg,#ffffff,#f6f3ff);border:1px solid #ece6ff;border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;box-shadow:0 12px 28px rgba(108,71,255,.06);transition:transform .25s ease,box-shadow .25s ease;isolation:isolate;overflow:hidden;z-index:0}
@@ -376,12 +384,57 @@
     <section class="section" data-aos="fade-up" id="contact" style="margin-top:var(--s-4)">
       <div class="section-head"><h3>Stay in Touch</h3></div>
       <div class="section-body">
-        <p>
-          <b>Email:</b> <a href="mailto:catchyboardgame@gmail.com">catchyboardgame@gmail.com</a> &nbsp;|&nbsp;
-          <b>TikTok:</b> @CatchyGameVN &nbsp;|&nbsp;
-          <b>Shopee:</b> Catchy Official Store &nbsp;|&nbsp;
-          <b>Website:</b> <a href="https://catchy-boardgame.vercel.app/" target="_blank" rel="noopener noreferrer">catchy-boardgame.vercel.app</a>
-        </p>
+        <ul class="contact-list">
+          <li class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2" ry="2"></rect>
+                <path d="M3 7l9 6 9-6"></path>
+              </svg>
+            </span>
+            <span>
+              <b>Email:</b> <a href="mailto:catchyboardgame@gmail.com">catchyboardgame@gmail.com</a>
+            </span>
+          </li>
+          <li class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="17" r="3"></circle>
+                <circle cx="18" cy="14" r="3"></circle>
+                <path d="M9 14V5"></path>
+                <path d="M9 5l10-2v9"></path>
+              </svg>
+            </span>
+            <span>
+              <b>TikTok:</b> @CatchyGameVN
+            </span>
+          </li>
+          <li class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.5 7h11l-.9 12H7.4z"></path>
+                <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
+                <path d="M9 11a3 3 0 0 0 6 0"></path>
+              </svg>
+            </span>
+            <span>
+              <b>Shopee:</b> Catchy Official Store
+            </span>
+          </li>
+          <li class="contact-item">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M3.5 12h17"></path>
+                <path d="M12 3a17 17 0 0 1 0 18"></path>
+                <path d="M12 3a17 17 0 0 0 0 18"></path>
+              </svg>
+            </span>
+            <span>
+              <b>Website:</b> <a href="https://catchy-boardgame.vercel.app/" target="_blank" rel="noopener noreferrer">catchy-boardgame.vercel.app</a>
+            </span>
+          </li>
+        </ul>
       </div>
     </section>
   </main>
