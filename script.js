@@ -129,15 +129,33 @@ document.addEventListener('DOMContentLoaded', function () {
   const cardList = document.getElementById('card-list');
   const searchInput = document.getElementById('search-input');
   const filterBtns = document.querySelectorAll('.filter-btn');
+  const loadMoreBtn = document.getElementById('card-load-more');
   let currentType = 'All';
+  let renderLimit = 0;
+  const getBatchSize = () => (window.matchMedia && window.matchMedia('(max-width: 600px)').matches ? 12 : 24);
 
   // =====================
   // Render
   // =====================
-  function renderCards() {
+  function renderCards(options = {}) {
     if (!cardList) return;
-    const searchVal = (searchInput?.value || '').toLowerCase();
+    const { resetLimit = false } = options;
+
+    if (resetLimit || !renderLimit) {
+      renderLimit = getBatchSize();
+    } else {
+      const minBatch = getBatchSize();
+      if (renderLimit < minBatch) renderLimit = minBatch;
+    }
+
+    const shouldResetScroll = resetLimit;
+    const previousScrollLeft = shouldResetScroll ? 0 : cardList.scrollLeft;
+
     cardList.innerHTML = "";
+    if (loadMoreBtn) {
+      loadMoreBtn.hidden = true;
+      loadMoreBtn.disabled = false;
+    }
 
     if (isCardsLoading) {
       cardList.innerHTML = "<div style='color:#aa3366;font-size:1.1em;margin:2rem auto;'>Loading cards...</div>";
@@ -149,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    const searchVal = (searchInput?.value || '').toLowerCase();
     const filtered = [];
 
     cards.forEach((card, idx) => {
@@ -169,26 +188,65 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    filtered.forEach(({ card, idx }) => {
-      const div = document.createElement('div');
-      div.className = 'card-box';
-      div.innerHTML = `<div class="card-art"><img src="${card.img}" alt="${card.name}" loading="lazy"></div>`;
-      div.onclick = () => showModal(idx);
-      cardList.appendChild(div);
-    });
+    const renderCount = Math.min(renderLimit, filtered.length);
+    const fragment = document.createDocumentFragment();
 
-    setTimeout(() => startAutoScroll(), 250);
+    for (let i = 0; i < renderCount; i += 1) {
+      const { card, idx } = filtered[i];
+      const cardBox = document.createElement('div');
+      cardBox.className = 'card-box';
+
+      const art = document.createElement('div');
+      art.className = 'card-art';
+
+      const img = document.createElement('img');
+      img.src = card.img;
+      img.alt = card.name || 'Card image';
+      img.loading = 'lazy';
+
+      art.appendChild(img);
+      cardBox.appendChild(art);
+      cardBox.addEventListener('click', () => showModal(idx));
+      fragment.appendChild(cardBox);
+    }
+
+    cardList.appendChild(fragment);
+    cardList.scrollLeft = shouldResetScroll ? 0 : previousScrollLeft;
+
+    if (loadMoreBtn) {
+      const remaining = filtered.length - renderCount;
+      if (remaining > 0) {
+        loadMoreBtn.hidden = false;
+        loadMoreBtn.disabled = false;
+        loadMoreBtn.textContent = `Load more cards (${remaining})`;
+      } else {
+        loadMoreBtn.hidden = true;
+      }
+    }
+
+    if (renderCount > 0) {
+      setTimeout(() => startAutoScroll(), 250);
+    }
   }
 
-  searchInput?.addEventListener('input', renderCards);
+  searchInput?.addEventListener('input', () => renderCards({ resetLimit: true }));
   filterBtns.forEach(btn => {
     btn.onclick = () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentType = btn.getAttribute('data-type');
-      renderCards();
+      renderCards({ resetLimit: true });
     };
   });
+
+  loadMoreBtn?.addEventListener('click', () => {
+    loadMoreBtn.disabled = true;
+    renderLimit += getBatchSize();
+    renderCards();
+  });
+
+  const mobileMedia = window.matchMedia ? window.matchMedia('(max-width: 600px)') : null;
+  mobileMedia?.addEventListener?.('change', () => renderCards({ resetLimit: true }));
 
   renderCards();
 
@@ -205,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
       cardsLoadError = 'Failed to load cards. Please try again later.';
     } finally {
       isCardsLoading = false;
-      renderCards();
+      renderCards({ resetLimit: true });
       if (!cardsLoadError) openCardFromQuery();
     }
   }
@@ -227,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
       btn.classList.toggle('active', type === 'All');
     });
 
-    renderCards();
+    renderCards({ resetLimit: true });
     setTimeout(() => {
       window.showModal?.(idx);
     }, 150);
@@ -348,8 +406,11 @@ document.addEventListener('DOMContentLoaded', function () {
       })();
 
     } else if (card.type === 'Dare') {
-      elDesc.innerHTML = card.challenge ? `<b>Challenge:</b> ${card.challenge}` : (card.desc || '');
-      elExtra.innerHTML = card.hint ? `<b>Hint:</b> ${card.hint}` : '';
+      elDesc.innerHTML = card.detail || card.desc || '';
+      let extraHtml = `<b>Type:</b> ${card.type}`;
+      if (card.desc) extraHtml += `<br><b>Description:</b> ${card.desc}`;
+      if (card.hint) extraHtml += `<br><b>Hint:</b> ${card.hint}`;
+      elExtra.innerHTML = extraHtml;
 
     } else if (card.type === 'Idioms') {
       elDesc.innerHTML = card.meaning ? `<b>Nghĩa:</b> ${card.meaning}` : (card.desc || '');
