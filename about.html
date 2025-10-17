@@ -29,7 +29,7 @@
 
     /* ===== section shell for cohesion */
     .section{position:relative;background:#fff;border:1px solid #efeaff;border-radius:22px;box-shadow:0 14px 40px rgba(108,71,255,.10);overflow:hidden}
-    .section-head{position:relative;display:flex;align-items:center;gap:.8rem;padding:18px 20px;background:linear-gradient(90deg,#f7f5ff,#ffffff)}
+    .section-head{position:relative;display:flex;align-items:center;gap:.8rem;padding:18px 20px;background:linear-gradient(90deg,rgba(247,245,255,.2),rgba(255,255,255,.2))}
     .section-head h3{margin:0;font-size:1.25rem;font-weight:900;color:#1e0a47;position:relative;z-index:1}
     .section-body{padding:22px}
 
@@ -58,9 +58,9 @@
       50%{transform:rotate(180deg) scale(1.06)}
       100%{transform:rotate(360deg) scale(1)}
     }
-    .glow-section .section-head{position:relative;overflow:hidden;backdrop-filter:blur(16px);background:linear-gradient(90deg,rgba(24,18,54,.92),rgba(42,30,90,.74))}
+    .glow-section .section-head{position:relative;overflow:hidden;backdrop-filter:blur(16px);background:linear-gradient(90deg,rgba(24,18,54,.2),rgba(42,30,90,.2))}
     .glow-section .section-head h3{color:#fdfbff;text-shadow:0 12px 24px rgba(6,0,38,.6)}
-    .glow-section .section-head::after{content:"";position:absolute;inset:auto 18% -1px 18%;height:3px;background:linear-gradient(90deg,transparent,var(--glow-head),transparent);filter:blur(.6px);animation:headBeam 5.2s ease-in-out infinite}
+    .glow-section .section-head::after{content:"";position:absolute;inset:auto 18% -1px 18%;height:3px;background:linear-gradient(90deg,transparent,var(--glow-head),transparent);filter:blur(.6px);animation:headBeam 5.2s ease-in-out infinite;opacity:.2}
     @keyframes headBeam{
       0%,100%{opacity:.55;transform:translateX(-12%)}
       50%{opacity:1;transform:translateX(12%)}
@@ -166,11 +166,14 @@
     /* ===== Inside the box (gallery + details) */
     .inside{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s-3);align-items:start}
     .gallery{display:grid;gap:12px}
-    .gallery-main{aspect-ratio:4/3;background:#f8f7ff;border:1px solid #efeaff;border-radius:16px;display:grid;place-items:center;overflow:hidden}
-    .gallery-main img{width:100%;height:100%;object-fit:cover}
+    .gallery-main{aspect-ratio:4/3;background:linear-gradient(135deg,rgba(32,22,74,.82),rgba(20,14,50,.72));border:1px solid rgba(124,108,220,.45);border-radius:24px;display:grid;place-items:center;overflow:hidden;box-shadow:0 24px 60px rgba(4,0,26,.48);backdrop-filter:blur(18px);position:relative}
+    .gallery-main img{width:100%;height:100%;object-fit:cover;border-radius:inherit;box-shadow:0 16px 40px rgba(6,0,28,.55)}
     .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .thumbs button{border:1px solid #e9e3ff;background:#fff;border-radius:12px;padding:0;overflow:hidden;cursor:pointer}
+    .thumbs button{border:1px solid rgba(132,108,220,.45);background:linear-gradient(135deg,rgba(36,26,80,.65),rgba(18,14,48,.58));border-radius:14px;padding:0;overflow:hidden;cursor:pointer;box-shadow:0 18px 44px rgba(6,0,26,.45);transition:transform .25s ease,box-shadow .25s ease}
+    .thumbs button:hover{transform:translateY(-4px);box-shadow:0 22px 52px rgba(6,0,26,.55)}
     .thumbs img{width:100%;height:72px;object-fit:cover;display:block}
+    .inside-list{margin:0;padding:0;display:flex;flex-direction:column;gap:10px;text-align:left}
+    .inside-list p{margin:0;line-height:1.6}
     .inside ul{margin:.4rem 0 0 1rem}
     @media (max-width:900px){.inside{grid-template-columns:1fr}}
 
@@ -444,13 +447,13 @@
 
         <!-- DETAILS -->
         <div>
-          <ul>
-            <li><b>Vocabulary Cards</b> (A1-C2 levels) - meanings, examples, pronunciation.</li>
-            <li><b>Idioms Cards</b> - fun, useful, easy to use in real talk.</li>
-            <li><b>Function Cards</b> - attack, defend, combo to steer the flow.</li>
-            <li><b>Dare Cards</b> - act, sing, react in English!</li>
-          </ul>
-          <p style="margin-top:.6rem">Every box links to our website for rules, examples, and gameplay videos.</p>
+          <div class="inside-list">
+            <p><b>Vocabulary Cards</b> (A1-C2 levels) - meanings, examples, pronunciation.</p>
+            <p><b>Idioms Cards</b> - fun, useful, easy to use in real talk.</p>
+            <p><b>Function Cards</b> - attack, defend, combo to steer the flow.</p>
+            <p><b>Dare Cards</b> - act, sing, react in English!</p>
+          </div>
+          <p style="margin-top:.6rem;text-align:left">Every box links to our website for rules, examples, and gameplay videos.</p>
         </div>
       </div>
     </section>
@@ -637,4 +640,3 @@
   </script>
 </body>
 </html>
-
