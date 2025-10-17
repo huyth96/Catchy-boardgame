@@ -117,38 +117,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // =====================
-  // Cards data
+  // Cards data (loaded from JSON)
   // =====================
-  const cards = [
-    // Function
-    { type: 'Function', name: 'Function Cards', img: 'function/skip.jpg', desc: 'Skip turns, reverse order, attack, defend points, and more.', detail: 'Function cards add strategy and excitement. Use them to change the flow of the game!', qr: 'QRCode.svg', link: 'card-detail/function-cards.html', slug: 'Function:Function_Cards' },
-    { type: 'Function', name: 'Attack Cat', img: 'function/attack.jpg', desc: 'Launch a bold move against others!', detail: 'Attack cards allow you to surprise and challenge opponents directly!', qr: 'QRCode.svg', link: 'card-detail/attack-cat.html', slug: 'Function:Attack_Cat' },
-    { type: 'Function', name: 'Chill Cat', img: 'function/Chill cat.png', desc: 'Take it easy and vibe!', detail: 'Chill Cat lets you relax and keep the game calm and fun.', qr: 'QRCode.svg', link: 'card-detail/chill-cat.html', slug: 'Function:Chill_Cat' },
-    { type: 'Function', name: 'Confused Cat', img: 'function/Confused cat.png', desc: 'What’s going on?', detail: 'Play this to add mystery and unpredictability to the round!', qr: 'QRCode.svg', link: 'card-detail/confused-cat.html', slug: 'Function:Confused_Cat' },
-    { type: 'Function', name: 'Double Trouble', img: 'function/double trouble.jpg', desc: 'Double the action!', detail: 'Double Trouble lets you repeat your last action or power up a move!', qr: 'QRCode.svg', link: 'card-detail/double-trouble.html', slug: 'Function:Double_Trouble' },
-    { type: 'Function', name: 'Joker Cat', img: 'function/joker cat.png', desc: 'Wild and unpredictable!', detail: 'Joker Cat can imitate any card. Perfect for twists and chaos!', qr: 'QRCode.svg', link: 'card-detail/joker-cat.html', slug: 'Function:Joker_Cat' },
-    { type: 'Function', name: 'Mirror', img: 'function/mirror.jpg', desc: 'Reflect the play!', detail: 'Use Mirror to bounce the effect of a card back at another player!', qr: 'QRCode.svg', link: 'card-detail/mirror.html', slug: 'Function:Mirror' },
-    { type: 'Function', name: 'Point Block', img: 'function/point block.jpg', desc: 'Stop a score!', detail: 'Block opponents from gaining points with this defensive card.', qr: 'QRCode.svg', link: 'card-detail/point-block.html', slug: 'Function:Point_Block' },
-    { type: 'Function', name: 'Point Steal', img: 'function/point steal.jpg', desc: 'Take what’s not yours!', detail: 'Steal points from others and get ahead in the game.', qr: 'QRCode.svg', link: 'card-detail/point-steal.html', slug: 'Function:Point_Steal' },
-    { type: 'Function', name: 'Reverse', img: 'function/reverse.jpg', desc: 'Flip the order!', detail: 'Reverse the turn direction and keep players on their toes!', qr: 'QRCode.svg', link: 'card-detail/reverse.html', slug: 'Function:Reverse' },
-    { type: 'Function', name: 'Shield', img: 'function/shield.jpg', desc: 'Protect yourself!', detail: 'Use the Shield to block any effect targeted at you.', qr: 'QRCode.svg', link: 'card-detail/shield.html', slug: 'Function:Shield' },
-    { type: 'Function', name: 'Skip', img: 'function/skip.jpg', desc: 'Bye for now!', detail: 'Skip your turn and avoid taking actions or penalties.', qr: 'QRCode.svg', link: 'card-detail/skip.html', slug: 'Function:Skip' },
-    { type: 'Function', name: 'Sleepy Cat', img: 'function/Sleepy cat.png', desc: 'Time to nap!', detail: 'Sleepy Cat lets you rest while forcing others to continue.', qr: 'QRCode.svg', link: 'card-detail/sleepy-cat.html', slug: 'Function:Sleepy_Cat' },
-    { type: 'Function', name: 'Wild Dare', img: 'function/wild dare.jpg', desc: 'Unpredictable challenge!', detail: 'Wild Dare can be anything! Use it creatively!', qr: 'QRCode.svg', link: 'card-detail/wild-dare.html', slug: 'Function:Wild_Dare' },
-
-    // Vocabulary A1
-    { type: 'Vocabulary', name: 'Book',   img: 'A1Vocab/Book.png',   desc: 'A thing you read.',  pronounce: '/bʊk/',  audio: 'A1Vocab/Book.mp3',   meaning: 'Sách',       example: 'I like reading a book before bed.', level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Book' },
-    { type: 'Vocabulary', name: 'Cat',    img: 'A1Vocab/Cat.png',    desc: 'A small animal that purrs.', pronounce: '/kæt/', audio: 'A1Vocab/Cat.mp3',    meaning: 'Con mèo',  example: 'My cat is very cute.',            level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Cat' },
-    { type: 'Vocabulary', name: 'Friend', img: 'A1Vocab/Friend.png', desc: 'Someone you like and trust.', pronounce: '/frɛnd/', audio: 'A1Vocab/Friend.mp3', meaning: 'Bạn bè',   example: 'Anna is my best friend.',        level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Friend' },
-    { type: 'Vocabulary', name: 'Happy',  img: 'A1Vocab/Happy.png',  desc: 'Feeling good or joyful.', pronounce: '/ˈhæpi/', audio: 'A1Vocab/Happy.mp3',  meaning: 'Vui vẻ',   example: 'She is always happy.',           level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Happy' },
-    { type: 'Vocabulary', name: 'Mother', img: 'A1Vocab/Mother.png', desc: 'Your female parent.', pronounce: '/ˈmʌðər/', audio: 'A1Vocab/Mother.mp3', meaning: 'Mẹ',       example: 'My mother cooks very well.',     level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Mother' },
-    { type: 'Vocabulary', name: 'Run',    img: 'A1Vocab/Run.png',    desc: 'To move fast on your feet.', pronounce: '/rʌn/', audio: 'A1Vocab/Run.mp3',    meaning: 'Chạy',     example: 'I run to school every day.',     level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Run' },
-    { type: 'Vocabulary', name: 'School', img: 'A1Vocab/School.png', desc: 'A place to learn.', pronounce: '/skuːl/', audio: 'A1Vocab/School.mp3', meaning: 'Trường học', example: 'School starts at 7 AM.',          level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:School' },
-    { type: 'Vocabulary', name: 'Water',  img: 'A1Vocab/Water.png',  desc: 'A liquid we drink.', pronounce: '/ˈwɔːtə(r)/', audio: 'A1Vocab/Water.mp3', meaning: 'Nước', example: 'Drink water every day.', level: 'A1', qr: 'QRCode.svg', slug: 'Vocab:A1:Water' },
-
-    // Idioms
-    { type: 'Idioms', name: 'Break a leg', img: 'idiom/Let the cat out of the bag.jpg', desc: 'Wish someone good luck!', detail: 'Used to wish someone good luck, especially before a performance.', meaning: 'Chúc ai đó may mắn', example: 'You have a big show tonight? Break a leg!', qr: 'QRCode.svg', slug: 'break-a-leg' }
-  ];
+  let cards = [];
+  let isCardsLoading = true;
+  let cardsLoadError = null;
 
   // =====================
   // DOM refs
@@ -162,9 +135,21 @@ document.addEventListener('DOMContentLoaded', function () {
   // Render
   // =====================
   function renderCards() {
-    let searchVal = (searchInput?.value || '').toLowerCase();
+    if (!cardList) return;
+    const searchVal = (searchInput?.value || '').toLowerCase();
     cardList.innerHTML = "";
-    let filtered = [];
+
+    if (isCardsLoading) {
+      cardList.innerHTML = "<div style='color:#aa3366;font-size:1.1em;margin:2rem auto;'>Loading cards...</div>";
+      return;
+    }
+
+    if (cardsLoadError) {
+      cardList.innerHTML = `<div style='color:#aa3366;font-size:1.1em;margin:2rem auto;'>${cardsLoadError}</div>`;
+      return;
+    }
+
+    const filtered = [];
 
     cards.forEach((card, idx) => {
       if (
@@ -206,6 +191,47 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   renderCards();
+
+  async function loadCards() {
+    try {
+      const response = await fetch('data/cards.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error('Cards JSON is malformed');
+      cards = data;
+      cardsLoadError = null;
+    } catch (error) {
+      console.error('Failed to load cards JSON:', error);
+      cardsLoadError = 'Failed to load cards. Please try again later.';
+    } finally {
+      isCardsLoading = false;
+      renderCards();
+      if (!cardsLoadError) openCardFromQuery();
+    }
+  }
+
+  function openCardFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('card');
+    if (!slug) return;
+
+    const idx = cards.findIndex(card => card.slug === slug);
+    if (idx < 0) return;
+
+    if (searchInput) searchInput.value = cards[idx].slug;
+
+    currentType = 'All';
+    filterBtns.forEach(btn => {
+      const type = btn.getAttribute('data-type');
+      if (!type) return;
+      btn.classList.toggle('active', type === 'All');
+    });
+
+    renderCards();
+    setTimeout(() => {
+      window.showModal?.(idx);
+    }, 150);
+  }
 
   // =====================
   // Modal
@@ -351,18 +377,5 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Auto open modal if ?card=slug
-  setTimeout(() => {
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get('card');
-    if (slug && slug.trim() !== "") {
-      const idx = cards.findIndex(c => c.slug === slug);
-      if (idx >= 0) {
-        const searchInputEl = document.getElementById('search-input');
-        if (searchInputEl) searchInputEl.value = cards[idx].slug;
-        renderCards();
-        showModal(idx);
-      }
-    }
-  }, 350);
+  loadCards();
 });
