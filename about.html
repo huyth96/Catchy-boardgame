@@ -45,6 +45,13 @@
       0%,100%{transform:translateY(0)}
       50%{transform:translateY(-18px)}
     }
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+    @keyframes statPulse{
+      0%,100%{box-shadow:0 16px 32px rgba(108,71,255,.16)}
+      50%{box-shadow:0 24px 48px rgba(143,92,255,.24)}
+    }
 
     /* badges (modern minimal) */
     .badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
@@ -54,9 +61,11 @@
 
     /* compact stats in a single row */
     .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-2);margin-top:var(--s-2)}
-    .stat{background:linear-gradient(160deg,rgba(18,12,68,.78),rgba(46,26,120,.55));border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;text-align:center;color:#fff;backdrop-filter:blur(14px)}
-    .stat b{display:block;font-size:1.4rem;color:var(--accent)}
-    .stat small{display:block;margin-top:4px;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#dcd6ff}
+    .stat{position:relative;background:linear-gradient(160deg,rgba(18,12,68,.78),rgba(46,26,120,.55));border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;text-align:center;color:#fff;backdrop-filter:blur(14px);overflow:hidden;animation:statPulse 6s ease-in-out infinite;z-index:0}
+    .stat::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:radial-gradient(130% 100% at 50% -20%,rgba(255,255,255,.65),rgba(255,255,255,0) 60%);opacity:.45;pointer-events:none;transition:opacity .3s ease}
+    .stat:hover::before{opacity:.75}
+    .stat b{position:relative;display:block;font-size:1.4rem;color:var(--accent)}
+    .stat small{position:relative;display:block;margin-top:4px;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#dcd6ff}
 
     @media (max-width:900px){
       .hero{grid-template-columns:1fr;gap:var(--s-3);justify-items:center;text-align:center}
@@ -68,22 +77,30 @@
 
     /* ===== Features strip (icons refreshed) */
     .features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-2)}
-    .feature{background:linear-gradient(180deg,#ffffff,#f6f3ff);border:1px solid #ece6ff;border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;box-shadow:0 12px 28px rgba(108,71,255,.06);transition:transform .25s ease,box-shadow .25s ease}
-    .feature:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(108,71,255,.12)}
+    .feature{position:relative;background:linear-gradient(180deg,#ffffff,#f6f3ff);border:1px solid #ece6ff;border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;box-shadow:0 12px 28px rgba(108,71,255,.06);transition:transform .25s ease,box-shadow .25s ease;isolation:isolate;overflow:hidden;z-index:0}
+    .feature::before{content:"";position:absolute;inset:-1.6px;border-radius:inherit;background:conic-gradient(from 0deg,#6c47ff,#8f5cff,#ffc700,#6c47ff);-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0) border-box;-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 9s linear infinite;opacity:.24;z-index:-1;filter:blur(.6px)}
+    .feature::after{content:"";position:absolute;inset:-45% -70%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 52%,transparent 64%);transform:translateX(-65%) rotate(8deg);transition:transform .9s ease;opacity:.55;pointer-events:none}
+    .feature:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(108,71,255,.16)}
+    .feature:hover::after{transform:translateX(68%) rotate(8deg)}
     .icon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(180deg,#ede8ff,#f7f4ff);border:1px solid #dfd6ff;box-shadow:0 12px 24px rgba(108,71,255,.14)}
     .icon svg{width:24px;height:24px;color:var(--primary)}
     .feature h4{margin:0;font-weight:900;color:#180b41}
     .feature p{margin:0;color:#483d8b;line-height:1.6}
+    .feature > *{position:relative;z-index:1}
     @media (max-width:900px){.features{grid-template-columns:1fr 1fr}}
     @media (max-width:600px){.features{grid-template-columns:1fr}}
 
     /* ===== Contact cards */
     .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s-2)}
-    .contact-card{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid #e8e1ff;border-radius:20px;background:linear-gradient(180deg,#ffffff,#f7f4ff);text-decoration:none;color:inherit;box-shadow:0 12px 28px rgba(108,71,255,.08);transition:transform .25s ease,box-shadow .25s ease}
-    .contact-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(108,71,255,.14)}
+    .contact-card{position:relative;display:flex;align-items:center;gap:14px;padding:18px;border:1px solid #e8e1ff;border-radius:20px;background:linear-gradient(180deg,#ffffff,#f7f4ff);text-decoration:none;color:inherit;box-shadow:0 12px 28px rgba(108,71,255,.08);transition:transform .25s ease,box-shadow .25s ease;isolation:isolate;overflow:hidden;z-index:0}
+    .contact-card::before{content:"";position:absolute;inset:-1.4px;border-radius:inherit;background:conic-gradient(from 0deg,#ffc70088,#6c47ff99,#8f5cffaa,#ffc70088);-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0) border-box;-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 10s linear infinite;opacity:.2;z-index:-1}
+    .contact-card::after{content:"";position:absolute;inset:-50% -60%;background:linear-gradient(100deg,transparent 45%,rgba(255,255,255,.55) 54%,transparent 68%);transform:translateX(-70%) rotate(6deg);transition:transform .85s ease;opacity:.55;pointer-events:none}
+    .contact-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(108,71,255,.18)}
+    .contact-card:hover::after{transform:translateX(65%) rotate(6deg)}
     .contact-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,#ede8ff,#f8f6ff);border:1px solid #ddd0ff;color:var(--primary);box-shadow:0 10px 24px rgba(108,71,255,.14)}
     .contact-card strong{display:block;font-weight:900;color:#180b41}
     .contact-card span{display:block;margin-top:2px;font-size:.9rem;color:#4a458a}
+    .contact-card > *{position:relative;z-index:1}
 
     /* ===== Inside the box (gallery + details) */
     .inside{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s-3);align-items:start}
@@ -319,6 +336,54 @@
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({ duration: 900, once: true, offset: 100 });
+
+    // Starfield layers (reuse homepage effect)
+    function starfield(canvasId, density=0.00012, speed=0.02, size=2){
+      const c = document.getElementById(canvasId);
+      if(!c) return;
+      const ctx = c.getContext('2d');
+      let stars = [];
+      const init = ()=>{
+        stars = [];
+        const count = Math.floor(c.width * c.height * density);
+        for(let i=0;i<count;i++){
+          stars.push({
+            x: Math.random()*c.width,
+            y: Math.random()*c.height,
+            z: Math.random()*1,
+            r: Math.random()*size + .2,
+            o: Math.random()*.8 + .2
+          });
+        }
+      };
+      const resize = ()=>{
+        c.width = innerWidth;
+        c.height = innerHeight;
+        init();
+      };
+      const tick = ()=>{
+        ctx.clearRect(0,0,c.width,c.height);
+        for(const s of stars){
+          s.x += speed*(s.z+.2);
+          if(s.x > c.width+10){
+            s.x = -10;
+            s.y = Math.random()*c.height;
+          }
+          ctx.globalAlpha = s.o;
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      };
+      addEventListener('resize', resize);
+      resize();
+      tick();
+    }
+    starfield('stars', 0.00010, 0.05, 1.3);
+    starfield('stars2',0.00006, 0.025,1.8);
+    starfield('stars3',0.00003, 0.010,2.2);
 
     // Hamburger menu
     const navLinks = document.querySelector('.nav-links');
