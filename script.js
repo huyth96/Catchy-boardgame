@@ -130,9 +130,35 @@ document.addEventListener('DOMContentLoaded', function () {
   const searchInput = document.getElementById('search-input');
   const filterBtns = document.querySelectorAll('.filter-btn');
   const loadMoreBtn = document.getElementById('card-load-more');
+  const viewToggleBtn = document.getElementById('view-toggle');
   let currentType = 'All';
   let renderLimit = 0;
+  let isGridView = false;
   const getBatchSize = () => (window.matchMedia && window.matchMedia('(max-width: 600px)').matches ? 12 : 24);
+
+  const updateViewToggleUI = () => {
+    if (!viewToggleBtn) return;
+    const label = isGridView ? 'Switch to presentation view' : 'Switch to grid view';
+    viewToggleBtn.dataset.view = isGridView ? 'grid' : 'presentation';
+    viewToggleBtn.setAttribute('aria-label', label);
+    viewToggleBtn.setAttribute('title', label);
+  };
+
+  const setViewMode = (grid) => {
+    if (isGridView === grid) return;
+    isGridView = grid;
+    updateViewToggleUI();
+    if (isGridView) {
+      clearInterval(window._autoScrollInterval);
+    }
+    renderCards({ resetLimit: true });
+  };
+
+  viewToggleBtn?.addEventListener('click', () => {
+    setViewMode(!isGridView);
+  });
+
+  updateViewToggleUI();
 
   // =====================
   // Render
@@ -141,16 +167,19 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!cardList) return;
     const { resetLimit = false } = options;
 
-    if (resetLimit || !renderLimit) {
-      renderLimit = getBatchSize();
-    } else {
-      const minBatch = getBatchSize();
-      if (renderLimit < minBatch) renderLimit = minBatch;
+    if (!isGridView) {
+      if (resetLimit || !renderLimit) {
+        renderLimit = getBatchSize();
+      } else {
+        const minBatch = getBatchSize();
+        if (renderLimit < minBatch) renderLimit = minBatch;
+      }
     }
 
-    const shouldResetScroll = resetLimit;
+    const shouldResetScroll = resetLimit || isGridView;
     const previousScrollLeft = shouldResetScroll ? 0 : cardList.scrollLeft;
 
+    cardList.classList.toggle('grid-view', isGridView);
     cardList.innerHTML = "";
     if (loadMoreBtn) {
       loadMoreBtn.hidden = true;
@@ -188,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    const renderCount = Math.min(renderLimit, filtered.length);
+    const renderCount = isGridView ? filtered.length : Math.min(renderLimit, filtered.length);
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < renderCount; i += 1) {
@@ -214,18 +243,24 @@ document.addEventListener('DOMContentLoaded', function () {
     cardList.scrollLeft = shouldResetScroll ? 0 : previousScrollLeft;
 
     if (loadMoreBtn) {
-      const remaining = filtered.length - renderCount;
-      if (remaining > 0) {
-        loadMoreBtn.hidden = false;
-        loadMoreBtn.disabled = false;
-        loadMoreBtn.textContent = `Load more cards (${remaining})`;
-      } else {
+      if (isGridView) {
         loadMoreBtn.hidden = true;
+      } else {
+        const remaining = filtered.length - renderCount;
+        if (remaining > 0) {
+          loadMoreBtn.hidden = false;
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.textContent = `Load more cards (${remaining})`;
+        } else {
+          loadMoreBtn.hidden = true;
+        }
       }
     }
 
-    if (renderCount > 0) {
+    if (!isGridView && renderCount > 0) {
       setTimeout(() => startAutoScroll(), 250);
+    } else if (isGridView) {
+      clearInterval(window._autoScrollInterval);
     }
   }
 
@@ -240,6 +275,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   loadMoreBtn?.addEventListener('click', () => {
+    if (isGridView) return;
     loadMoreBtn.disabled = true;
     renderLimit += getBatchSize();
     renderCards();

@@ -209,6 +209,54 @@
       justify-content: center;
       margin-bottom: 1.5rem;
     }
+    .view-toggle {
+      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 70%);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(108, 71, 255, 0.25);
+      transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+      position: relative;
+      padding: 0;
+    }
+    .view-toggle:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 16px 32px rgba(108, 71, 255, 0.3);
+    }
+    .view-toggle:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(108, 71, 255, 0.2);
+    }
+    .view-toggle svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      transition: opacity var(--t-fast), transform var(--t-fast);
+    }
+    .view-toggle .icon-presentation { display: none; }
+    .view-toggle[data-view="grid"] .icon-grid { display: none; }
+    .view-toggle[data-view="grid"] .icon-presentation { display: block; }
+    .view-toggle[data-view="grid"] {
+      background: linear-gradient(135deg, #ffc700 0%, #ff9d4d 100%);
+      color: #241946;
+    }
+    @media (max-width: 600px) {
+      .view-toggle {
+        width: 42px;
+        height: 42px;
+      }
+      .view-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
     .card-search {
       flex: 1 1 240px;
       padding: 0.7rem 1.2rem;
@@ -252,6 +300,22 @@
   scrollbar-width: thin;
   
     scrollbar-color: #6c47ff #f3e6ff00;   /* thumb - track */
+}
+.card-list.grid-view {
+  grid-auto-flow: row;
+  grid-auto-columns: unset;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  overflow-x: hidden;
+  padding-bottom: 2rem;
+  max-width: min(1120px, 100vw);
+  margin: 0 auto 2rem auto;
+}
+.card-list.grid-view::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.card-list.grid-view .card-box {
+  scroll-snap-align: unset;
 }
 /* Chrome, Edge, Safari */
 .card-list::-webkit-scrollbar {
