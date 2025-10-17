@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -28,10 +28,57 @@
     /* ===== header/footer already styled by your CSS ===== */
 
     /* ===== section shell for cohesion */
-    .section{background:#fff;border:1px solid #efeaff;border-radius:22px;box-shadow:0 14px 40px rgba(108,71,255,.10);overflow:hidden}
-    .section-head{display:flex;align-items:center;gap:.8rem;padding:18px 20px;background:linear-gradient(90deg,#f7f5ff,#ffffff)}
-    .section-head h3{margin:0;font-size:1.25rem;font-weight:900;color:#1e0a47}
+    .section{position:relative;background:#fff;border:1px solid #efeaff;border-radius:22px;box-shadow:0 14px 40px rgba(108,71,255,.10);overflow:hidden}
+    .section-head{position:relative;display:flex;align-items:center;gap:.8rem;padding:18px 20px;background:linear-gradient(90deg,#f7f5ff,#ffffff)}
+    .section-head h3{margin:0;font-size:1.25rem;font-weight:900;color:#1e0a47;position:relative;z-index:1}
     .section-body{padding:22px}
+
+    .glow-section{
+      --glow-base-1:rgba(36,26,80,.82);
+      --glow-base-2:rgba(38,24,66,.88);
+      --glow-base-3:rgba(54,38,112,.72);
+      --glow-primary:rgba(140,118,255,.62);
+      --glow-secondary:rgba(90,70,180,.6);
+      --glow-tertiary:rgba(58,46,128,.55);
+      --glow-highlight:rgba(152,132,255,.4);
+      --glow-accent:rgba(96,82,188,.38);
+      --glow-head:rgba(204,186,255,.9);
+      --glow-glass:rgba(24,18,54,.65);
+      position:relative;
+      background:linear-gradient(160deg,var(--glow-base-1),var(--glow-base-2) 40%,var(--glow-base-3));
+      border-color:rgba(118,98,220,.38);
+      box-shadow:0 32px 70px rgba(10,5,45,.42),inset 0 0 0 1px rgba(255,255,255,.08);
+      backdrop-filter:blur(28px);
+      color:rgba(246,243,255,.92);
+    }
+    .glow-section::before,
+    .glow-section::after{content:none}
+    @keyframes orbitGlow{
+      0%{transform:rotate(0deg) scale(1)}
+      50%{transform:rotate(180deg) scale(1.06)}
+      100%{transform:rotate(360deg) scale(1)}
+    }
+    .glow-section .section-head{position:relative;overflow:hidden;backdrop-filter:blur(16px);background:linear-gradient(90deg,rgba(24,18,54,.92),rgba(42,30,90,.74))}
+    .glow-section .section-head h3{color:#fdfbff;text-shadow:0 12px 24px rgba(6,0,38,.6)}
+    .glow-section .section-head::after{content:"";position:absolute;inset:auto 18% -1px 18%;height:3px;background:linear-gradient(90deg,transparent,var(--glow-head),transparent);filter:blur(.6px);animation:headBeam 5.2s ease-in-out infinite}
+    @keyframes headBeam{
+      0%,100%{opacity:.55;transform:translateX(-12%)}
+      50%{opacity:1;transform:translateX(12%)}
+    }
+    .glow-section .section-body{position:relative;z-index:1;background:linear-gradient(0deg,rgba(16,12,36,.65),rgba(18,14,48,.45));border-radius:inherit;padding:24px 26px}
+    .glow-section p,
+    .glow-section li,
+    .glow-section span,
+    .glow-section small{color:rgba(242,239,255,.82);}
+    .glow-section b,
+    .glow-section strong{color:#ffffff;}
+    .glow-section a{color:rgba(204,198,255,.9);}
+    .glow-section a:hover{color:#ffffff;}
+    .glow-why,
+    .glow-story,
+    .glow-inside,
+    .glow-team,
+    .glow-contact{--glow-base-1:rgba(36,26,80,.82);--glow-base-2:rgba(38,24,66,.88);--glow-base-3:rgba(54,38,112,.72);--glow-primary:rgba(140,118,255,.62);--glow-secondary:rgba(90,70,180,.6);--glow-tertiary:rgba(58,46,128,.55);--glow-highlight:rgba(152,132,255,.4);--glow-accent:rgba(96,82,188,.38);--glow-head:rgba(204,186,255,.9);--glow-glass:rgba(24,18,54,.65);}
 
     /* ===== HERO (2-column, tighter) */
     .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s-4);align-items:center;color:#fff}
@@ -85,16 +132,22 @@
 
     /* ===== Features strip (icons refreshed) */
     .features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-2)}
-    .feature{position:relative;background:linear-gradient(180deg,#ffffff,#f6f3ff);border:1px solid #ece6ff;border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;box-shadow:0 12px 28px rgba(108,71,255,.06);transition:transform .25s ease,box-shadow .25s ease;isolation:isolate;overflow:hidden;z-index:0}
-    .feature::before{content:"";position:absolute;inset:-1.6px;border-radius:inherit;background:conic-gradient(from 0deg,#6c47ff,#8f5cff,#ffc700,#6c47ff);-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0) border-box;-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 9s linear infinite;opacity:.24;z-index:-1;filter:blur(.6px)}
-    .feature::after{content:"";position:absolute;inset:-45% -70%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 52%,transparent 64%);transform:translateX(-65%) rotate(8deg);transition:transform .9s ease;opacity:.55;pointer-events:none}
-    .feature:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(108,71,255,.16)}
-    .feature:hover::after{transform:translateX(68%) rotate(8deg)}
-    .icon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(180deg,#ede8ff,#f7f4ff);border:1px solid #dfd6ff;box-shadow:0 12px 24px rgba(108,71,255,.14)}
-    .icon svg{width:24px;height:24px;color:var(--primary)}
-    .feature h4{margin:0;font-weight:900;color:#180b41}
-    .feature p{margin:0;color:#483d8b;line-height:1.6}
+    .feature{position:relative;background:linear-gradient(145deg,rgba(118,94,255,.24),rgba(150,128,255,.14));border:1px solid rgba(150,128,255,.36);border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;box-shadow:0 18px 44px rgba(72,44,188,.16);transition:transform .25s ease,box-shadow .25s ease;isolation:isolate;overflow:hidden;z-index:0}
+    .feature::before{content:"";position:absolute;inset:-1.6px;border-radius:inherit;background:conic-gradient(from 0deg,rgba(162,142,255,.75),rgba(122,98,255,.4),rgba(162,142,255,.75));-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0) border-box;-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 12s linear infinite;opacity:.32;z-index:-1;filter:blur(.6px)}
+    .feature::after{content:"";position:absolute;inset:-45% -70%;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.62) 54%,transparent 70%);transform:translateX(-78%) rotate(8deg);opacity:.62;pointer-events:none;animation:featureSweep 9s ease-in-out infinite}
+    .feature:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(62,34,168,.24)}
+    .feature:hover::after{animation-duration:3.2s}
+    .icon{position:relative;width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.72),rgba(130,92,255,.35));border:1px solid rgba(140,108,255,.4);box-shadow:0 16px 28px rgba(78,52,182,.24);overflow:hidden}
+    .icon::after{content:"";position:absolute;inset:-40% -40%;background:radial-gradient(circle,rgba(176,154,255,.5),transparent 60%);filter:blur(24px);opacity:.55;z-index:-1}
+    .icon svg{position:relative;z-index:1;width:24px;height:24px;color:#fff;filter:drop-shadow(0 6px 12px rgba(84,52,182,.45))}
+    .feature h4{margin:0;font-weight:900;color:#faf8ff;text-shadow:0 10px 18px rgba(24,8,56,.4)}
+    .feature p{margin:0;color:rgba(244,242,255,.85);line-height:1.6}
     .feature > *{position:relative;z-index:1}
+    @keyframes featureSweep{
+      0%,100%{transform:translateX(-80%) rotate(8deg)}
+      45%{transform:translateX(72%) rotate(8deg)}
+      55%{transform:translateX(72%) rotate(8deg)}
+    }
     @media (max-width:900px){.features{grid-template-columns:1fr 1fr}}
     @media (max-width:600px){.features{grid-template-columns:1fr}}
 
@@ -121,11 +174,47 @@
     .inside ul{margin:.4rem 0 0 1rem}
     @media (max-width:900px){.inside{grid-template-columns:1fr}}
 
-    /* ===== Team (clean grid) */
-    .team{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-    .member{background:#fff;border:1px solid #efeaff;border-radius:16px;padding:12px}
-    .member b{display:block}
-    @media (max-width:900px){.team{grid-template-columns:repeat(2,1fr)}}
+    /* ===== Team (glass grid) */
+    .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));grid-auto-rows:minmax(340px,1fr);gap:30px;margin-top:18px}
+    .member{position:relative;display:flex;flex-direction:column;align-items:center;gap:18px;background:linear-gradient(160deg,rgba(32,22,74,.85),rgba(20,14,50,.82));border:1px solid rgba(124,108,220,.38);border-radius:26px;padding:28px 26px;box-shadow:0 26px 60px rgba(6,2,26,.55);overflow:hidden;transition:transform .28s ease,box-shadow .28s ease;color:#f3f1ff;isolation:isolate;height:100%;backdrop-filter:blur(18px)}
+    .member::before{content:"";position:absolute;inset:-140% -42%;background:linear-gradient(115deg,transparent 32%,rgba(148,128,255,.45) 52%,transparent 70%);transform:translateX(-38%);animation:cardSweep 8s ease-in-out infinite;mix-blend-mode:screen;opacity:.55}
+    .member::after{content:"";position:absolute;inset:12px;border-radius:20px;border:1px solid rgba(255,255,255,.22);opacity:.55;pointer-events:none}
+    .member:hover{transform:translateY(-8px);box-shadow:0 32px 70px rgba(4,0,26,.6)}
+    .member-photo{position:relative;width:132px;height:132px;border-radius:30px;overflow:hidden;box-shadow:0 20px 48px rgba(8,4,42,.5);border:1px solid rgba(176,160,255,.45);background:radial-gradient(circle at 30% 20%,rgba(152,138,255,.75),rgba(58,46,128,.65))}
+    .member-photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:.88;mix-blend-mode:screen}
+    .member-photo::after{content:"";position:absolute;inset:-18%;background:linear-gradient(120deg,transparent 38%,rgba(255,255,255,.5) 55%,transparent 72%);transform:translateX(-60%);animation:avatarSweep 7s ease-in-out infinite;opacity:.55}
+    @keyframes avatarSweep{
+      0%,100%{transform:translateX(-60%)}
+      50%{transform:translateX(80%)}
+    }
+    .member-body{position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:8px;flex:1}
+    .member-body b{font-weight:800;color:#fdfbff;text-shadow:0 12px 22px rgba(4,0,32,.6);letter-spacing:.01em}
+    .member-body span{color:rgba(226,222,255,.82);font-size:.94rem;line-height:1.55}
+    .member--slogan{gap:20px;padding:36px 30px}
+    .member--slogan::before{animation-duration:10s;opacity:.45}
+    .member--slogan .member-body{gap:12px}
+    .member--slogan .member-body b{font-size:1.14rem}
+    .member--slogan .member-body span{font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(210,206,255,.78)}
+    .member--slogan .member-body p{margin:0;color:rgba(231,227,255,.88);font-size:1.8rem;font-weight:800;letter-spacing:.02em;text-transform:uppercase;text-shadow:0 16px 32px rgba(2,0,24,.6)}
+    @keyframes cardSweep{
+      0%,100%{transform:translateX(-38%)}
+      50%{transform:translateX(38%)}
+    }
+    @media (min-width:1000px){
+      .team{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:
+        "dan slogan duc"
+        "minh gia huy";}
+      .member--dan{grid-area:dan}
+      .member--slogan{grid-area:slogan}
+      .member--duc{grid-area:duc}
+      .member--minh{grid-area:minh}
+      .member--gia{grid-area:gia}
+      .member--huy{grid-area:huy}
+    }
+    @media (max-width:900px){
+      .team{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));grid-auto-rows:minmax(320px,1fr)}
+      .member--slogan{order:-1}
+    }
 
     /* left drawer (section picker) */
     .drawer{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:80;display:flex;flex-direction:column;gap:14px}
@@ -246,7 +335,7 @@
         <h1 class="title">Learn. Play. Connect. <span class="accent">Catchy</span></h1>
         <p class="sub">
           Catchy is a student-made English learning card game that turns vocabulary and idioms into fast, social, laugh-out-loud challenges.
-          No screens — just friends, cards, and natural speaking practice.
+          No screens ΓÇö just friends, cards, and natural speaking practice.
         </p>
         <div class="badges">
           <span class="badge">
@@ -276,7 +365,7 @@
     </section>
 
     <!-- FEATURES (refreshed icons, tighter copy) -->
-    <section class="section" data-aos="fade-up" id="why" style="margin-top:var(--s-5)">
+    <section class="section glow-section glow-why" data-extend-head data-aos="fade-up" id="why" style="margin-top:var(--s-5)">
       <div class="section-head"><h3>Why Catchy</h3></div>
       <div class="section-body">
         <div class="features">
@@ -286,7 +375,7 @@
             </span>
             <div>
               <h4>Practice-first</h4>
-              <p>Speak, act, react — memory follows action.</p>
+              <p>Speak, act, react ΓÇö memory follows action.</p>
             </div>
           </div>
           <div class="feature">
@@ -328,16 +417,16 @@
     </section>
 
     <!-- STORY -->
-    <section class="section" data-aos="fade-up" id="story" style="margin-top:var(--s-4)">
+    <section class="section glow-section glow-story" data-extend-head data-aos="fade-up" id="story" style="margin-top:var(--s-4)">
       <div class="section-head"><h3>Our Story</h3></div>
       <div class="section-body">
-        <p><b>“Why do many learners remember words but forget how to use them?”</b> We surveyed 100+ students and found: 77% lacked a real practice environment, 74% struggled to retain new words, and 66% didn’t use idioms naturally. Catchy flips learning into play — you learn by doing, not memorizing.</p>
+        <p><b>ΓÇ£Why do many learners remember words but forget how to use them?ΓÇ¥</b> We surveyed 100+ students and found: 77% lacked a real practice environment, 74% struggled to retain new words, and 66% didnΓÇÖt use idioms naturally. Catchy flips learning into play ΓÇö you learn by doing, not memorizing.</p>
       </div>
     </section>
 
     <!-- INSIDE THE BOX (with product gallery) -->
-    <section class="section" data-aos="fade-up" id="inside" style="margin-top:var(--s-4)">
-      <div class="section-head"><h3>What’s Inside the Box?</h3></div>
+    <section class="section glow-section glow-inside" data-extend-head data-aos="fade-up" id="inside" style="margin-top:var(--s-4)">
+      <div class="section-head"><h3>WhatΓÇÖs Inside the Box?</h3></div>
       <div class="section-body inside">
         <!-- GALLERY -->
         <div class="gallery">
@@ -356,10 +445,10 @@
         <!-- DETAILS -->
         <div>
           <ul>
-            <li><b>Vocabulary Cards</b> (A1–C2 levels) — meanings, examples, pronunciation.</li>
-            <li><b>Idioms Cards</b> — fun, useful, easy to use in real talk.</li>
-            <li><b>Function Cards</b> — attack, defend, combo to steer the flow.</li>
-            <li><b>Dare Cards</b> — act, sing, react in English!</li>
+            <li><b>Vocabulary Cards</b> (A1ΓÇôC2 levels) ΓÇö meanings, examples, pronunciation.</li>
+            <li><b>Idioms Cards</b> ΓÇö fun, useful, easy to use in real talk.</li>
+            <li><b>Function Cards</b> ΓÇö attack, defend, combo to steer the flow.</li>
+            <li><b>Dare Cards</b> ΓÇö act, sing, react in English!</li>
           </ul>
           <p style="margin-top:.6rem">Every box links to our website for rules, examples, and gameplay videos.</p>
         </div>
@@ -367,81 +456,82 @@
     </section>
 
     <!-- TEAM -->
-    <section class="section" data-aos="fade-up" id="team" style="margin-top:var(--s-4)">
+    <section class="section glow-section glow-team" data-extend-head data-aos="fade-up" id="team" style="margin-top:var(--s-4)">
       <div class="section-head"><h3>The Team</h3></div>
       <div class="section-body">
         <div class="team">
-          <div class="member"><b>Nguyễn Danh Thái</b>CEO · Direction & progress</div>
-          <div class="member"><b>Nguyễn Minh Tân</b>CFO · Finance & budgeting</div>
-          <div class="member"><b>Khưu Gia Lập</b>COO · Production & logistics</div>
-          <div class="member"><b>Trương Hoàng Huy</b>CCO · Content & gameplay</div>
-          <div class="member"><b>Nguyễn Thành Đức</b>CMO · Branding & marketing</div>
+          <div class="member member--dan">
+            <div class="member-photo">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20240%20240'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0%25'%20y1%3D'0%25'%20x2%3D'100%25'%20y2%3D'100%25'%3E%3Cstop%20offset%3D'0%25'%20stop-color%3D'%237a63ff'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%239b86ff'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'240'%20height%3D'240'%20rx%3D'32'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M120%20120c26%200%2047-21%2047-47s-21-47-47-47-47%2021-47%2047%2021%2047%2047%2047Zm0%2020c-36%200-66%2026-66%2058v9a4%204%200%200%200%204%204h124a4%204%200%200%200%204-4v-9c0-32-30-58-66-58Z'%20fill%3D'rgba(255%2C255%2C255%2C0.72)'%2F%3E%3Ctext%20x%3D'50%25'%20y%3D'86%25'%20text-anchor%3D'middle'%20font-family%3D'Montserrat%2CArial'%20font-size%3D'24'%20fill%3D'rgba(255%2C255%2C255%2C0.85)'%3EPhoto%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Placeholder portrait for Dan Thai Nguyen"/>
+            </div>
+            <div class="member-body">
+              <b>Dan Thai Nguyen</b>
+              <span>CEO &mdash; Direction &amp; progress</span>
+            </div>
+          </div>
+          <div class="member member--slogan">
+            <div class="member-body">
+              <p>Five Minds. One Mission.</p>
+              <span>United to supercharge every Catchy game.</span>
+            </div>
+          </div>
+          <div class="member member--duc">
+            <div class="member-photo">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20240%20240'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0%25'%20y1%3D'0%25'%20x2%3D'100%25'%20y2%3D'100%25'%3E%3Cstop%20offset%3D'0%25'%20stop-color%3D'%237a63ff'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%239b86ff'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'240'%20height%3D'240'%20rx%3D'32'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M120%20120c26%200%2047-21%2047-47s-21-47-47-47-47%2021-47%2047%2021%2047%2047%2047Zm0%2020c-36%200-66%2026-66%2058v9a4%204%200%200%200%204%204h124a4%204%200%200%200%204-4v-9c0-32-30-58-66-58Z'%20fill%3D'rgba(255%2C255%2C255%2C0.72)'%2F%3E%3Ctext%20x%3D'50%25'%20y%3D'86%25'%20text-anchor%3D'middle'%20font-family%3D'Montserrat%2CArial'%20font-size%3D'24'%20fill%3D'rgba(255%2C255%2C255%2C0.85)'%3EPhoto%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Placeholder portrait for Thanh Duc Nguyen"/>
+            </div>
+            <div class="member-body">
+              <b>Thanh Duc Nguyen</b>
+              <span>CMO &mdash; Branding &amp; marketing</span>
+            </div>
+          </div>
+          <div class="member member--minh">
+            <div class="member-photo">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20240%20240'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0%25'%20y1%3D'0%25'%20x2%3D'100%25'%20y2%3D'100%25'%3E%3Cstop%20offset%3D'0%25'%20stop-color%3D'%237a63ff'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%239b86ff'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'240'%20height%3D'240'%20rx%3D'32'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M120%20120c26%200%2047-21%2047-47s-21-47-47-47-47%2021-47%2047%2021%2047%2047%2047Zm0%2020c-36%200-66%2026-66%2058v9a4%204%200%200%200%204%204h124a4%204%200%200%200%204-4v-9c0-32-30-58-66-58Z'%20fill%3D'rgba(255%2C255%2C255%2C0.72)'%2F%3E%3Ctext%20x%3D'50%25'%20y%3D'86%25'%20text-anchor%3D'middle'%20font-family%3D'Montserrat%2CArial'%20font-size%3D'24'%20fill%3D'rgba(255%2C255%2C255%2C0.85)'%3EPhoto%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Placeholder portrait for Minh Tan Nguyen"/>
+            </div>
+            <div class="member-body">
+              <b>Minh Tan Nguyen</b>
+              <span>CFO &mdash; Finance &amp; budgeting</span>
+            </div>
+          </div>
+          <div class="member member--gia">
+            <div class="member-photo">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20240%20240'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0%25'%20y1%3D'0%25'%20x2%3D'100%25'%20y2%3D'100%25'%3E%3Cstop%20offset%3D'0%25'%20stop-color%3D'%237a63ff'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%239b86ff'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'240'%20height%3D'240'%20rx%3D'32'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M120%20120c26%200%2047-21%2047-47s-21-47-47-47-47%2021-47%2047%2021%2047%2047%2047Zm0%2020c-36%200-66%2026-66%2058v9a4%204%200%200%200%204%204h124a4%204%200%200%200%204-4v-9c0-32-30-58-66-58Z'%20fill%3D'rgba(255%2C255%2C255%2C0.72)'%2F%3E%3Ctext%20x%3D'50%25'%20y%3D'86%25'%20text-anchor%3D'middle'%20font-family%3D'Montserrat%2CArial'%20font-size%3D'24'%20fill%3D'rgba(255%2C255%2C255%2C0.85)'%3EPhoto%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Placeholder portrait for Gia Lap Khuu"/>
+            </div>
+            <div class="member-body">
+              <b>Gia Lap Khuu</b>
+              <span>COO &mdash; Production &amp; logistics</span>
+            </div>
+          </div>
+          <div class="member member--huy">
+            <div class="member-photo">
+              <img src="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20240%20240'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0%25'%20y1%3D'0%25'%20x2%3D'100%25'%20y2%3D'100%25'%3E%3Cstop%20offset%3D'0%25'%20stop-color%3D'%237a63ff'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%239b86ff'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'240'%20height%3D'240'%20rx%3D'32'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M120%20120c26%200%2047-21%2047-47s-21-47-47-47-47%2021-47%2047%2021%2047%2047%2047Zm0%2020c-36%200-66%2026-66%2058v9a4%204%200%200%200%204%204h124a4%204%200%200%200%204-4v-9c0-32-30-58-66-58Z'%20fill%3D'rgba(255%2C255%2C255%2C0.72)'%2F%3E%3Ctext%20x%3D'50%25'%20y%3D'86%25'%20text-anchor%3D'middle'%20font-family%3D'Montserrat%2CArial'%20font-size%3D'24'%20fill%3D'rgba(255%2C255%2C255%2C0.85)'%3EPhoto%3C%2Ftext%3E%3C%2Fsvg%3E" alt="Placeholder portrait for Hoang Huy Truong"/>
+            </div>
+            <div class="member-body">
+              <b>Hoang Huy Truong</b>
+              <span>CCO &mdash; Content &amp; gameplay</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section class="section" data-aos="fade-up" id="contact" style="margin-top:var(--s-4)">
+    <section class="section glow-section glow-contact" data-extend-head data-aos="fade-up" id="contact" style="margin-top:var(--s-4)">
       <div class="section-head"><h3>Stay in Touch</h3></div>
       <div class="section-body">
-        <ul class="contact-list">
-          <li class="contact-item">
-            <span class="contact-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="5" width="18" height="14" rx="2" ry="2"></rect>
-                <path d="M3 7l9 6 9-6"></path>
-              </svg>
-            </span>
-            <span>
-              <b>Email:</b> <a href="mailto:catchyboardgame@gmail.com">catchyboardgame@gmail.com</a>
-            </span>
-          </li>
-          <li class="contact-item">
-            <span class="contact-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="17" r="3"></circle>
-                <circle cx="18" cy="14" r="3"></circle>
-                <path d="M9 14V5"></path>
-                <path d="M9 5l10-2v9"></path>
-              </svg>
-            </span>
-            <span>
-              <b>TikTok:</b> @CatchyGameVN
-            </span>
-          </li>
-          <li class="contact-item">
-            <span class="contact-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6.5 7h11l-.9 12H7.4z"></path>
-                <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
-                <path d="M9 11a3 3 0 0 0 6 0"></path>
-              </svg>
-            </span>
-            <span>
-              <b>Shopee:</b> Catchy Official Store
-            </span>
-          </li>
-          <li class="contact-item">
-            <span class="contact-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M3.5 12h17"></path>
-                <path d="M12 3a17 17 0 0 1 0 18"></path>
-                <path d="M12 3a17 17 0 0 0 0 18"></path>
-              </svg>
-            </span>
-            <span>
-              <b>Website:</b> <a href="https://catchy-boardgame.vercel.app/" target="_blank" rel="noopener noreferrer">catchy-boardgame.vercel.app</a>
-            </span>
-          </li>
-        </ul>
+        <p>
+          <b>Email:</b> <a href="mailto:catchyboardgame@gmail.com">catchyboardgame@gmail.com</a> &nbsp;|&nbsp;
+          <b>TikTok:</b> @CatchyGameVN &nbsp;|&nbsp;
+          <b>Shopee:</b> Catchy Official Store &nbsp;|&nbsp;
+          <b>Website:</b> <a href="https://catchy-boardgame.vercel.app/" target="_blank" rel="noopener noreferrer">catchy-boardgame.vercel.app</a>
+        </p>
       </div>
     </section>
   </main>
 
   <!-- ===== FOOTER (same as homepage) ===== -->
   <footer>
-    © 2025 English Boardgame | Contact:
+    &copy; 2025 English Boardgame | Contact:
     <a href="mailto:catchyboardgame@gmail.com" style="color:#ffd973;text-decoration:none">catchyboardgame@gmail.com</a>
   </footer>
 
