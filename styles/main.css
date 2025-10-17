@@ -51,6 +51,7 @@ nav{
 .nav-close{ display:none; }
 .nav-left{display:flex;align-items:center;gap:.9rem}
 .logo{display:flex;align-items:center;gap:.45rem;font-weight:800;letter-spacing:.4px;color:var(--primary);font-size:1.2rem}
+.logo a{display:flex;align-items:center}
 .logo img{width:88px;height:auto;display:block}
 .nav-links{display:flex;align-items:center;gap:var(--s-3);margin-left:1.2rem;transition:var(--t-med)}
 .nav-links a{position:relative;text-decoration:none;color:#1f2030;font-weight:600;padding:6px 0}
