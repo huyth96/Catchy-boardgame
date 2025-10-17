@@ -86,25 +86,33 @@ function startAutoScroll() {
 // 2) App boot
 // =====================
 document.addEventListener('DOMContentLoaded', function () {
-  // Hamburger logic
-  const hamburger = document.querySelector('.hamburger');
+  // Hamburger logic đồng bộ với Homepage
+  const hamburgerBtn = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
+  const closeBtn = document.querySelector('.nav-close');
+  const overlay = document.querySelector('.nav-overlay');
+
+  if (hamburgerBtn && navLinks) {
+    const setMenuOpen = (open) => {
+      navLinks.classList.toggle('open', open);
+      hamburgerBtn.setAttribute('aria-expanded', String(open));
+      overlay?.classList.toggle('show', open);
+      document.body.classList.toggle('menu-open', open);
+      if (open) closeBtn?.focus();
+    };
+
+    hamburgerBtn.addEventListener('click', () => {
+      setMenuOpen(!navLinks.classList.contains('open'));
     });
+    closeBtn?.addEventListener('click', () => setMenuOpen(false));
+    overlay?.addEventListener('click', () => setMenuOpen(false));
+
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
+      link.addEventListener('click', () => setMenuOpen(false));
     });
-    document.addEventListener('click', function (event) {
-      if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
-        navLinks.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
     });
   }
 
