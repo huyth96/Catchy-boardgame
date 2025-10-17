@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>About – Catchy</title>
+
+  <!-- Reuse from homepage -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="stylehome.css"/>
+
+  <style>
+    /* ---------- scoped enhancers for About ---------- */
+    :root{
+      --primary:#6c47ff; --primary2:#8f5cff; --accent:#ffc700; --ink:#1f2030;
+      --radius:16px; --radius-lg:24px;
+      --s-1:clamp(6px,.6vw,12px); --s-2:clamp(10px,1.1vw,18px); --s-3:clamp(16px,1.6vw,28px);
+      --s-4:clamp(24px,2.4vw,44px); --s-5:clamp(32px,3.4vw,72px);
+      --fs-400:clamp(1.08rem,.55vw + .96rem,1.22rem); --fs-600:clamp(2rem,2.6vw + 1.1rem,3.2rem);
+    }
+    .about-wrap{position:relative}
+    .about-container{max-width:1100px;margin:0 auto;padding:var(--s-5) var(--s-3)}
+    .about-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+      radial-gradient(60% 40% at 10% 10%, #6c47ff22, transparent 60%),
+      radial-gradient(45% 35% at 80% 20%, #ffc70022, transparent 60%),
+      radial-gradient(55% 40% at 70% 80%, #8f5cff22, transparent 60%);mix-blend-mode:screen;opacity:.55;filter:blur(6px)}
+    /* ===== header/footer already styled by your CSS ===== */
+
+    /* ===== section shell for cohesion */
+    .section{background:#fff;border:1px solid #efeaff;border-radius:22px;box-shadow:0 14px 40px rgba(108,71,255,.10);overflow:hidden}
+    .section-head{display:flex;align-items:center;gap:.8rem;padding:18px 20px;background:linear-gradient(90deg,#f7f5ff,#ffffff)}
+    .section-head h3{margin:0;font-size:1.25rem;font-weight:900;color:#1e0a47}
+    .section-body{padding:22px}
+
+    /* ===== HERO (2-column, tighter) */
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s-4);align-items:center;color:#fff}
+    .hero .eyebrow{font-weight:900;letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+    .hero .title{font-family:'Orbitron',system-ui,sans-serif;font-size:var(--fs-600);line-height:1.15;margin:.2rem 0 1rem}
+    .hero .title .accent{color:var(--accent)}
+    .hero .sub{font-size:var(--fs-400);line-height:1.7;max-width:60ch;color:#e9e6fa}
+    .hero-media{justify-self:end}
+    .hero-media img{width:min(440px,38vw);max-width:100%;border-radius:var(--radius-lg);filter:drop-shadow(0 16px 40px rgba(136,59,255,.35));animation:heroFloat 6s ease-in-out infinite;transform-origin:center;}
+    @keyframes heroFloat{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-18px)}
+    }
+
+    /* badges (modern minimal) */
+    .badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .8rem;border-radius:999px;background:linear-gradient(180deg,#ffffffdd,#ffffffc8);
+      border:1px solid #efeaff;color:#1e0a47;font-weight:800}
+    .badge svg{opacity:.9}
+
+    /* compact stats in a single row */
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-2);margin-top:var(--s-2)}
+    .stat{background:linear-gradient(160deg,rgba(18,12,68,.78),rgba(46,26,120,.55));border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;text-align:center;color:#fff;backdrop-filter:blur(14px)}
+    .stat b{display:block;font-size:1.4rem;color:var(--accent)}
+    .stat small{display:block;margin-top:4px;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#dcd6ff}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;gap:var(--s-3);justify-items:center;text-align:center}
+      .hero > div{max-width:580px}
+      .hero .badges{justify-content:center}
+      .hero-media{display:none}
+      .stats{grid-template-columns:1fr}
+    }
+
+    /* ===== Features strip (icons refreshed) */
+    .features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-2)}
+    .feature{background:linear-gradient(180deg,#ffffff,#f6f3ff);border:1px solid #ece6ff;border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;box-shadow:0 12px 28px rgba(108,71,255,.06);transition:transform .25s ease,box-shadow .25s ease}
+    .feature:hover{transform:translateY(-6px);box-shadow:0 22px 40px rgba(108,71,255,.12)}
+    .icon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(180deg,#ede8ff,#f7f4ff);border:1px solid #dfd6ff;box-shadow:0 12px 24px rgba(108,71,255,.14)}
+    .icon svg{width:24px;height:24px;color:var(--primary)}
+    .feature h4{margin:0;font-weight:900;color:#180b41}
+    .feature p{margin:0;color:#483d8b;line-height:1.6}
+    @media (max-width:900px){.features{grid-template-columns:1fr 1fr}}
+    @media (max-width:600px){.features{grid-template-columns:1fr}}
+
+    /* ===== Contact cards */
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s-2)}
+    .contact-card{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid #e8e1ff;border-radius:20px;background:linear-gradient(180deg,#ffffff,#f7f4ff);text-decoration:none;color:inherit;box-shadow:0 12px 28px rgba(108,71,255,.08);transition:transform .25s ease,box-shadow .25s ease}
+    .contact-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(108,71,255,.14)}
+    .contact-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,#ede8ff,#f8f6ff);border:1px solid #ddd0ff;color:var(--primary);box-shadow:0 10px 24px rgba(108,71,255,.14)}
+    .contact-card strong{display:block;font-weight:900;color:#180b41}
+    .contact-card span{display:block;margin-top:2px;font-size:.9rem;color:#4a458a}
+
+    /* ===== Inside the box (gallery + details) */
+    .inside{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s-3);align-items:start}
+    .gallery{display:grid;gap:12px}
+    .gallery-main{aspect-ratio:4/3;background:#f8f7ff;border:1px solid #efeaff;border-radius:16px;display:grid;place-items:center;overflow:hidden}
+    .gallery-main img{width:100%;height:100%;object-fit:cover}
+    .thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .thumbs button{border:1px solid #e9e3ff;background:#fff;border-radius:12px;padding:0;overflow:hidden;cursor:pointer}
+    .thumbs img{width:100%;height:72px;object-fit:cover;display:block}
+    .inside ul{margin:.4rem 0 0 1rem}
+    @media (max-width:900px){.inside{grid-template-columns:1fr}}
+
+    /* ===== Team (clean grid) */
+    .team{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+    .member{background:#fff;border:1px solid #efeaff;border-radius:16px;padding:12px}
+    .member b{display:block}
+    @media (max-width:900px){.team{grid-template-columns:repeat(2,1fr)}}
+
+    /* left drawer (section picker) */
+    .drawer{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:60}
+    .drawer .toggle{display:grid;place-items:center;width:46px;height:46px;border:none;border-radius:14px;background:radial-gradient(90% 90% at 30% 20%, #fff, #efeaff);cursor:pointer}
+    .drawer .panel{position:absolute;left:0;top:0;transform:translateX(-120%);transition:transform .28s cubic-bezier(.47,1.64,.41,.8)}
+    .drawer .panel.open{transform:translateX(0)}
+    .drawer nav{margin-top:10px;background:#ffffffee;border:1px solid #efeaff;border-radius:16px;padding:10px;backdrop-filter:blur(6px);min-width:210px}
+    .drawer nav a{display:flex;gap:.6rem;align-items:center;padding:.55rem .7rem;border-radius:12px;color:#261a63;text-decoration:none;font-weight:800}
+    .drawer nav a:hover{background:#f3f0ff;border:1px solid #d9d0ff}
+  </style>
+</head>
+<body class="about-wrap">
+  <!-- Background same as homepage -->
+  <canvas id="stars"></canvas><canvas id="stars2"></canvas><canvas id="stars3"></canvas>
+  <div class="scanline"></div>
+  <div class="about-aurora" aria-hidden="true"></div>
+
+  <!-- ===== HEADER (same as homepage) ===== -->
+  <nav>
+    <div class="nav-left">
+      <div class="logo"><img src="./logo.png" alt="dice"><span></span></div>
+      <div class="nav-links">
+        <button class="nav-close" aria-label="Close menu"><span class="x"></span></button>
+        <a href="Homepage.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="index.html">Cards</a>
+        <a href="index.html#howtoplay">How to Play</a>
+        <a href="index.html#download">Downloads</a>
+      </div>
+    </div>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- Left section picker -->
+  <aside class="drawer" aria-label="Section Picker">
+    <button class="toggle" aria-expanded="false" aria-controls="drawer">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="url(#g)" stroke-width="2" stroke-linecap="round"/>
+        <defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="0"><stop stop-color="#6c47ff"/><stop offset="1" stop-color="#ffc700"/></linearGradient></defs>
+      </svg>
+    </button>
+    <div id="drawer" class="panel" role="dialog" aria-modal="false">
+      <nav>
+        <a href="#story">📖 Our Story</a>
+        <a href="#inside">🎴 Inside the Box</a>
+        <a href="#why">✨ Why Catchy</a>
+        <a href="#team">🚀 Team</a>
+        <a href="#contact">📬 Contact</a>
+      </nav>
+    </div>
+  </aside>
+
+  <main class="about-container">
+    <!-- HERO -->
+    <section class="hero" data-aos="fade-up">
+      <div>
+        <div class="eyebrow">ABOUT CATCHY</div>
+        <h1 class="title">Learn. Play. Connect. <span class="accent">Catchy</span></h1>
+        <p class="sub">
+          Catchy is a student-made English learning card game that turns vocabulary and idioms into fast, social, laugh-out-loud challenges.
+          No screens — just friends, cards, and natural speaking practice.
+        </p>
+        <div class="badges">
+          <span class="badge">
+            <!-- modern lightning icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7Z" stroke="#6c47ff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            Learn by doing
+          </span>
+          <span class="badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#6c47ff" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="#6c47ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Club-ready
+          </span>
+          <span class="badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="#6c47ff" stroke-width="1.6"/><path d="M10 10h7M7 14h10" stroke="#6c47ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Quick to start
+          </span>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>100+</b><small>Survey</small></div>
+          <div class="stat"><b>170</b><small>Cards in one deck</small></div>
+          <div class="stat"><b>QR</b><small>Rules & examples</small></div>
+        </div>
+      </div>
+      <div class="hero-media" data-aos="fade-left" data-aos-delay="120">
+        <!-- Replace with your product hero -->
+        <img src="./3D.png" alt="Catchy Deck"/>
+      </div>
+    </section>
+
+    <!-- FEATURES (refreshed icons, tighter copy) -->
+    <section class="section" data-aos="fade-up" id="why" style="margin-top:var(--s-5)">
+      <div class="section-head"><h3>Why Catchy</h3></div>
+      <div class="section-body">
+        <div class="features">
+          <div class="feature">
+            <span class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="#6c47ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+            <div>
+              <h4>Practice-first</h4>
+              <p>Speak, act, react — memory follows action.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#6c47ff" stroke-width="1.6"/><path d="M8 10h8M8 14h6" stroke="#6c47ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+            <div>
+              <h4>Club-friendly</h4>
+              <p>Perfect for classes, clubs, or quick icebreakers.</p>
+            </div>
+          </div>
+         <div class="feature">
+  <span class="icon">
+    <!-- modern QR code style icon -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="6" height="6" rx="1" stroke="#6c47ff" stroke-width="1.6"/>
+      <rect x="15" y="3" width="6" height="6" rx="1" stroke="#6c47ff" stroke-width="1.6"/>
+      <rect x="3" y="15" width="6" height="6" rx="1" stroke="#6c47ff" stroke-width="1.6"/>
+      <path d="M15 15h2v2h2v2h-4v-4Z" stroke="#6c47ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  <div>
+    <h4>Scan & Learn (QR)</h4>
+    <p>Scan to explore meanings, pronunciation.</p>
+  </div>
+</div>
+
+          <div class="feature">
+            <span class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l3 6 6 .5-4.5 4 1.3 6.5L12 17l-5.8 3 1.3-6.5L3 9.5 9 9l3-6Z" stroke="#6c47ff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </span>
+            <div>
+              <h4>Fast progress</h4>
+              <p>Use real words & idioms in context, instantly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="section" data-aos="fade-up" id="story" style="margin-top:var(--s-4)">
+      <div class="section-head"><h3>Our Story</h3></div>
+      <div class="section-body">
+        <p><b>“Why do many learners remember words but forget how to use them?”</b> We surveyed 100+ students and found: 77% lacked a real practice environment, 74% struggled to retain new words, and 66% didn’t use idioms naturally. Catchy flips learning into play — you learn by doing, not memorizing.</p>
+      </div>
+    </section>
+
+    <!-- INSIDE THE BOX (with product gallery) -->
+    <section class="section" data-aos="fade-up" id="inside" style="margin-top:var(--s-4)">
+      <div class="section-head"><h3>What’s Inside the Box?</h3></div>
+      <div class="section-body inside">
+        <!-- GALLERY -->
+        <div class="gallery">
+          <div class="gallery-main">
+            <!-- replace image paths with your real assets -->
+            <img id="mainImg" src="./product.png" alt="Catchy product photo"/>
+          </div>
+          <div class="thumbs">
+            <button data-src="./A1Vocab/Book.png" aria-label="Main view"><img src="./A1Vocab/Book.png" alt=""></button>
+            <button data-src="./function/attack.jpg" aria-label="Deck angles"><img src="./function/attack.jpg" alt=""></button>
+            <button data-src="./Dare/make 3.jpg" aria-label="Cards spread"><img src="./Dare/make 3.jpg" alt=""></button>
+            <button data-src="./Idiom/armleg.png" aria-label="QR & booklet"><img src="./Idiom/armleg.png" alt=""></button>
+          </div>
+        </div>
+
+        <!-- DETAILS -->
+        <div>
+          <ul>
+            <li><b>Vocabulary Cards</b> (A1–C2 levels) — meanings, examples, pronunciation.</li>
+            <li><b>Idioms Cards</b> — fun, useful, easy to use in real talk.</li>
+            <li><b>Function Cards</b> — attack, defend, combo to steer the flow.</li>
+            <li><b>Dare Cards</b> — act, sing, react in English!</li>
+          </ul>
+          <p style="margin-top:.6rem">Every box links to our website for rules, examples, and gameplay videos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section" data-aos="fade-up" id="team" style="margin-top:var(--s-4)">
+      <div class="section-head"><h3>The Team</h3></div>
+      <div class="section-body">
+        <div class="team">
+          <div class="member"><b>Nguyễn Danh Thái</b>CEO · Direction & progress</div>
+          <div class="member"><b>Nguyễn Minh Tân</b>CFO · Finance & budgeting</div>
+          <div class="member"><b>Khưu Gia Lập</b>COO · Production & logistics</div>
+          <div class="member"><b>Trương Hoàng Huy</b>CCO · Content & gameplay</div>
+          <div class="member"><b>Nguyễn Thành Đức</b>CMO · Branding & marketing</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" data-aos="fade-up" id="contact" style="margin-top:var(--s-4)">
+      <div class="section-head"><h3>Stay in Touch</h3></div>
+      <div class="section-body">
+        <p>
+          <b>Email:</b> <a href="mailto:catchy.team@gmail.com">catchy.team@gmail.com</a> &nbsp;|&nbsp;
+          <b>TikTok:</b> @CatchyGameVN &nbsp;|&nbsp;
+          <b>Shopee:</b> Catchy Official Store &nbsp;|&nbsp;
+          <b>Website:</b> catchy.vn
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER (same as homepage) ===== -->
+  <footer>
+    © 2025 English Boardgame | Contact:
+    <a href="mailto:huytruong09062k4@gmail.com" style="color:#ffd973;text-decoration:none">huytruong09062k4@gmail.com</a>
+  </footer>
+
+  <!-- AOS + Drawer + Gallery swap -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 900, once: true, offset: 100 });
+
+    // Hamburger menu
+    const navLinks = document.querySelector('.nav-links');
+    const hamburger = document.querySelector('.hamburger');
+    const closeBtn = document.querySelector('.nav-close');
+    const overlay = document.querySelector('.nav-overlay');
+    if(hamburger && navLinks){
+      const setNavOpen = open => {
+        navLinks.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', String(open));
+        overlay?.classList.toggle('show', open);
+        document.body.classList.toggle('menu-open', open);
+        if(open){ closeBtn?.focus(); }
+      };
+      hamburger.addEventListener('click', ()=> setNavOpen(!navLinks.classList.contains('open')));
+      closeBtn?.addEventListener('click', ()=> setNavOpen(false));
+      overlay?.addEventListener('click', ()=> setNavOpen(false));
+      navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=> setNavOpen(false)));
+      document.addEventListener('keydown', e=>{ if(e.key === 'Escape') setNavOpen(false); });
+    }
+
+    // Drawer
+    const dToggle = document.querySelector('.drawer .toggle');
+    const dPanel  = document.getElementById('drawer');
+    if(dToggle && dPanel){
+      const setOpen = v => { dPanel.classList.toggle('open', v); dToggle.setAttribute('aria-expanded', String(v)); };
+      dToggle.addEventListener('click', ()=> setOpen(!dPanel.classList.contains('open')));
+      dPanel.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>setOpen(false)));
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') setOpen(false); });
+    }
+
+    // Inside the box gallery
+    const mainImg = document.getElementById('mainImg');
+    document.querySelectorAll('.thumbs button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const src = btn.getAttribute('data-src');
+        if(src && mainImg) mainImg.src = src;
+      });
+    });
+  </script>
+</body>
+</html>
