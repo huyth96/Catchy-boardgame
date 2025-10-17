@@ -43,14 +43,19 @@ function pronounceText(text, opts = {}) {
   if (!text || !text.trim()) return false;
 
   const { voicePref = "auto", rate = 1, pitch = 1, volume = 1 } = opts;
-  const voice = pickEnglishVoice(voicePref);
-  if (!voice) return false;
+  let voice = pickEnglishVoice(voicePref);
+  if (!voice) {
+    const voicesNow = loadVoices();
+    if (voicesNow && voicesNow.length) {
+      voice = pickEnglishVoice(voicePref);
+    }
+  }
 
   // Stop anything speaking
   window.speechSynthesis.cancel();
 
   const utt = new SpeechSynthesisUtterance(text);
-  utt.voice = voice;
+  if (voice) utt.voice = voice;
   utt.rate = rate;
   utt.pitch = pitch;
   utt.volume = volume;
@@ -382,18 +387,28 @@ document.addEventListener('DOMContentLoaded', function () {
       elAudio.innerHTML = btnHTML + fallbackAudio;
 
       const btn = document.getElementById('btn-pronounce');
-      if (!window.speechSynthesis || !pickEnglishVoice(ttsOpts.voicePref)) {
+      if (!window.speechSynthesis) {
         btn.setAttribute('disabled', 'true');
         btn.title = 'Text-to-speech is unavailable on this device/browser';
       } else {
         let pressTimer = null;
+        const ensureVoicesReady = () => {
+          if (!_voices.length) loadVoices();
+        };
         const speakWord = () => pronounceText(card.name, ttsOpts);
         const speakWordPlusExample = () => {
           const full = card.example ? `${card.name}. ${card.example}` : card.name;
           pronounceText(full, ttsOpts);
         };
-        btn.addEventListener('click', (e) => { e.preventDefault(); speakWord(); });
-        const startPress = () => { pressTimer = setTimeout(speakWordPlusExample, 450); };
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          ensureVoicesReady();
+          speakWord();
+        });
+        const startPress = () => {
+          ensureVoicesReady();
+          pressTimer = setTimeout(speakWordPlusExample, 450);
+        };
         const endPress = () => { clearTimeout(pressTimer); };
         btn.addEventListener('mousedown', startPress);
         btn.addEventListener('touchstart', startPress, { passive: true });
