@@ -120,13 +120,27 @@
     @media (max-width:900px){.team{grid-template-columns:repeat(2,1fr)}}
 
     /* left drawer (section picker) */
-    .drawer{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:60}
-    .drawer .toggle{display:grid;place-items:center;width:46px;height:46px;border:none;border-radius:14px;background:radial-gradient(90% 90% at 30% 20%, #fff, #efeaff);cursor:pointer}
-    .drawer .panel{position:absolute;left:0;top:0;transform:translateX(-120%);transition:transform .28s cubic-bezier(.47,1.64,.41,.8)}
-    .drawer .panel.open{transform:translateX(0)}
-    .drawer nav{margin-top:10px;background:#ffffffee;border:1px solid #efeaff;border-radius:16px;padding:10px;backdrop-filter:blur(6px);min-width:210px}
-    .drawer nav a{display:flex;gap:.6rem;align-items:center;padding:.55rem .7rem;border-radius:12px;color:#261a63;text-decoration:none;font-weight:800}
-    .drawer nav a:hover{background:#f3f0ff;border:1px solid #d9d0ff}
+    .drawer{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:80;display:flex;flex-direction:column;gap:14px}
+    .drawer .toggle{position:relative;z-index:2;display:grid;place-items:center;width:58px;height:58px;border:none;border-radius:18px;background:linear-gradient(150deg,#ffffff,#f1ecff);box-shadow:0 12px 28px rgba(108,71,255,.22);cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+    .drawer .toggle:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(108,71,255,.28)}
+    .drawer .toggle svg{width:26px;height:26px;stroke:#6c47ff}
+    .drawer-overlay{position:fixed;inset:0;background:rgba(20,16,52,.45);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:0}
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+    .drawer .panel{position:fixed;left:96px;top:50%;transform:translate(-120%,-50%);opacity:0;transition:transform .32s cubic-bezier(.47,1.64,.41,.8),opacity .22s ease;border-radius:22px;padding:20px 18px;background:linear-gradient(165deg,rgba(255,255,255,.88),rgba(245,241,255,.92));backdrop-filter:blur(18px);border:1px solid #e5ddff;box-shadow:0 26px 60px rgba(53,25,120,.28);min-width:240px;z-index:1;display:flex;flex-direction:column;gap:14px;align-items:stretch}
+    .drawer .panel.open{transform:translate(0,-50%);opacity:1}
+    .drawer nav{display:flex;flex-direction:column;gap:10px;width:100%}
+    .drawer nav a{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;text-decoration:none;font-weight:800;color:#221454;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(239,233,255,.68));border:1px solid rgba(219,206,255,.6);box-shadow:0 10px 22px rgba(108,71,255,.08);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;width:100%;box-sizing:border-box}
+    .drawer nav a::after{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.6) 52%,transparent 66%);transform:translateX(-70%) rotate(8deg);transition:transform .7s ease;opacity:.55;pointer-events:none}
+    .drawer nav a:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(108,71,255,.16);border-color:#c8bbff}
+    .drawer nav a:hover::after{transform:translateX(68%) rotate(8deg)}
+    .drawer-icon{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:radial-gradient(95% 95% at 30% 20%,#fff,#efeaff);border:1px solid #d9d0ff;color:#6c47ff;box-shadow:0 12px 26px rgba(108,71,255,.16);flex-shrink:0}
+    .drawer-icon svg{width:20px;height:20px;stroke:currentColor}
+    .drawer-label{flex:1;color:#231559;font-size:.95rem;letter-spacing:.02em}
+    @media (max-width:900px){
+      .drawer{left:50%;top:auto;bottom:28px;transform:translateX(-50%)}
+      .drawer .panel{left:50%;top:auto;bottom:112px;transform:translate(-50%,140%);width:calc(100vw - 32px);max-width:420px}
+      .drawer .panel.open{transform:translate(-50%,0)}
+    }
   </style>
 </head>
 <body class="about-wrap">
@@ -144,8 +158,8 @@
         <a href="Homepage.html">Home</a>
         <a href="about.html">About</a>
         <a href="index.html">Cards</a>
-        <a href="index.html#howtoplay">How to Play</a>
-        <a href="index.html#download">Downloads</a>
+        <a href="How_to_play_catchy.pdf" target="_blank" rel="noopener noreferrer">How to Play</a>
+        <a href="How_to_play_catchy.pdf" download>Downloads</a>
       </div>
     </div>
     <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -154,18 +168,59 @@
   <!-- Left section picker -->
   <aside class="drawer" aria-label="Section Picker">
     <button class="toggle" aria-expanded="false" aria-controls="drawer">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M4 6h16M4 12h16M4 18h16" stroke="url(#g)" stroke-width="2" stroke-linecap="round"/>
-        <defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="0"><stop stop-color="#6c47ff"/><stop offset="1" stop-color="#ffc700"/></linearGradient></defs>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </button>
+    <div class="drawer-overlay" aria-hidden="true"></div>
     <div id="drawer" class="panel" role="dialog" aria-modal="false">
       <nav>
-        <a href="#story">📖 Our Story</a>
-        <a href="#inside">🎴 Inside the Box</a>
-        <a href="#why">✨ Why Catchy</a>
-        <a href="#team">🚀 Team</a>
-        <a href="#contact">📬 Contact</a>
+        <a href="#story">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M11.5 5H6.5A1.5 1.5 0 0 0 5 6.5v11A2.5 2.5 0 0 1 7.5 20H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.5 5h5A1.5 1.5 0 0 1 19 6.5v11A2.5 2.5 0 0 0 16.5 20H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="drawer-label">Our Story</span>
+        </a>
+        <a href="#inside">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 9 12 5l8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M4 9v6l8 4 8-4V9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="drawer-label">Inside the Box</span>
+        </a>
+        <a href="#why">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v4M12 17v4M4.9 6.9l2.8 2.8M16.3 16.3l2.8 2.8M3 12h4M17 12h4M6.9 17.1l2.8-2.8M14.3 7.7l2.8-2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+          </span>
+          <span class="drawer-label">Why Catchy</span>
+        </a>
+        <a href="#team">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 12a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M7.6 18.5a3.4 3.4 0 0 1 3.4-3.4h2a3.4 3.4 0 0 1 3.4 3.4V21H7.6Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6.1 10.4a2.4 2.4 0 1 1 3 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M17.9 10.4a2.4 2.4 0 1 0-3 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="drawer-label">The Team</span>
+        </a>
+        <a href="#contact">
+          <span class="drawer-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4l-4 3v-3H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="drawer-label">Stay in Touch</span>
+        </a>
       </nav>
     </div>
   </aside>
@@ -406,12 +461,20 @@
     }
 
     // Drawer
-    const dToggle = document.querySelector('.drawer .toggle');
+    const drawerRoot = document.querySelector('.drawer');
+    const dToggle = drawerRoot?.querySelector('.toggle');
     const dPanel  = document.getElementById('drawer');
+    const dOverlay = drawerRoot?.querySelector('.drawer-overlay');
     if(dToggle && dPanel){
-      const setOpen = v => { dPanel.classList.toggle('open', v); dToggle.setAttribute('aria-expanded', String(v)); };
+      const setOpen = v => {
+        dPanel.classList.toggle('open', v);
+        drawerRoot?.classList.toggle('open', v);
+        dOverlay?.classList.toggle('open', v);
+        dToggle.setAttribute('aria-expanded', String(v));
+      };
       dToggle.addEventListener('click', ()=> setOpen(!dPanel.classList.contains('open')));
       dPanel.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>setOpen(false)));
+      dOverlay?.addEventListener('click', ()=> setOpen(false));
       document.addEventListener('keydown', e=>{ if(e.key==='Escape') setOpen(false); });
     }
 
