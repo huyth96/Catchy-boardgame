@@ -2,7 +2,7 @@
   {
     "type": "Function",
     "name": "Skip",
-    "img": "function/skip.jpg",
+    "img": "assets/images/cards/function/skip.jpg",
     "desc": "Skip the next player's turn",
     "detail": "Skip the next player’s turn to avoid actions or penalties.",
     "qr": "QRCode.svg",
@@ -12,7 +12,7 @@
   {
     "type": "Function",
     "name": "Reverse",
-    "img": "function/reverse.jpg",
+    "img": "assets/images/cards/function/reverse.jpg",
     "desc": "Reverse the play order",
     "detail": "Reverse the turn order and shake up the flow of the game.",
     "qr": "QRCode.svg",
@@ -22,7 +22,7 @@
   {
     "type": "Function",
     "name": "Draw Attack",
-    "img": "function/attack.jpg",
+    "img": "assets/images/cards/function/attack.jpg",
     "desc": "Force a chosen player to draw 1 Vocabulary/Idiom card",
     "detail": "Force a chosen player to draw 1 Vocabulary/Idiom card and disrupt their strategy.",
     "qr": "QRCode.svg",
@@ -32,7 +32,7 @@
   {
     "type": "Function",
     "name": "Double Trouble",
-    "img": "function/double trouble.jpg",
+    "img": "assets/images/cards/function/double trouble.jpg",
     "desc": "Attack two players in a row",
     "detail": "Target two players in a row using two Vocabulary/Idiom cards for double impact.",
     "qr": "QRCode.svg",
@@ -42,7 +42,7 @@
   {
     "type": "Function",
     "name": "Wild Dare",
-    "img": "function/wild dare.jpg",
+    "img": "assets/images/cards/function/wild dare.jpg",
     "desc": "Pick one player to draw a Dare card",
     "detail": "Choose one player to draw a Dare card. Unpredictable fun awaits!",
     "qr": "QRCode.svg",
@@ -52,7 +52,7 @@
   {
     "type": "Function",
     "name": "Shield",
-    "img": "function/shield.jpg",
+    "img": "assets/images/cards/function/shield.jpg",
     "desc": "Block any attack",
     "detail": "Block any attack or negative effect that targets you this turn.",
     "qr": "QRCode.svg",
@@ -62,7 +62,7 @@
   {
     "type": "Function",
     "name": "Mirror",
-    "img": "function/mirror.jpg",
+    "img": "assets/images/cards/function/mirror.jpg",
     "desc": "Reflect the effect back",
     "detail": "Reflect the last card effect back to the player who used it.",
     "qr": "QRCode.svg",
@@ -72,7 +72,7 @@
   {
     "type": "Function",
     "name": "Point Steal",
-    "img": "function/point steal.jpg",
+    "img": "assets/images/cards/function/point steal.jpg",
     "desc": "Steal 1 point from another player",
     "detail": "Steal 1 point from any opponent to get ahead in the game.",
     "qr": "QRCode.svg",
@@ -82,7 +82,7 @@
   {
     "type": "Function",
     "name": "Point Block",
-    "img": "function/point block.jpg",
+    "img": "assets/images/cards/function/point block.jpg",
     "desc": "Prevent another player from gaining points",
     "detail": "Stop another player from earning points this turn.",
     "qr": "QRCode.svg",
@@ -92,7 +92,7 @@
   {
     "type": "Function",
     "name": "Attack Cat",
-    "img": "function/attack.jpg",
+    "img": "assets/images/cards/function/attack.jpg",
     "desc": "Launch a bold move against others",
     "detail": "A Cat card without gameplay effect — perfect for combos or collection.",
     "qr": "QRCode.svg",
@@ -102,7 +102,7 @@
   {
     "type": "Function",
     "name": "Chill Cat",
-    "img": "function/Chill cat.png",
+    "img": "assets/images/cards/function/Chill cat.png",
     "desc": "Stay cool and relaxed",
     "detail": "A peaceful Cat card — no special gameplay effect.",
     "qr": "QRCode.svg",
@@ -112,7 +112,7 @@
   {
     "type": "Function",
     "name": "Confused Cat",
-    "img": "function/Confused cat.png",
+    "img": "assets/images/cards/function/Confused cat.png",
     "desc": "What’s going on?",
     "detail": "A fun Cat card that adds humor — no gameplay effect.",
     "qr": "QRCode.svg",
@@ -122,7 +122,7 @@
   {
     "type": "Function",
     "name": "Joker Cat",
-    "img": "function/joker cat.png",
+    "img": "assets/images/cards/function/joker cat.png",
     "desc": "Wild and chaotic energy",
     "detail": "Despite its name, Joker Cat has no gameplay effect — used for combos or style.",
     "qr": "QRCode.svg",
@@ -132,7 +132,7 @@
   {
     "type": "Function",
     "name": "Sleepy Cat",
-    "img": "function/Sleepy cat.png",
+    "img": "assets/images/cards/function/Sleepy cat.png",
     "desc": "Time to take a nap",
     "detail": "A sleepy Cat card with no effect — adds personality to the deck.",
     "qr": "QRCode.svg",
@@ -142,10 +142,10 @@
   {
     "type": "Vocabulary",
     "name": "Book",
-    "img": "A1Vocab/Book.png",
+    "img": "assets/images/cards/vocab/a1/Book.png",
     "desc": "A thing you read.",
     "pronounce": "/bʊk/",
-    "audio": "A1Vocab/Book.mp3",
+    "audio": "assets/images/cards/vocab/a1/Book.mp3",
     "meaning": "Sách",
     "example": "I like reading a book before bed.",
     "level": "A1",
@@ -155,10 +155,10 @@
   {
     "type": "Vocabulary",
     "name": "Cat",
-    "img": "A1Vocab/Cat.png",
+    "img": "assets/images/cards/vocab/a1/Cat.png",
     "desc": "A small animal that purrs.",
     "pronounce": "/kæt/",
-    "audio": "A1Vocab/Cat.mp3",
+    "audio": "assets/images/cards/vocab/a1/Cat.mp3",
     "meaning": "Con mèo",
     "example": "My cat is very cute.",
     "level": "A1",
@@ -168,10 +168,10 @@
   {
     "type": "Vocabulary",
     "name": "Friend",
-    "img": "A1Vocab/Friend.png",
+    "img": "assets/images/cards/vocab/a1/Friend.png",
     "desc": "Someone you like and trust.",
     "pronounce": "/frɛnd/",
-    "audio": "A1Vocab/Friend.mp3",
+    "audio": "assets/images/cards/vocab/a1/Friend.mp3",
     "meaning": "Bạn bè",
     "example": "Anna is my best friend.",
     "level": "A1",
@@ -181,10 +181,10 @@
   {
     "type": "Vocabulary",
     "name": "Happy",
-    "img": "A1Vocab/Happy.png",
+    "img": "assets/images/cards/vocab/a1/Happy.png",
     "desc": "Feeling good or joyful.",
     "pronounce": "/ˈhæpi/",
-    "audio": "A1Vocab/Happy.mp3",
+    "audio": "assets/images/cards/vocab/a1/Happy.mp3",
     "meaning": "Vui vẻ",
     "example": "She is always happy.",
     "level": "A1",
@@ -194,10 +194,10 @@
   {
     "type": "Vocabulary",
     "name": "Mother",
-    "img": "A1Vocab/Mother.png",
+    "img": "assets/images/cards/vocab/a1/Mother.png",
     "desc": "Your female parent.",
     "pronounce": "/ˈmʌðər/",
-    "audio": "A1Vocab/Mother.mp3",
+    "audio": "assets/images/cards/vocab/a1/Mother.mp3",
     "meaning": "Mẹ",
     "example": "My mother cooks very well.",
     "level": "A1",
@@ -207,10 +207,10 @@
   {
     "type": "Vocabulary",
     "name": "Run",
-    "img": "A1Vocab/Run.png",
+    "img": "assets/images/cards/vocab/a1/Run.png",
     "desc": "To move fast on your feet.",
     "pronounce": "/rʌn/",
-    "audio": "A1Vocab/Run.mp3",
+    "audio": "assets/images/cards/vocab/a1/Run.mp3",
     "meaning": "Chạy",
     "example": "I run to school every day.",
     "level": "A1",
@@ -220,10 +220,10 @@
   {
     "type": "Vocabulary",
     "name": "School",
-    "img": "A1Vocab/School.png",
+    "img": "assets/images/cards/vocab/a1/School.png",
     "desc": "A place to learn.",
     "pronounce": "/skuːl/",
-    "audio": "A1Vocab/School.mp3",
+    "audio": "assets/images/cards/vocab/a1/School.mp3",
     "meaning": "Trường học",
     "example": "School starts at 7 AM.",
     "level": "A1",
@@ -233,10 +233,10 @@
   {
     "type": "Vocabulary",
     "name": "Water",
-    "img": "A1Vocab/Water.png",
+    "img": "assets/images/cards/vocab/a1/Water.png",
     "desc": "A liquid we drink.",
     "pronounce": "/ˈwɔːtə(r)/",
-    "audio": "A1Vocab/Water.mp3",
+    "audio": "assets/images/cards/vocab/a1/Water.mp3",
     "meaning": "Nước",
     "example": "Drink water every day.",
     "level": "A1",
@@ -247,7 +247,7 @@
   {
     "type": "Idioms",
     "name": "Cost an arm and a leg",
-    "img": "idiom/armleg.png",
+    "img": "assets/images/cards/idiom/armleg.png",
     "desc": "Something very expensive",
     "detail": "Used to describe something that costs a lot of money.",
     "meaning": "Rất đắt đỏ",
@@ -258,7 +258,7 @@
   {
     "type": "Idioms",
     "name": "Bite the bullet",
-    "img": "idiom/Bite the bullet.png",
+    "img": "assets/images/cards/idiom/Bite the bullet.png",
     "desc": "Face a difficult situation bravely",
     "detail": "Used when someone decides to do something painful or unpleasant that they have been avoiding.",
     "meaning": "Can đảm đối mặt với điều khó khăn",
@@ -269,7 +269,7 @@
   {
     "type": "Idioms",
     "name": "Once in a blue moon",
-    "img": "idiom/bluemoon.png",
+    "img": "assets/images/cards/idiom/bluemoon.png",
     "desc": "Something that happens rarely",
     "detail": "Used to describe an event that happens very infrequently.",
     "meaning": "Hiếm khi xảy ra",
@@ -280,7 +280,7 @@
   {
     "type": "Idioms",
     "name": "Break the ice",
-    "img": "idiom/break ice.png",
+    "img": "assets/images/cards/idiom/break ice.png",
     "desc": "Start a conversation or activity in a friendly way",
     "detail": "Used when someone makes people feel more relaxed in a social setting.",
     "meaning": "Phá vỡ sự ngại ngùng ban đầu",
@@ -291,7 +291,7 @@
   {
     "type": "Idioms",
     "name": "Burn bridges",
-    "img": "idiom/burn bridge.png",
+    "img": "assets/images/cards/idiom/burn bridge.png",
     "desc": "Destroy relationships or opportunities permanently",
     "detail": "Used when someone ends relationships or connections in a way that makes it impossible to return.",
     "meaning": "Đốt cầu, cắt đứt mối quan hệ",
@@ -302,7 +302,7 @@
   {
     "type": "Idioms",
     "name": "Back to the drawing board",
-    "img": "idiom/drawing board.png",
+    "img": "assets/images/cards/idiom/drawing board.png",
     "desc": "Start over again after failure",
     "detail": "Used when a plan or idea fails and you must begin again from the start.",
     "meaning": "Làm lại từ đầu sau thất bại",
@@ -313,7 +313,7 @@
   {
     "type": "Idioms",
     "name": "Get cold feet",
-    "img": "idiom/get cold feet.png",
+    "img": "assets/images/cards/idiom/get cold feet.png",
     "desc": "Suddenly become nervous about something",
     "detail": "Used when someone loses confidence before doing something important.",
     "meaning": "Đột nhiên lo sợ, chùn bước",
@@ -324,7 +324,7 @@
   {
     "type": "Idioms",
     "name": "Hit the books",
-    "img": "idiom/hit book.png",
+    "img": "assets/images/cards/idiom/hit book.png",
     "desc": "Start studying hard",
     "detail": "Used when someone begins to study seriously for an exam or test.",
     "meaning": "Học chăm chỉ",
@@ -335,7 +335,7 @@
   {
     "type": "Idioms",
     "name": "Hit the nail on the head",
-    "img": "idiom/hitnail.png",
+    "img": "assets/images/cards/idiom/hitnail.png",
     "desc": "Be exactly right",
     "detail": "Used when someone says or does something that is exactly correct.",
     "meaning": "Nói trúng vấn đề",
@@ -346,7 +346,7 @@
   {
     "type": "Idioms",
     "name": "Let the cat out of the bag",
-    "img": "idiom/Let the cat out of the bag.jpg",
+    "img": "assets/images/cards/idiom/Let the cat out of the bag.jpg",
     "desc": "Reveal a secret by accident",
     "detail": "Used when someone accidentally tells a secret or surprise.",
     "meaning": "Lỡ tiết lộ bí mật",
@@ -357,7 +357,7 @@
   {
     "type": "Idioms",
     "name": "Burn the midnight oil",
-    "img": "idiom/midnight.png",
+    "img": "assets/images/cards/idiom/midnight.png",
     "desc": "Work late into the night",
     "detail": "Used when someone stays up very late to study or work.",
     "meaning": "Thức khuya làm việc, học tập",
@@ -368,7 +368,7 @@
   {
     "type": "Idioms",
     "name": "On the ball",
-    "img": "idiom/Ontheball.png",
+    "img": "assets/images/cards/idiom/Ontheball.png",
     "desc": "Be alert and quick to react",
     "detail": "Used when someone is very prepared, attentive, and efficient.",
     "meaning": "Nhanh nhạy, lanh lợi",
@@ -379,7 +379,7 @@
   {
     "type": "Idioms",
     "name": "A piece of cake",
-    "img": "idiom/piece of cake.png",
+    "img": "assets/images/cards/idiom/piece of cake.png",
     "desc": "Something very easy",
     "detail": "Used to describe a task that is simple to do.",
     "meaning": "Rất dễ dàng",
@@ -390,7 +390,7 @@
   {
     "type": "Idioms",
     "name": "Pull someone’s leg",
-    "img": "idiom/pull leg.png",
+    "img": "assets/images/cards/idiom/pull leg.png",
     "desc": "Tease or joke with someone",
     "detail": "Used when someone is kidding or joking with another person.",
     "meaning": "Trêu chọc ai đó",
@@ -401,7 +401,7 @@
   {
     "type": "Idioms",
     "name": "Sit on the fence",
-    "img": "idiom/sit on fence.png",
+    "img": "assets/images/cards/idiom/sit on fence.png",
     "desc": "Avoid making a decision",
     "detail": "Used when someone doesn’t take sides in a discussion or decision.",
     "meaning": "Trung lập, không quyết định",
@@ -412,7 +412,7 @@
   {
     "type": "Idioms",
     "name": "Speak of the devil",
-    "img": "idiom/speak devil.png",
+    "img": "assets/images/cards/idiom/speak devil.png",
     "desc": "When someone appears right after being mentioned",
     "detail": "Used when the person you are talking about suddenly appears.",
     "meaning": "Nhắc Tào Tháo, Tào Tháo đến",
@@ -423,7 +423,7 @@
   {
     "type": "Idioms",
     "name": "The ball is in your court",
-    "img": "idiom/the ball.png",
+    "img": "assets/images/cards/idiom/the ball.png",
     "desc": "It’s your turn to take action",
     "detail": "Used to tell someone it’s now their responsibility to make a decision or move.",
     "meaning": "Đến lượt bạn hành động",
@@ -434,7 +434,7 @@
   {
     "type": "Idioms",
     "name": "Throw in the towel",
-    "img": "idiom/towel.png",
+    "img": "assets/images/cards/idiom/towel.png",
     "desc": "Give up or quit",
     "detail": "Used when someone stops trying because they have accepted defeat.",
     "meaning": "Bỏ cuộc, đầu hàng",
@@ -445,7 +445,7 @@
   {
     "type": "Idioms",
     "name": "Kill two birds with one stone",
-    "img": "idiom/twobird.png",
+    "img": "assets/images/cards/idiom/twobird.png",
     "desc": "Achieve two things at once",
     "detail": "Used when one action accomplishes two different goals.",
     "meaning": "Một công đôi việc",
@@ -456,7 +456,7 @@
   {
     "type": "Idioms",
     "name": "Under the weather",
-    "img": "idiom/under weather.png",
+    "img": "assets/images/cards/idiom/under weather.png",
     "desc": "Feeling slightly ill",
     "detail": "Used when someone is not feeling well.",
     "meaning": "Cảm thấy mệt, không khỏe",
@@ -467,10 +467,10 @@
    {
     "type": "Vocabulary",
     "name": "Advice",
-    "img": "B1Vocab/advice.png",
+    "img": "assets/images/cards/vocab/b1/advice.png",
     "desc": "An opinion or suggestion about what someone should do.",
     "pronounce": "/ədˈvaɪs/",
-    "audio": "B1Vocab/advice.mp3",
+    "audio": "assets/images/cards/vocab/b1/advice.mp3",
     "meaning": "Lời khuyên",
     "example": "My teacher gave me good advice about studying abroad.",
     "level": "B1",
@@ -480,10 +480,10 @@
   {
     "type": "Vocabulary",
     "name": "Challenge",
-    "img": "B1Vocab/challenge.png",
+    "img": "assets/images/cards/vocab/b1/challenge.png",
     "desc": "Something difficult that tests your skill or ability.",
     "pronounce": "/ˈtʃælɪndʒ/",
-    "audio": "B1Vocab/challenge.mp3",
+    "audio": "assets/images/cards/vocab/b1/challenge.mp3",
     "meaning": "Thử thách",
     "example": "Learning a new language is a big challenge.",
     "level": "B1",
@@ -493,10 +493,10 @@
   {
     "type": "Vocabulary",
     "name": "Communication",
-    "img": "B1Vocab/communication.png",
+    "img": "assets/images/cards/vocab/b1/communication.png",
     "desc": "The process of sharing information, ideas, or feelings.",
     "pronounce": "/kəˌmjuːnɪˈkeɪʃən/",
-    "audio": "B1Vocab/communication.mp3",
+    "audio": "assets/images/cards/vocab/b1/communication.mp3",
     "meaning": "Giao tiếp",
     "example": "Good communication is important in teamwork.",
     "level": "B1",
@@ -506,10 +506,10 @@
   {
     "type": "Vocabulary",
     "name": "Improve",
-    "img": "B1Vocab/improve.png",
+    "img": "assets/images/cards/vocab/b1/improve.png",
     "desc": "To make something better.",
     "pronounce": "/ɪmˈpruːv/",
-    "audio": "B1Vocab/improve.mp3",
+    "audio": "assets/images/cards/vocab/b1/improve.mp3",
     "meaning": "Cải thiện",
     "example": "She joined a course to improve her English skills.",
     "level": "B1",
@@ -519,10 +519,10 @@
   {
     "type": "Vocabulary",
     "name": "Independent",
-    "img": "B1Vocab/independent.png",
+    "img": "assets/images/cards/vocab/b1/independent.png",
     "desc": "Able to do things without help from others.",
     "pronounce": "/ˌɪndɪˈpendənt/",
-    "audio": "B1Vocab/independent.mp3",
+    "audio": "assets/images/cards/vocab/b1/independent.mp3",
     "meaning": "Độc lập",
     "example": "Living alone helped him become more independent.",
     "level": "B1",
@@ -532,10 +532,10 @@
   {
     "type": "Vocabulary",
     "name": "Opportunity",
-    "img": "B1Vocab/opportunity.png",
+    "img": "assets/images/cards/vocab/b1/opportunity.png",
     "desc": "A chance to do something or achieve something.",
     "pronounce": "/ˌɒpəˈtjuːnɪti/",
-    "audio": "B1Vocab/opportunity.mp3",
+    "audio": "assets/images/cards/vocab/b1/opportunity.mp3",
     "meaning": "Cơ hội",
     "example": "This job offers a great opportunity for growth.",
     "level": "B1",
@@ -545,10 +545,10 @@
   {
     "type": "Vocabulary",
     "name": "Responsible",
-    "img": "B1Vocab/responsible.png",
+    "img": "assets/images/cards/vocab/b1/responsible.png",
     "desc": "Having the duty of taking care of something or someone.",
     "pronounce": "/rɪˈspɒnsəbl/",
-    "audio": "B1Vocab/responsible.mp3",
+    "audio": "assets/images/cards/vocab/b1/responsible.mp3",
     "meaning": "Có trách nhiệm",
     "example": "You’re responsible for keeping your room clean.",
     "level": "B1",
@@ -558,10 +558,10 @@
   {
     "type": "Vocabulary",
     "name": "Solution",
-    "img": "B1Vocab/solution.png",
+    "img": "assets/images/cards/vocab/b1/solution.png",
     "desc": "An answer to a problem or question.",
     "pronounce": "/səˈluːʃən/",
-    "audio": "B1Vocab/solution.mp3",
+    "audio": "assets/images/cards/vocab/b1/solution.mp3",
     "meaning": "Giải pháp",
     "example": "We need to find a solution to this issue quickly.",
     "level": "B1",
@@ -571,10 +571,10 @@
     {
     "type": "Vocabulary",
     "name": "Achievement",
-    "img": "B2Vocab/achievement.png",
+    "img": "assets/images/cards/vocab/b2/achievement.png",
     "desc": "Something you have successfully done or achieved, usually through effort.",
     "pronounce": "/əˈtʃiːvmənt/",
-    "audio": "B2Vocab/achievement.mp3",
+    "audio": "assets/images/cards/vocab/b2/achievement.mp3",
     "meaning": "Thành tựu",
     "example": "Winning the competition was a great achievement for her team.",
     "level": "B2",
@@ -584,10 +584,10 @@
   {
     "type": "Vocabulary",
     "name": "Consequence",
-    "img": "B2Vocab/consequence.png",
+    "img": "assets/images/cards/vocab/b2/consequence.png",
     "desc": "A result or effect of an action or situation.",
     "pronounce": "/ˈkɒnsɪkwəns/",
-    "audio": "B2Vocab/consequence.mp3",
+    "audio": "assets/images/cards/vocab/b2/consequence.mp3",
     "meaning": "Hậu quả, kết quả",
     "example": "Every choice you make has a consequence.",
     "level": "B2",
@@ -597,10 +597,10 @@
   {
     "type": "Vocabulary",
     "name": "Evaluate",
-    "img": "B2Vocab/evaluate.png",
+    "img": "assets/images/cards/vocab/b2/evaluate.png",
     "desc": "To judge or assess the value or quality of something.",
     "pronounce": "/ɪˈvæljueɪt/",
-    "audio": "B2Vocab/evaluate.mp3",
+    "audio": "assets/images/cards/vocab/b2/evaluate.mp3",
     "meaning": "Đánh giá",
     "example": "The teacher will evaluate your presentation skills.",
     "level": "B2",
@@ -610,10 +610,10 @@
   {
     "type": "Vocabulary",
     "name": "Innovation",
-    "img": "B2Vocab/innavation.png",
+    "img": "assets/images/cards/vocab/b2/innavation.png",
     "desc": "A new idea, method, or invention.",
     "pronounce": "/ˌɪnəˈveɪʃən/",
-    "audio": "B2Vocab/innovation.mp3",
+    "audio": "assets/images/cards/vocab/b2/innovation.mp3",
     "meaning": "Sự đổi mới, sáng tạo",
     "example": "Innovation is key to staying competitive in business.",
     "level": "B2",
@@ -623,10 +623,10 @@
   {
     "type": "Vocabulary",
     "name": "Perspective",
-    "img": "B2Vocab/perspective.png",
+    "img": "assets/images/cards/vocab/b2/perspective.png",
     "desc": "A particular way of thinking about something or seeing a situation.",
     "pronounce": "/pəˈspektɪv/",
-    "audio": "B2Vocab/perspective.mp3",
+    "audio": "assets/images/cards/vocab/b2/perspective.mp3",
     "meaning": "Góc nhìn, quan điểm",
     "example": "Try to see the situation from a different perspective.",
     "level": "B2",
@@ -636,10 +636,10 @@
   {
     "type": "Vocabulary",
     "name": "Sustainable",
-    "img": "B2Vocab/sustainable.png",
+    "img": "assets/images/cards/vocab/b2/sustainable.png",
     "desc": "Able to continue over time without causing damage to the environment.",
     "pronounce": "/səˈsteɪnəbl/",
-    "audio": "B2Vocab/sustainable.mp3",
+    "audio": "assets/images/cards/vocab/b2/sustainable.mp3",
     "meaning": "Bền vững",
     "example": "We must use more sustainable sources of energy.",
     "level": "B2",
@@ -648,7 +648,7 @@
   },  {
     "type": "Dare",
     "name": "Make Expression (Excited)",
-    "img": "Dare/make.png",
+    "img": "assets/images/cards/dare/make.png",
     "desc": "Make a facial expression for the adjective “excited”.",
     "detail": "Use only your face to show “excited”. Whoever guesses correctly gets points.",
     "qr": "QRCode.svg",
@@ -657,7 +657,7 @@
   {
     "type": "Dare",
     "name": "Make Up a Word",
-    "img": "Dare/make 2.png",
+    "img": "assets/images/cards/dare/make 2.png",
     "desc": "Make up an English word that sounds real and explain its meaning.",
     "detail": "Invent a believable English-sounding word and define it in your own words. (Just kidding—have fun!)",
     "qr": "QRCode.svg",
@@ -666,7 +666,7 @@
   {
     "type": "Dare",
     "name": "Illustrate with a Gesture",
-    "img": "Dare/make 3.jpg",
+    "img": "assets/images/cards/dare/make 3.jpg",
     "desc": "Make a gesture to illustrate a vocabulary word.",
     "detail": "Act out any vocabulary word using gestures only. No speaking.",
     "qr": "QRCode.svg",
@@ -675,7 +675,7 @@
   {
     "type": "Dare",
     "name": "Pose the Animal",
-    "img": "Dare/pose.png",
+    "img": "assets/images/cards/dare/pose.png",
     "desc": "Pose your body to describe an animal — others guess what it is.",
     "detail": "Use body language to imitate an animal. First correct guess earns points.",
     "qr": "QRCode.svg",
@@ -684,7 +684,7 @@
   {
     "type": "Dare",
     "name": "Quick Read & Spell",
-    "img": "Dare/read.png",
+    "img": "assets/images/cards/dare/read.png",
     "desc": "Quickly read an English word and spell it — points are deducted for mistakes.",
     "detail": "Draw a word, read it aloud fast, then spell it. Each mistake = −1 point.",
     "qr": "QRCode.svg",
@@ -693,7 +693,7 @@
   {
     "type": "Dare",
     "name": "Antonym of “Designated”",
-    "img": "Dare/say 1.png",
+    "img": "assets/images/cards/dare/say 1.png",
     "desc": "Say an English word that is the opposite of the word “designated”.",
     "detail": "Give a correct antonym for “designated”.",
     "qr": "QRCode.svg",
@@ -702,7 +702,7 @@
   {
     "type": "Dare",
     "name": "Last Letter of Your Name (A)",
-    "img": "Dare/say 2.png",
+    "img": "assets/images/cards/dare/say 2.png",
     "desc": "Say an English word that starts with the last letter of your name.",
     "detail": "Think quickly and say any valid English word beginning with your name’s last letter.",
     "qr": "QRCode.svg",
@@ -711,7 +711,7 @@
   {
     "type": "Dare",
     "name": "Antonym of “Hot” (A)",
-    "img": "Dare/say 3.png",
+    "img": "assets/images/cards/dare/say 3.png",
     "desc": "Say an English word that is the opposite of “hot”.",
     "detail": "Provide a correct antonym for “hot”.",
     "qr": "QRCode.svg",
@@ -720,7 +720,7 @@
   {
     "type": "Dare",
     "name": "Last Letter of Your Name (B)",
-    "img": "Dare/say 4.png",
+    "img": "assets/images/cards/dare/say 4.png",
     "desc": "Say an English word that starts with the last letter of your name.",
     "detail": "Same challenge, new card variant.",
     "qr": "QRCode.svg",
@@ -729,7 +729,7 @@
   {
     "type": "Dare",
     "name": "Antonym of “Hot” (B)",
-    "img": "Dare/say 5.png",
+    "img": "assets/images/cards/dare/say 5.png",
     "desc": "Say an English word that is the opposite of “hot”.",
     "detail": "Same challenge, new card variant.",
     "qr": "QRCode.svg",
@@ -738,7 +738,7 @@
   {
     "type": "Dare",
     "name": "Sentence with a Color",
-    "img": "Dare/say 6.png",
+    "img": "assets/images/cards/dare/say 6.png",
     "desc": "Say an English sentence that contains any color.",
     "detail": "Create any natural sentence that includes a color word (red, blue, green, etc.).",
     "qr": "QRCode.svg",
@@ -747,11 +747,12 @@
   {
     "type": "Dare",
     "name": "Alphabet Singing",
-    "img": "Dare/sing.png",
+    "img": "assets/images/cards/dare/sing.png",
     "desc": "Sing any English sentence starting with a letter from A–Z.",
     "detail": "Pick a random letter and sing a sentence beginning with that letter.",
     "qr": "QRCode.svg",
     "slug": "Dare:Alphabet_Singing"
   }
 ]
+
 
