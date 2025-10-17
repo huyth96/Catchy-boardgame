@@ -54,15 +54,22 @@
     <button class="filter-btn" data-type="Idioms">Idioms</button>
     <button class="filter-btn" data-type="Dare">Dare</button>
     <button class="view-toggle" id="view-toggle" aria-label="Switch to grid view" title="Switch to grid view" data-view="presentation">
-      <svg class="icon-grid" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect x="3" y="3" width="7" height="7" rx="1.6"></rect>
-        <rect x="14" y="3" width="7" height="7" rx="1.6"></rect>
-        <rect x="3" y="14" width="7" height="7" rx="1.6"></rect>
-        <rect x="14" y="14" width="7" height="7" rx="1.6"></rect>
-      </svg>
-      <svg class="icon-presentation" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M4 5.5C4 4.12 5.12 3 6.5 3h11A2.5 2.5 0 0 1 20 5.5v6A2.5 2.5 0 0 1 17.5 14H14l2.67 4.45a1 1 0 0 1-1.7 1.06L12 15.54l-2.97 3.97a1 1 0 1 1-1.6-1.15L10 14H6.5A2.5 2.5 0 0 1 4 11.5v-6Z"></path>
-      </svg>
+      <span class="toggle-track">
+        <span class="toggle-icon toggle-icon-presentation" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 5.5C4 4.12 5.12 3 6.5 3h11A2.5 2.5 0 0 1 20 5.5v6A2.5 2.5 0 0 1 17.5 14H14l2.67 4.45a1 1 0 0 1-1.7 1.06L12 15.54l-2.97 3.97a1 1 0 1 1-1.6-1.15L10 14H6.5A2.5 2.5 0 0 1 4 11.5v-6Z"></path>
+          </svg>
+        </span>
+        <span class="toggle-icon toggle-icon-grid" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="7" height="7" rx="1.6"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1.6"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1.6"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1.6"></rect>
+          </svg>
+        </span>
+        <span class="toggle-thumb" aria-hidden="true"></span>
+      </span>
     </button>
   </div>
 </section>
