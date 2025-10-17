@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -174,36 +174,6 @@
     .thumbs img{width:100%;height:72px;object-fit:cover;display:block}
     .inside-list{margin:0;padding:0;display:flex;flex-direction:column;gap:10px;text-align:left}
     .inside-list p{margin:0;line-height:1.6}
-
-    .story-wrapper{display:grid;gap:var(--s-3)}
-    .story-quote{background:linear-gradient(135deg,rgba(60,46,140,.85),rgba(34,24,92,.82));border:1px solid rgba(158,140,255,.4);border-radius:24px;padding:20px;box-shadow:0 22px 48px rgba(4,0,26,.45);position:relative;overflow:hidden}
-    .story-quote::after{content:"";position:absolute;inset:-60% -20%;background:linear-gradient(120deg,transparent 42%,rgba(255,255,255,.35) 55%,transparent 70%);transform:translateX(-70%) rotate(10deg);opacity:.5;pointer-events:none;animation:storySweep 8s ease-in-out infinite}
-    @keyframes storySweep{
-      0%,100%{transform:translateX(-70%) rotate(10deg)}
-      50%{transform:translateX(70%) rotate(10deg)}
-    }
-    .story-quote blockquote{margin:0;font-size:1.1rem;font-weight:700;color:#f4f1ff;line-height:1.6}
-    .story-quote-line{display:inline-block;margin-top:12px;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(254,252,255,.72)}
-    .story-content{display:grid;gap:var(--s-2)}
-    .story-stats{display:grid;grid-template-columns:1fr;gap:16px}
-    .story-stat{background:rgba(30,20,74,.6);border:1px solid rgba(158,140,255,.35);border-radius:18px;padding:18px;text-align:center;box-shadow:0 16px 36px rgba(4,0,26,.4)}
-    .story-stat strong{display:block;font-size:1.6rem;color:#ffd973}
-    .story-stat p{margin:8px 0 0;font-size:.85rem;color:rgba(232,229,255,.85);line-height:1.4}
-    .story-text{margin:0;font-size:.98rem;line-height:1.7;color:rgba(240,238,255,.85)}
-    @media (min-width:700px){
-      .story-stats{grid-template-columns:repeat(3,minmax(140px,1fr))}
-    }
-    @media (min-width:900px){
-      .story-wrapper{grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);align-items:center}
-    }
-
-    .contact-listing{display:grid;gap:16px}
-    .contact-entry{display:flex;align-items:center;gap:14px}
-    .contact-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(94,74,210,.9),rgba(54,42,140,.85));border:1px solid rgba(196,182,255,.45);box-shadow:0 16px 36px rgba(4,0,26,.45);color:#ffd973;flex-shrink:0}
-    .contact-icon svg{width:20px;height:20px}
-    .contact-entry b{display:block;color:#f4f1ff;font-size:.95rem}
-    .contact-entry a{color:rgba(204,198,255,.9);font-weight:600;text-decoration:none}
-    .contact-entry a:hover{text-decoration:underline}
     .inside ul{margin:.4rem 0 0 1rem}
     @media (max-width:900px){.inside{grid-template-columns:1fr}}
 
@@ -258,7 +228,7 @@
     .drawer-overlay.open{opacity:1;pointer-events:auto}
     .drawer .panel{position:fixed;left:96px;top:50%;transform:translate(-120%,-50%);opacity:0;transition:transform .32s cubic-bezier(.47,1.64,.41,.8),opacity .22s ease;border-radius:24px;padding:22px 20px;background:linear-gradient(155deg,rgba(32,22,74,.92),rgba(20,14,50,.88));backdrop-filter:blur(22px);border:1px solid rgba(124,108,220,.45);box-shadow:0 28px 70px rgba(4,0,26,.55);min-width:240px;z-index:1;display:flex;flex-direction:column;gap:16px;align-items:stretch}
     .drawer .panel.open{transform:translate(0,-50%);opacity:1}
-    .drawer nav{display:flex;flex-direction:column;gap:10px;width:100%;background:transparent}
+    .drawer nav{display:flex;flex-direction:column;gap:10px;width:100%}
     .drawer nav a{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;text-decoration:none;font-weight:700;color:#f2f0ff;background:linear-gradient(135deg,rgba(36,26,80,.82),rgba(18,14,52,.76));border:1px solid rgba(150,130,240,.4);box-shadow:0 16px 36px rgba(4,0,26,.38);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,width .22s;width:100%;box-sizing:border-box}
     .drawer nav a::after{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.45) 55%,transparent 68%);transform:translateX(-70%) rotate(8deg);transition:transform .7s ease;opacity:.45;pointer-events:none}
     .drawer nav a:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(4,0,26,.5);border-color:rgba(186,168,255,.65)}
@@ -458,7 +428,7 @@
             <blockquote>
               "Why do many learners remember words but forget how to use them?"
             </blockquote>
-            <span class="story-quote-line">&mdash; Survey prompt that sparked Catchy</span>
+            <span class="story-quote-line">— Survey prompt that sparked Catchy</span>
           </div>
           <div class="story-content">
             <div class="story-stats">
@@ -476,7 +446,7 @@
               </div>
             </div>
             <p class="story-text">
-              We interviewed 100+ students and discovered the same roadblocks. Catchy transforms study into play - every challenge, dare, and combo helps you speak first, remember later. When friends laugh together, vocabulary sticks.
+              We interviewed 100+ students and discovered the same roadblocks. Catchy transforms study into play-every challenge, dare, and combo helps you speak first, remember later. When friends laugh together, vocabulary sticks.
             </p>
           </div>
         </div>
@@ -579,58 +549,12 @@
     <section class="section glow-section glow-contact" data-extend-head data-aos="fade-up" id="contact" style="margin-top:var(--s-4)">
       <div class="section-head"><h3>Stay in Touch</h3></div>
       <div class="section-body">
-        <div class="contact-listing">
-          <div class="contact-entry">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="5" width="18" height="14" rx="2" ry="2"></rect>
-                <polyline points="3,7 12,13 21,7"></polyline>
-              </svg>
-            </span>
-            <div>
-              <b>Email</b>
-              <a href="mailto:catchyboardgame@gmail.com">catchyboardgame@gmail.com</a>
-            </div>
-          </div>
-          <div class="contact-entry">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15 3h3v4.5c-.7.3-1.4.5-2.1.6a4 4 0 0 1-4.4 4.3v4.5a4.5 4.5 0 0 1-4-2.2v-3.1h2.2V8.1C11.9 7.6 13.3 6.6 14 5h-2.4V3h3.4Z"/>
-              </svg>
-            </span>
-            <div>
-              <b>TikTok</b>
-              <a href="https://www.tiktok.com/@CatchyGameVN" target="_blank" rel="noopener noreferrer">@CatchyGameVN</a>
-            </div>
-          </div>
-          <div class="contact-entry">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 4h10l1.8 14H5.2L7 4Z"></path>
-                <path d="M10 7V5a2 2 0 1 1 4 0v2"></path>
-                <path d="M9 11a3 3 0 0 0 6 0"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Shopee</b>
-              <span>Catchy Official Store</span>
-            </div>
-          </div>
-          <div class="contact-entry">
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M3 12h18"></path>
-                <path d="M12 3c2.5 3 2.5 15 0 18"></path>
-                <path d="M12 3c-2.5 3-2.5 15 0 18"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Website</b>
-              <a href="https://catchy-boardgame.vercel.app/" target="_blank" rel="noopener noreferrer">catchy-boardgame.vercel.app</a>
-            </div>
-          </div>
-        </div>
+        <p>
+          <b>Email:</b> <a href="mailto:catchyboardgame@gmail.com">catchyboardgame@gmail.com</a> &nbsp;|&nbsp;
+          <b>TikTok:</b> @CatchyGameVN &nbsp;|&nbsp;
+          <b>Shopee:</b> Catchy Official Store &nbsp;|&nbsp;
+          <b>Website:</b> <a href="https://catchy-boardgame.vercel.app/" target="_blank" rel="noopener noreferrer">catchy-boardgame.vercel.app</a>
+        </p>
       </div>
     </section>
   </main>
