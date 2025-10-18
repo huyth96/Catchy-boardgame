@@ -72,6 +72,10 @@
       display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-2);
     }
     .form-field{display:flex;flex-direction:column;gap:.55rem;}
+    .honeypot-field{
+      position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;
+      clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;
+    }
     .form-field label{font-weight:800;color:#2b2468;display:flex;align-items:center;gap:.5rem;}
     .form-field label .optional{font-size:.85rem;font-weight:600;color:#8077c5;}
     .form-field input{
@@ -207,6 +211,10 @@
               <input id="quantity" name="quantity" type="number" min="1" max="99" value="1" required>
             </div>
           </div>
+          <div class="honeypot-field" aria-hidden="true">
+            <label for="orderNotes">Order notes</label>
+            <input id="orderNotes" name="orderNotes" type="text" tabindex="-1" autocomplete="off" data-honeypot>
+          </div>
           <p class="form-note">
             After we receive your order request, a Catchy team member will contact you to confirm delivery and payment.
             You can always adjust the quantity during that conversation.
@@ -226,6 +234,18 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    (function(){
+      const encodedConfig = 'eyJhcGlLZXkiOiJBSXphU3lEZG5ic1pfNkJDNzBZbUdSQXRvcnUxNnZQUl9NaUEtSUEiLCJhdXRoRG9tYWluIjoiY2F0Y2h5LWEyODY4LmZpcmViYXNlYXBwLmNvbSIsInByb2plY3RJZCI6ImNhdGNoeS1hMjg2OCIsInN0b3JhZ2VCdWNrZXQiOiJjYXRjaHktYTI4NjguZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiMTIxNTgzODU5NSIsImFwcElkIjoiMToxMjE1ODM4NTk1OndlYjpmOGM1NTk3YzYwYzUwZjQ1ZTlkZWI2IiwibWVhc3VyZW1lbnRJZCI6IkctRlRNWFFaS05MOSJ9';
+      try{
+        window.CATCHY_FIREBASE_CONFIG = window.CATCHY_FIREBASE_CONFIG || JSON.parse(atob(encodedConfig));
+      }catch(err){
+        console.error('Unable to decode Firebase config', err);
+      }
+    })();
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
     AOS.init({ duration: 900, once: true, offset: 80 });
 
@@ -295,8 +315,13 @@
 
     (function setupOrderForm(){
       const storageKey = 'catchyOrderRequests';
+      const lastSubmitKey = 'catchyOrderLastSubmitAt';
+      const rateLimitMs = 30000;
       const form = document.getElementById('orderForm');
+      if(!form) return;
       const alertBox = document.getElementById('formAlert');
+      const submitButton = form.querySelector('.order-submit');
+      const honeypotField = form.querySelector('[data-honeypot]');
 
       let orders = [];
 
@@ -336,9 +361,80 @@
         showAlert._timer = setTimeout(()=> alertBox.classList.remove('show'), 5000);
       };
 
+      const setSubmitting = isSubmitting => {
+        if(!submitButton) return;
+        if(isSubmitting){
+          if(!submitButton.dataset.originalText){
+            submitButton.dataset.originalText = submitButton.textContent.trim();
+          }
+          submitButton.textContent = 'Sending...';
+          submitButton.disabled = true;
+        }else{
+          submitButton.textContent = submitButton.dataset.originalText || submitButton.textContent;
+          submitButton.disabled = false;
+        }
+      };
+
+      const readLastSubmit = () => {
+        try{
+          return Number(localStorage.getItem(lastSubmitKey) || 0);
+        }catch(err){
+          console.warn('Unable to read rate-limit marker', err);
+          return 0;
+        }
+      };
+
+      const writeLastSubmit = value => {
+        try{
+          localStorage.setItem(lastSubmitKey, String(value));
+        }catch(err){
+          console.warn('Unable to write rate-limit marker', err);
+        }
+      };
+
+      const firebaseApp = (() => {
+        if(typeof firebase === 'undefined'){
+          console.warn('Firebase SDK is not loaded.');
+          return null;
+        }
+        const config = window.CATCHY_FIREBASE_CONFIG;
+        if(!config || typeof config !== 'object'){
+          console.warn('Firebase config is missing.');
+          return null;
+        }
+        const hasPlaceholder = Object.values(config).some(value => typeof value === 'string' && value.includes('YOUR_'));
+        if(hasPlaceholder){
+          console.warn('Firebase config still contains placeholder values.');
+          return null;
+        }
+        try{
+          return firebase.apps?.length ? firebase.app() : firebase.initializeApp(config);
+        }catch(err){
+          console.error('Failed to initialise Firebase', err);
+          return null;
+        }
+      })();
+
+      const firestore = firebaseApp ? firebaseApp.firestore() : null;
+      const ordersCollection = firestore ? firestore.collection('orders') : null;
+
+      const appendLocalOrder = order => {
+        orders = [order, ...orders];
+        saveLocalOrders();
+      };
+
+      const sendOrderToFirebase = async order => {
+        if(!ordersCollection){
+          const error = new Error('Firestore is not available');
+          error.code = 'firebase-unavailable';
+          throw error;
+        }
+        await ordersCollection.add(order);
+      };
+
       orders = loadLocalOrders();
 
-      form?.addEventListener('submit', event => {
+      form.addEventListener('submit', async event => {
         event.preventDefault();
         const formData = new FormData(form);
         const fullName = (formData.get('fullName') || '').toString().trim();
@@ -346,11 +442,22 @@
         const email = (formData.get('email') || '').toString().trim();
         const quantity = Number(formData.get('quantity') || 0);
 
+        if(honeypotField && honeypotField.value.trim()){
+          showAlert('Unable to process this request.', 'error');
+          return;
+        }
+
         if(!fullName || !phone || !Number.isFinite(quantity) || quantity < 1){
           showAlert('Please provide your full name, phone number, and a valid quantity.', 'error');
           return;
         }
 
+        const now = Date.now();
+        const lastSubmitAt = readLastSubmit();
+        if(now - lastSubmitAt < rateLimitMs){
+          showAlert('Please wait a moment before sending another request.', 'error');
+          return;
+        }
         const order = {
           id: generateId(),
           fullName,
@@ -360,12 +467,35 @@
           createdAt: new Date().toISOString()
         };
 
-        orders = [order, ...orders];
-        saveLocalOrders();
+        setSubmitting(true);
 
-        form.reset();
-        form.querySelector('[name=\"quantity\"]').value = '1';
-        showAlert('Thanks! Your order request has been saved. We will contact you soon.');
+        try{
+          writeLastSubmit(now);
+          await sendOrderToFirebase(order);
+          appendLocalOrder({
+            ...order,
+            syncedAt: new Date().toISOString()
+          });
+          form.reset();
+          const quantityField = form.querySelector('[name="quantity"]');
+          if(quantityField){
+            quantityField.value = '1';
+          }
+          showAlert('Thanks! Your order request has been sent successfully.');
+        }catch(err){
+          appendLocalOrder({
+            ...order,
+            syncError: true
+          });
+          console.error('Unable to send order to Firestore', err);
+          writeLastSubmit(now - rateLimitMs);
+          const message = err?.code === 'firebase-unavailable'
+            ? 'Order form is not connected to the database yet. Please contact the site admin.'
+            : 'We saved your request locally but could not reach the server. Please try again soon.';
+          showAlert(message, 'error');
+        }finally{
+          setSubmitting(false);
+        }
       });
     })();
   </script>
