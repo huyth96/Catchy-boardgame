@@ -286,7 +286,7 @@
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     (function(){
-      const encodedConfig = 'eyJhcGlLZXkiOiJBSXphU3lEZG5ic1pfNkJDNzBZbUdSQXRvcnUxNnZQUl9NaUEtSUEiLCJhdXRoRG9tYWluIjoiY2F0Y2h5LWEyODY4LmZpcmViYXNlYXBwLmNvbSIsInByb2plY3RJZCI6ImNhdGNoeS1hMjg2OCIsInN0b3JhZ2VCdWNrZXQiOiJjYXRjaHktYTI4NjguZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiMTIxNTgzODU5NSIsImFwcElkIjoiMToxMjE1ODM4NTk1OndlYjpmOGM1NTk3YzYwYzUwZjQ1ZTlkZWI2IiwibWVhc3VyZW1lbnRJZCI6IkctRlRNWFFaS05MOSJ9';
+      const encodedConfig = 'eyJhcGlLZXkiOiAiQUl6YVN5Qy1COG9tM2pwSlpvVzNULWRrNFY2XzZQclgybVIzWlRRIiwgImF1dGhEb21haW4iOiAiY2F0Y2h5LWQ0NWQ5LmZpcmViYXNlYXBwLmNvbSIsICJwcm9qZWN0SWQiOiAiY2F0Y2h5LWQ0NWQ5IiwgInN0b3JhZ2VCdWNrZXQiOiAiY2F0Y2h5LWQ0NWQ5LmZpcmViYXNlc3RvcmFnZS5hcHAiLCAibWVzc2FnaW5nU2VuZGVySWQiOiAiMTA1ODM5NTUwODY1NSIsICJhcHBJZCI6ICIxOjEwNTgzOTU1MDg2NTU6d2ViOjY0NTQ0NjJlYjM3NWNjMGRjYjY5NWEiLCAibWVhc3VyZW1lbnRJZCI6ICJHLTFZNzZOWkMwRzgifQ==';
       try{
         window.CATCHY_FIREBASE_CONFIG = window.CATCHY_FIREBASE_CONFIG || JSON.parse(atob(encodedConfig));
       }catch(err){
@@ -296,6 +296,14 @@
   </script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    window.CATCHY_EMAILJS_CONFIG = {
+      publicKey: 'n2AwYjVhvFdPKNi2w',
+      serviceId: 'service_mro3kzr',
+      templateId: 'template_mov4q4r'
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     AOS.init({ duration: 900, once: true, offset: 80 });
 
@@ -372,6 +380,17 @@
       const alertBox = document.getElementById('formAlert');
       const submitButton = form.querySelector('.order-submit');
       const honeypotField = form.querySelector('[data-honeypot]');
+      const fullNameField = form.querySelector('[name="fullName"]');
+
+      const defaultTitle = document.title;
+      const setDocumentTitle = name => {
+        const trimmed = (name || '').trim();
+        document.title = trimmed ? `Catchy – Đơn hàng của ${trimmed}` : defaultTitle;
+      };
+
+      if(fullNameField){
+        fullNameField.addEventListener('input', event => setDocumentTitle(event.target.value));
+      }
 
       let orders = [];
 
@@ -475,11 +494,95 @@
 
       const sendOrderToFirebase = async order => {
         if(!ordersCollection){
-          const error = new Error('Firestore is not available');
-          error.code = 'firebase-unavailable';
-          throw error;
+          console.warn('Firestore is not configured; skipping remote save.');
+          return;
         }
         await ordersCollection.add(order);
+      };
+
+      const emailjsConfig = (() => {
+        const config = window.CATCHY_EMAILJS_CONFIG;
+        if(config && typeof config === 'object'){
+          return config;
+        }
+        const dataset = form.dataset || {};
+        return {
+          publicKey: dataset.emailjsPublicKey,
+          serviceId: dataset.emailjsServiceId,
+          templateId: dataset.emailjsTemplateId
+        };
+      })();
+
+      let emailjsInitialised = false;
+
+      const ensureEmailJs = () => {
+        if(typeof emailjs === 'undefined'){
+          return false;
+        }
+        if(emailjsInitialised){
+          return true;
+        }
+        if(!emailjsConfig?.publicKey){
+          console.warn('EmailJS public key is missing.');
+          return false;
+        }
+        try{
+          emailjs.init({ publicKey: emailjsConfig.publicKey });
+          emailjsInitialised = true;
+          return true;
+        }catch(err){
+          console.warn('Unable to initialise EmailJS', err);
+          return false;
+        }
+      };
+
+      const formatEmailTimestamp = value => {
+        if(!value){
+          return '';
+        }
+        try{
+          const date = new Date(value);
+          if(Number.isNaN(date.getTime())){
+            return String(value);
+          }
+          return date.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+        }catch(err){
+          console.warn('Unable to format email timestamp', err);
+          return String(value);
+        }
+      };
+
+      const sendEmailConfirmation = order => {
+        if(!order?.email){
+          return Promise.resolve();
+        }
+        if(!emailjsConfig?.serviceId || !emailjsConfig?.templateId){
+          console.warn('EmailJS service or template ID is missing.');
+          return Promise.resolve();
+        }
+        if(!ensureEmailJs()){
+          return Promise.resolve();
+        }
+        const customerEmail = order.email || '';
+        const title = `Catchy - Xác nhận đơn hàng ${order.id ? `#${order.id.slice(-6)}` : ''}`.trim();
+        const templateParams = {
+          fullName: order.fullName || '',
+          phone: order.phone || '',
+          email: customerEmail,
+          quantity: order.quantity != null ? String(order.quantity) : '',
+          createdAt: formatEmailTimestamp(order.createdAt),
+          orderId: order.id,
+          title,
+          to_email: customerEmail,
+          reply_to: customerEmail,
+          user_email: customerEmail
+        };
+        return emailjs.send(
+          emailjsConfig.serviceId,
+          emailjsConfig.templateId,
+          templateParams,
+          emailjsConfig.publicKey
+        );
       };
 
       orders = loadLocalOrders();
@@ -527,11 +630,15 @@
             syncedAt: new Date().toISOString()
           });
           form.reset();
+          setDocumentTitle('');
           const quantityField = form.querySelector('[name="quantity"]');
           if(quantityField){
             quantityField.value = '1';
           }
           showAlert('Thanks! Your order request has been sent successfully.');
+          sendEmailConfirmation(order).catch(err => {
+            console.warn('Unable to send confirmation email via EmailJS', err);
+          });
         }catch(err){
           appendLocalOrder({
             ...order,
