@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Catchy - Place Order</title>
+  <link rel="icon" type="image/png" href="assets/images/branding/fav.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css"/>
+  <style>
+    :root{
+      --order-panel-bg:linear-gradient(160deg,rgba(32,22,74,.9),rgba(20,14,50,.82));
+      --order-panel-border:rgba(124,108,220,.38);
+    }
+    .order-wrap{position:relative;color:#fdfbff;}
+    .order-aurora{
+      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;filter:blur(6px);
+      background:
+        radial-gradient(60% 40% at 16% 16%,rgba(108,71,255,.18),transparent 60%),
+        radial-gradient(45% 35% at 84% 18%,rgba(255,199,0,.16),transparent 60%),
+        radial-gradient(55% 40% at 72% 78%,rgba(143,92,255,.2),transparent 60%);
+      mix-blend-mode:screen;
+    }
+    .order-container{
+      position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:var(--s-5) var(--s-3);
+      display:flex;flex-direction:column;gap:var(--s-4);
+    }
+    .order-hero{
+      display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s-3);align-items:center;
+    }
+    .order-hero h1{
+      font-family:'Orbitron',system-ui,sans-serif;
+      font-size:clamp(2.4rem,2.6vw + 1.6rem,3.4rem);
+      line-height:1.15;margin:0;color:#fff;text-shadow:0 16px 40px rgba(6,0,38,.45);
+    }
+    .order-hero p{color:rgba(244,242,255,.86);line-height:1.7;margin:1rem 0 0;font-size:var(--fs-400);}
+    .order-hero .order-badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:var(--s-2);}
+    .order-hero .badge{
+      display:inline-flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border-radius:999px;
+      background:linear-gradient(180deg,#ffffffdd,#ffffffc8);border:1px solid #efeaff;color:#1e0a47;font-weight:800;
+    }
+    .order-hero .illustration{justify-self:end;position:relative;}
+    .order-hero .illustration::after{
+      content:"";position:absolute;inset:auto 18% -10% 18%;height:36px;border-radius:50%;
+      background:radial-gradient(circle,rgba(0,0,0,.35),transparent 70%);filter:blur(18px);opacity:.6;
+    }
+    .order-hero img{
+      width:min(420px,36vw);max-width:100%;border-radius:24px;
+      filter:drop-shadow(0 16px 44px rgba(136,59,255,.32));animation:orderFloat 6.4s ease-in-out infinite;
+    }
+    @keyframes orderFloat{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-16px)}
+    }
+    .section{position:relative;background:#fff;border:1px solid #efeaff;border-radius:22px;box-shadow:0 14px 40px rgba(108,71,255,.12);overflow:hidden;}
+    .glow-section{
+      background:var(--order-panel-bg);border-color:var(--order-panel-border);
+      box-shadow:0 32px 70px rgba(10,5,45,.42),inset 0 0 0 1px rgba(255,255,255,.08);
+      backdrop-filter:blur(28px);color:rgba(246,243,255,.9);
+    }
+    .glow-section p{color:rgba(242,239,255,.85);}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:18px 22px;background:linear-gradient(90deg,rgba(247,245,255,.2),rgba(255,255,255,.2));}
+    .section-head h3{margin:0;font-size:1.28rem;font-weight:900;color:#1e0a47;}
+    .section-head small{color:#5b5599;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+    .section-body{padding:26px;}
+    .order-form-section .section-body{
+      display:grid;gap:var(--s-3);background:linear-gradient(160deg,#ffffff,rgba(244,240,255,.95));
+    }
+    .order-form{display:grid;gap:var(--s-3);}
+    .form-grid{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-2);
+    }
+    .form-field{display:flex;flex-direction:column;gap:.55rem;}
+    .form-field label{font-weight:800;color:#2b2468;display:flex;align-items:center;gap:.5rem;}
+    .form-field label .optional{font-size:.85rem;font-weight:600;color:#8077c5;}
+    .form-field input{
+      border:1px solid #e6e1ff;border-radius:18px;padding:14px 16px;
+      font-size:1rem;background:linear-gradient(180deg,#fff,#f8f6ff);
+      box-shadow:0 10px 24px rgba(108,71,255,.08);color:#261a63;
+      transition:border-color .22s ease,box-shadow .22s ease;
+    }
+    .form-field input:focus{
+      outline:none;border-color:rgba(108,71,255,.85);
+      box-shadow:0 0 0 4px rgba(108,71,255,.18),0 14px 32px rgba(108,71,255,.18);
+    }
+    .form-field input::placeholder{color:#9a94c8;}
+    .form-note{margin:0;color:#6f69aa;font-size:.95rem;line-height:1.6;}
+    .form-actions{display:flex;flex-wrap:wrap;gap:var(--s-2);justify-content:flex-end;align-items:center;}
+    .order-submit{
+      border:none;border-radius:18px;padding:.95rem 1.8rem;font-weight:900;letter-spacing:.04em;font-size:1.02rem;
+      color:#fff;cursor:pointer;transition:transform .22s ease,box-shadow .22s ease;
+      background:linear-gradient(120deg,#6c47ff,#8f5cff);box-shadow:0 16px 38px rgba(108,71,255,.24);
+    }
+    .order-submit:hover{transform:translateY(-2px);box-shadow:0 20px 48px rgba(108,71,255,.28);}
+    .order-submit:active{transform:translateY(0);box-shadow:0 12px 28px rgba(108,71,255,.24);}
+    .form-alert{
+      display:none;border-radius:18px;padding:1rem 1.2rem;font-weight:600;
+      border:1px solid rgba(118,210,162,.45);background:linear-gradient(135deg,rgba(223,255,238,.92),rgba(206,255,229,.9));
+      color:#14663f;box-shadow:0 12px 28px rgba(30,160,110,.18);
+    }
+    .form-alert.error{
+      border-color:rgba(238,120,120,.6);background:linear-gradient(135deg,rgba(255,232,232,.95),rgba(255,214,214,.92));
+      color:#7f1f1f;box-shadow:0 12px 28px rgba(200,70,70,.18);
+    }
+    .form-alert.show{display:block;}
+    @media (max-width:980px){
+      .order-hero{grid-template-columns:1fr;justify-items:center;text-align:center;}
+      .order-hero .illustration{justify-self:center;}
+      .order-hero h1{font-size:clamp(2.2rem,4.2vw,3rem);}
+      .form-actions{justify-content:flex-start;}
+    }
+    @media (max-width:680px){
+      .form-grid{grid-template-columns:1fr;}
+      .section-head{flex-direction:column;align-items:flex-start;}
+    }
+  </style>
+</head>
+<body class="about-wrap order-wrap">
+  <canvas id="stars"></canvas><canvas id="stars2"></canvas><canvas id="stars3"></canvas>
+  <div class="scanline"></div>
+  <div class="order-aurora" aria-hidden="true"></div>
+
+  <nav>
+    <div class="nav-left">
+      <div class="logo">
+        <a href="Homepage.html" aria-label="Catchy home">
+          <img src="assets/images/branding/logo.png" alt="Catchy logo">
+        </a>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-close" aria-label="Close menu"><span class="x"></span></button>
+        <a href="Homepage.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="order.html" aria-current="page">Order</a>
+        <a href="index.html">Cards</a>
+        <a href="assets/docs/How_to_play_catchy.pdf" target="_blank" rel="noopener noreferrer">How to Play</a>
+        <a href="assets/docs/How_to_play_catchy.pdf" download>Downloads</a>
+      </div>
+    </div>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="order-container">
+    <section class="section glow-section order-hero" data-aos="fade-up">
+      <div>
+        <p class="eyebrow" style="font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.78);margin:0;">Catchy order</p>
+        <h1>Bring Catchy to your classroom or family night</h1>
+        <p>
+          Fill out the quick request form and our team will confirm delivery and payment details within 24 hours.
+          Catchy ships nationwide with dedicated support for schools, centers, and home players.
+        </p>
+        <div class="order-badges">
+          <span class="badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m20 6-8 6-8-6"></path>
+              <path d="M4 6v12h16V6"></path>
+            </svg>
+            Nationwide delivery
+          </span>
+          <span class="badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"></path>
+              <path d="M12 5v14"></path>
+            </svg>
+            150-card core set
+          </span>
+          <span class="badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="12" r="1"></circle>
+              <circle cx="15" cy="12" r="1"></circle>
+              <path d="M9 12c0 2 1.5 3 3 3s3-1 3-3"></path>
+              <path d="M8 7c1.3-1 2.7-1 4 0 1.3-1 2.7-1 4 0"></path>
+            </svg>
+            Dedicated support
+          </span>
+        </div>
+      </div>
+      <div class="illustration" aria-hidden="true">
+        <img src="assets/images/hero/product.png" alt="Catchy card illustration">
+      </div>
+    </section>
+
+    <section class="section order-form-section" data-aos="fade-up">
+      <div class="section-head">
+        <h3>Order request</h3>
+        <small>We keep your contact information private</small>
+      </div>
+      <div class="section-body">
+        <form id="orderForm" class="order-form" novalidate>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="fullName">Full name *</label>
+              <input id="fullName" name="fullName" type="text" required autocomplete="name" placeholder="Alex Nguyen">
+            </div>
+            <div class="form-field">
+              <label for="email">Email <span class="optional">(optional)</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="form-field">
+              <label for="phone">Phone number *</label>
+              <input id="phone" name="phone" type="tel" required inputmode="tel" autocomplete="tel-national" placeholder="09xx xxx xxx">
+            </div>
+            <div class="form-field">
+              <label for="quantity">Number of Catchy sets *</label>
+              <input id="quantity" name="quantity" type="number" min="1" max="99" value="1" required>
+            </div>
+          </div>
+          <p class="form-note">
+            After we receive your order request, a Catchy team member will contact you to confirm delivery and payment.
+            You can always adjust the quantity during that conversation.
+          </p>
+          <div class="form-alert" id="formAlert" role="status" aria-live="polite"></div>
+          <div class="form-actions">
+            <button type="submit" class="order-submit">Send order request</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 English Boardgame | Contact:
+    <a href="mailto:catchyboardgame@gmail.com" style="color:#ffd973;text-decoration:none">catchyboardgame@gmail.com</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 900, once: true, offset: 80 });
+
+    function starfield(canvasId, density=0.00012, speed=0.02, size=2){
+      const canvas = document.getElementById(canvasId);
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      const init = ()=>{
+        stars = [];
+        const count = Math.floor(canvas.width * canvas.height * density);
+        for(let i=0;i<count;i++){
+          stars.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            z: Math.random()*1,
+            r: Math.random()*size + .2,
+            o: Math.random()*.8 + .2
+          });
+        }
+      };
+      const resize = ()=>{
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        init();
+      };
+      const tick = ()=>{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const star of stars){
+          star.x += speed*(star.z + .2);
+          if(star.x > canvas.width + 10){
+            star.x = -10;
+            star.y = Math.random()*canvas.height;
+          }
+          ctx.globalAlpha = star.o;
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI*2);
+          ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      };
+      addEventListener('resize', resize);
+      resize();
+      tick();
+    }
+    starfield('stars', 0.00010, 0.05, 1.3);
+    starfield('stars2',0.00006, 0.025,1.8);
+    starfield('stars3',0.00003, 0.010,2.2);
+
+    (function setupNav(){
+      const navLinks = document.querySelector('.nav-links');
+      const hamburger = document.querySelector('.hamburger');
+      const closeBtn = document.querySelector('.nav-close');
+      if(!hamburger || !navLinks) return;
+      const setNavOpen = open => {
+        navLinks.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', String(open));
+        document.body.classList.toggle('menu-open', open);
+        if(open){ closeBtn?.focus(); }
+      };
+      hamburger.addEventListener('click', ()=> setNavOpen(!navLinks.classList.contains('open')));
+      closeBtn?.addEventListener('click', ()=> setNavOpen(false));
+      navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=> setNavOpen(false)));
+      document.addEventListener('keydown', e=>{ if(e.key === 'Escape') setNavOpen(false); });
+    })();
+
+    (function setupOrderForm(){
+      const storageKey = 'catchyOrderRequests';
+      const form = document.getElementById('orderForm');
+      const alertBox = document.getElementById('formAlert');
+
+      let orders = [];
+
+      const loadLocalOrders = () => {
+        try{
+          const raw = localStorage.getItem(storageKey);
+          if(!raw) return [];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        }catch(err){
+          console.warn('Unable to read localStorage', err);
+          return [];
+        }
+      };
+
+      const saveLocalOrders = () => {
+        try{
+          localStorage.setItem(storageKey, JSON.stringify(orders));
+        }catch(err){
+          console.warn('Unable to write localStorage', err);
+        }
+      };
+
+      const generateId = () => {
+        if(window.crypto?.randomUUID){
+          return crypto.randomUUID();
+        }
+        return `order-${Date.now()}-${Math.floor(Math.random()*1000)}`;
+      };
+
+      const showAlert = (message, type='success') => {
+        if(!alertBox) return;
+        alertBox.textContent = message;
+        alertBox.classList.toggle('error', type !== 'success');
+        alertBox.classList.add('show');
+        clearTimeout(showAlert._timer);
+        showAlert._timer = setTimeout(()=> alertBox.classList.remove('show'), 5000);
+      };
+
+      orders = loadLocalOrders();
+
+      form?.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const fullName = (formData.get('fullName') || '').toString().trim();
+        const phone = (formData.get('phone') || '').toString().trim();
+        const email = (formData.get('email') || '').toString().trim();
+        const quantity = Number(formData.get('quantity') || 0);
+
+        if(!fullName || !phone || !Number.isFinite(quantity) || quantity < 1){
+          showAlert('Please provide your full name, phone number, and a valid quantity.', 'error');
+          return;
+        }
+
+        const order = {
+          id: generateId(),
+          fullName,
+          phone,
+          email: email || null,
+          quantity,
+          createdAt: new Date().toISOString()
+        };
+
+        orders = [order, ...orders];
+        saveLocalOrders();
+
+        form.reset();
+        form.querySelector('[name=\"quantity\"]').value = '1';
+        showAlert('Thanks! Your order request has been saved. We will contact you soon.');
+      });
+    })();
+  </script>
+</body>
+</html>

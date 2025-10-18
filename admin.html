@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Catchy - Admin</title>
+  <link rel="icon" type="image/png" href="assets/images/branding/fav.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css"/>
+  <style>
+    :root{
+      --admin-panel-bg:linear-gradient(160deg,rgba(32,22,74,.9),rgba(20,14,50,.82));
+      --admin-panel-border:rgba(124,108,220,.38);
+    }
+    .admin-wrap{position:relative;color:#fdfbff;}
+    .admin-aurora{
+      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;filter:blur(6px);
+      background:
+        radial-gradient(60% 40% at 12% 16%,rgba(108,71,255,.18),transparent 60%),
+        radial-gradient(45% 35% at 82% 18%,rgba(255,199,0,.16),transparent 60%),
+        radial-gradient(55% 42% at 72% 78%,rgba(143,92,255,.2),transparent 60%);
+      mix-blend-mode:screen;
+    }
+    .admin-container{
+      position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:var(--s-5) var(--s-3);
+      display:flex;flex-direction:column;gap:var(--s-4);
+    }
+    .section{position:relative;background:#fff;border:1px solid #efeaff;border-radius:22px;box-shadow:0 14px 40px rgba(108,71,255,.12);overflow:hidden;}
+    .glow-section{
+      background:var(--admin-panel-bg);border-color:var(--admin-panel-border);
+      box-shadow:0 32px 70px rgba(10,5,45,.42),inset 0 0 0 1px rgba(255,255,255,.08);
+      backdrop-filter:blur(26px);color:rgba(246,243,255,.92);
+    }
+    .glow-section p,
+    .glow-section span,
+    .glow-section small{color:rgba(242,239,255,.85);}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:18px 22px;background:linear-gradient(90deg,rgba(247,245,255,.2),rgba(255,255,255,.2));}
+    .section-head h3{margin:0;font-size:1.3rem;font-weight:900;color:#1e0a47;}
+    .section-body{padding:26px;background:linear-gradient(150deg,#ffffff,rgba(244,240,255,.95));}
+
+    .admin-login .section-body{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--s-4);
+      align-items:center;background:linear-gradient(140deg,rgba(255,255,255,.1),rgba(255,255,255,.02));
+    }
+    .login-info{
+      display:flex;flex-direction:column;gap:var(--s-2);
+      padding:var(--s-3);border-radius:22px;max-width:420px;
+      background:linear-gradient(160deg,rgba(255,255,255,.15),rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 18px 48px rgba(12,8,48,.22),inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .login-pill{
+      align-self:flex-start;display:inline-flex;align-items:center;gap:.45rem;
+      padding:.45rem .9rem;border-radius:999px;
+      background:linear-gradient(120deg,rgba(255,215,128,.28),rgba(255,239,196,.22));
+      color:#fff;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.75rem;
+      border:1px solid rgba(255,215,128,.4);
+    }
+    .login-info h4{
+      margin:0;font-size:clamp(1.45rem,.8vw + 1.2rem,1.9rem);font-weight:900;
+      color:#fff;text-shadow:0 18px 36px rgba(8,0,38,.45);
+    }
+    .login-info p{margin:0;color:rgba(244,242,255,.82);line-height:1.7;max-width:36ch;}
+    .summary-card code{
+      font-family:'Fira Code','SFMono-Regular',Menlo,monospace;
+      background:rgba(255,255,255,.12);padding:.1rem .4rem;border-radius:6px;color:#ffd973;
+      font-size:.85em;
+    }
+    .admin-form{display:grid;gap:var(--s-3);}
+    .admin-form.login-card{
+      padding:var(--s-3);border-radius:24px;
+      background:linear-gradient(180deg,rgba(27,18,68,.96),rgba(16,10,52,.9));
+      border:1px solid rgba(124,108,220,.5);
+      box-shadow:0 26px 60px rgba(6,2,26,.5);
+    }
+    .admin-form .form-title{
+      margin:0;font-size:1.35rem;font-weight:800;color:#fff;
+    }
+    .admin-form .form-subtitle{
+      margin:0;color:rgba(236,233,255,.7);font-size:.92rem;
+    }
+    .admin-form .field{display:flex;flex-direction:column;gap:.6rem;}
+    .admin-form label{
+      font-weight:800;color:rgba(236,233,255,.8);text-transform:uppercase;font-size:.78rem;letter-spacing:.08em;
+    }
+    .admin-form input{
+      border:1px solid rgba(124,108,220,.45);border-radius:18px;padding:14px 18px;font-size:1rem;
+      background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(245,243,255,.9));
+      box-shadow:0 16px 30px rgba(8,0,44,.18);
+      color:#1d1450;transition:border-color .22s ease,box-shadow .22s ease,transform .2s ease;
+    }
+    .admin-form input:focus{
+      outline:none;border-color:rgba(108,71,255,.9);
+      box-shadow:0 0 0 4px rgba(108,71,255,.18),0 16px 36px rgba(108,71,255,.22);
+      transform:translateY(-1px);
+    }
+    .admin-form input::placeholder{color:rgba(120,110,180,.6);}
+    .admin-actions{display:flex;align-items:center;gap:var(--s-2);}
+    .admin-form .admin-actions{margin-top:.6rem;}
+    .admin-form .form-hint{
+      margin:0;color:rgba(236,233,255,.6);font-size:.85rem;
+    }
+    .admin-btn{
+      border:none;border-radius:18px;padding:.9rem 1.8rem;font-weight:800;letter-spacing:.03em;font-size:1rem;
+      cursor:pointer;transition:transform .22s ease,box-shadow .22s ease;
+      background:linear-gradient(120deg,#6c47ff,#8f5cff);color:#fff;box-shadow:0 14px 36px rgba(108,71,255,.22);
+    }
+    .admin-btn:hover{transform:translateY(-2px);box-shadow:0 18px 46px rgba(108,71,255,.26);}
+    .admin-btn:active{transform:translateY(0);box-shadow:0 12px 28px rgba(108,71,255,.2);}
+    .admin-btn.secondary{
+      background:linear-gradient(120deg,#fef6d6,#ffe2a6);color:#5a4303;
+      box-shadow:0 12px 28px rgba(255,199,0,.2);
+    }
+    .admin-btn.secondary:hover{box-shadow:0 16px 36px rgba(255,199,0,.26);}
+
+    .admin-alert{
+      display:none;border-radius:16px;padding:1rem 1.2rem;font-weight:600;
+      border:1px solid rgba(238,120,120,.6);background:linear-gradient(135deg,rgba(255,232,232,.95),rgba(255,214,214,.92));
+      color:#7f1f1f;box-shadow:0 12px 28px rgba(200,70,70,.16);
+    }
+    .admin-alert.show{display:block;}
+
+    .admin-panel .section-body{
+      display:grid;gap:var(--s-3);background:linear-gradient(160deg,rgba(32,22,74,.94),rgba(20,14,52,.86));
+    }
+    .admin-summary{
+      display:grid;gap:var(--s-2);grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    }
+    .summary-card{
+      position:relative;padding:1.2rem;border-radius:18px;border:1px solid rgba(124,108,220,.38);
+      background:linear-gradient(160deg,rgba(44,32,92,.88),rgba(26,18,64,.82));
+      box-shadow:0 20px 42px rgba(6,2,26,.45);
+    }
+    .summary-card span{display:block;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;color:rgba(240,238,255,.7);}
+    .summary-card strong{display:block;font-size:1.6rem;margin-top:.4rem;color:#ffd973;}
+    .summary-card small{display:block;margin-top:.6rem;font-size:.8rem;color:rgba(240,238,255,.55);}
+
+    .orders-feed{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--s-2);
+    }
+    .order-card{
+      position:relative;border-radius:20px;padding:22px;border:1px solid rgba(124,108,220,.35);
+      background:linear-gradient(160deg,rgba(32,22,74,.88),rgba(20,14,52,.82));
+      color:#f4f1ff;box-shadow:0 20px 42px rgba(6,2,26,.45);display:flex;flex-direction:column;gap:.8rem;
+    }
+    .order-card::after{
+      content:"";position:absolute;inset:-48% -72%;
+      background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.28) 55%,transparent 70%);
+      transform:translateX(-72%) rotate(8deg);opacity:.5;pointer-events:none;
+    }
+    .order-card strong{font-size:1.08rem;color:#fff;}
+    .order-card span{display:block;font-size:.92rem;color:rgba(244,242,255,.78);}
+    .order-card small{display:block;font-size:.8rem;color:rgba(244,242,255,.6);letter-spacing:.04em;}
+    .order-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;}
+    .order-card__tags{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end;}
+    .order-tag{
+      display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .6rem;border-radius:999px;font-size:.72rem;
+      font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+      background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);
+    }
+    .order-tag--json{background:rgba(110,92,255,.24);border-color:rgba(160,150,255,.45);}
+    .order-tag--local{background:rgba(255,199,0,.22);border-color:rgba(255,199,0,.4);color:#3f2c02;}
+    .order-tag--sync{background:rgba(96,196,142,.24);border-color:rgba(120,210,162,.45);color:#0f4e31;}
+    .order-empty{
+      text-align:center;padding:2rem;border-radius:20px;border:1px dashed rgba(124,108,220,.4);
+      background:linear-gradient(160deg,rgba(255,255,255,.88),rgba(245,243,255,.9));
+      color:#463e8b;font-weight:600;
+    }
+    .orders-feed.loading .order-empty{opacity:.8;}
+
+    @media (max-width:900px){
+      .section-head{flex-direction:column;align-items:flex-start;}
+      .admin-actions{width:100%;justify-content:flex-start;}
+      .admin-login .section-body{grid-template-columns:1fr;}
+      .login-info{order:2;margin-top:var(--s-3);}
+      .admin-form.login-card{order:1;}
+    }
+    @media (max-width:680px){
+      .orders-feed{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body class="about-wrap admin-wrap">
+  <canvas id="stars"></canvas><canvas id="stars2"></canvas><canvas id="stars3"></canvas>
+  <div class="scanline"></div>
+  <div class="admin-aurora" aria-hidden="true"></div>
+
+  <nav>
+    <div class="nav-left">
+      <div class="logo">
+        <a href="Homepage.html" aria-label="Catchy home">
+          <img src="assets/images/branding/logo.png" alt="Catchy logo">
+        </a>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-close" aria-label="Close menu"><span class="x"></span></button>
+        <a href="Homepage.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="order.html">Order</a>
+        <a href="index.html">Cards</a>
+        <a href="assets/docs/How_to_play_catchy.pdf" target="_blank" rel="noopener noreferrer">How to Play</a>
+        <a href="assets/docs/How_to_play_catchy.pdf" download>Downloads</a>
+      </div>
+    </div>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="admin-container">
+    <section id="adminLogin" class="section admin-login glow-section" data-aos="fade-up">
+      <div class="section-head">
+        <h3>Admin access</h3>
+        <span style="font-weight:700;letter-spacing:.04em;color:rgba(242,239,255,.8);">Restricted area</span>
+      </div>
+      <div class="section-body">
+        <div class="login-info">
+          <span class="login-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+            Internal admin
+          </span>
+          <h4>Catchy admin portal</h4>
+          <p>This private workspace is reserved for Catchy teammates to review customer orders and coordinate follow-ups.</p>
+        </div>
+        <form id="adminLoginForm" class="admin-form login-card" novalidate>
+          <h4 class="form-title">Sign in</h4>
+          <p class="form-subtitle">Use the shared admin credentials below.</p>
+          <div class="field">
+            <label for="adminUser">Username</label>
+            <input id="adminUser" name="username" type="text" autocomplete="username" placeholder="admin" required>
+          </div>
+          <div class="field">
+            <label for="adminPass">Password</label>
+            <input id="adminPass" name="password" type="password" autocomplete="current-password" placeholder="******" required>
+          </div>
+          <div class="admin-actions">
+            <button type="submit" class="admin-btn">Enter dashboard</button>
+          </div>
+          <p class="form-hint">Need help? Contact the Catchy team lead.</p>
+          <div id="loginError" class="admin-alert" role="alert">Incorrect username or password.</div>
+        </form>
+      </div>
+    </section>
+
+    <section id="adminPanel" class="section admin-panel glow-section" data-aos="fade-up" hidden>
+      <div class="section-head">
+        <h3>Catchy orders</h3>
+        <div class="admin-actions">
+          <button id="refreshBtn" type="button" class="admin-btn">Refresh data</button>
+          <button id="logoutBtn" type="button" class="admin-btn secondary">Sign out</button>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="admin-summary">
+          <div class="summary-card">
+            <span>Total requests</span>
+            <strong id="summaryTotal">0</strong>
+            <small>Includes live JSON records and current browser submissions.</small>
+          </div>
+          <div class="summary-card">
+            <span>From JSON file</span>
+            <strong id="summaryFile">0</strong>
+            <small>Read from <code>data/orders.json</code> after login.</small>
+          </div>
+          <div class="summary-card">
+            <span>Local only</span>
+            <strong id="summaryLocal">0</strong>
+            <small>Stored in this browser and not yet pushed to the shared file.</small>
+          </div>
+        </div>
+        <div id="ordersFeed" class="orders-feed" aria-live="polite">
+          <div class="order-empty">Loading order data...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 English Boardgame | Contact:
+    <a href="mailto:catchyboardgame@gmail.com" style="color:#ffd973;text-decoration:none">catchyboardgame@gmail.com</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 900, once: true, offset: 80 });
+
+    function starfield(canvasId, density=0.00012, speed=0.02, size=2){
+      const canvas = document.getElementById(canvasId);
+      if(!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      const init = ()=>{
+        stars = [];
+        const count = Math.floor(canvas.width * canvas.height * density);
+        for(let i=0;i<count;i++){
+          stars.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            z: Math.random()*1,
+            r: Math.random()*size + .2,
+            o: Math.random()*.8 + .2
+          });
+        }
+      };
+      const resize = ()=>{
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        init();
+      };
+      const tick = ()=>{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const star of stars){
+          star.x += speed*(star.z + .2);
+          if(star.x > canvas.width + 10){
+            star.x = -10;
+            star.y = Math.random()*canvas.height;
+          }
+          ctx.globalAlpha = star.o;
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI*2);
+          ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      };
+      addEventListener('resize', resize);
+      resize();
+      tick();
+    }
+    starfield('stars', 0.00010, 0.05, 1.3);
+    starfield('stars2',0.00006, 0.025,1.8);
+    starfield('stars3',0.00003, 0.010,2.2);
+
+    (function setupNav(){
+      const navLinks = document.querySelector('.nav-links');
+      const hamburger = document.querySelector('.hamburger');
+      const closeBtn = document.querySelector('.nav-close');
+      if(!hamburger || !navLinks) return;
+      const setNavOpen = open => {
+        navLinks.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', String(open));
+        document.body.classList.toggle('menu-open', open);
+        if(open){ closeBtn?.focus(); }
+      };
+      hamburger.addEventListener('click', ()=> setNavOpen(!navLinks.classList.contains('open')));
+      closeBtn?.addEventListener('click', ()=> setNavOpen(false));
+      navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=> setNavOpen(false)));
+      document.addEventListener('keydown', e=>{ if(e.key === 'Escape') setNavOpen(false); });
+    })();
+
+    (function setupAdmin(){
+      const credentials = { username:'admin', password:'123456' };
+      const storageKey = 'catchyOrderRequests';
+      const authKey = 'catchyAdminAuthed';
+
+      const loginSection = document.getElementById('adminLogin');
+      const panelSection = document.getElementById('adminPanel');
+      const loginForm = document.getElementById('adminLoginForm');
+      const loginError = document.getElementById('loginError');
+      const ordersFeed = document.getElementById('ordersFeed');
+      const summaryTotal = document.getElementById('summaryTotal');
+      const summaryFile = document.getElementById('summaryFile');
+      const summaryLocal = document.getElementById('summaryLocal');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[ch]);
+      const formatDate = value => {
+        if(!value) return 'Unknown';
+        const date = new Date(value);
+        if(Number.isNaN(date.getTime())) return 'Unknown';
+        return date.toLocaleString('en-GB', { hour12: false });
+      };
+
+      const setAuthState = authed => {
+        if(authed){
+          loginSection?.setAttribute('hidden','');
+          panelSection?.removeAttribute('hidden');
+          sessionStorage.setItem(authKey, 'true');
+        }else{
+          panelSection?.setAttribute('hidden','');
+          loginSection?.removeAttribute('hidden');
+          sessionStorage.removeItem(authKey);
+          loginForm?.reset();
+          loginError?.classList.remove('show');
+        }
+      };
+
+      const readLocalOrders = () => {
+        try{
+          const raw = localStorage.getItem(storageKey);
+          if(!raw) return [];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        }catch(err){
+          console.warn('Unable to read localStorage', err);
+          return [];
+        }
+      };
+
+      const loadFileOrders = async () => {
+        try{
+          const res = await fetch('data/orders.json', { cache:'no-store' });
+          if(!res.ok) throw new Error(res.statusText || 'Request failed');
+          const data = await res.json();
+          return Array.isArray(data) ? data : [];
+        }catch(err){
+          console.warn('Unable to fetch data/orders.json', err);
+          throw err;
+        }
+      };
+
+      const renderOrders = (fileOrders, localOrders) => {
+        const map = new Map();
+        const addOrder = (order, source) => {
+          if(!order || typeof order !== 'object') return;
+          const clone = { ...order };
+          clone.source = source;
+          clone.createdAt = clone.createdAt || clone.created_at || clone.date || null;
+          const key = clone.id || `${clone.fullName || 'unknown'}-${clone.phone || 'no-phone'}-${clone.createdAt || 'na'}-${source}`;
+          if(map.has(key)){
+            const prev = map.get(key);
+            if(!prev.source.includes(source)){
+              prev.source = `${prev.source}+${source}`;
+            }
+          }else{
+            map.set(key, clone);
+          }
+        };
+        fileOrders.forEach(o => addOrder(o, 'json'));
+        localOrders.forEach(o => addOrder(o, 'local'));
+
+        const combined = Array.from(map.values()).sort((a,b)=>{
+          const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return timeB - timeA;
+        });
+
+        summaryTotal.textContent = combined.length;
+        summaryFile.textContent = fileOrders.length;
+        summaryLocal.textContent = combined.filter(order => order.source.includes('local') && !order.source.includes('json')).length;
+
+        ordersFeed.innerHTML = '';
+        ordersFeed.classList.remove('loading');
+
+        if(!combined.length){
+          const empty = document.createElement('div');
+          empty.className = 'order-empty';
+          empty.textContent = 'No orders found in data/orders.json.';
+          ordersFeed.appendChild(empty);
+          return;
+        }
+
+        const frag = document.createDocumentFragment();
+        combined.forEach(order => {
+          const tags = [];
+          const hasJson = order.source.includes('json');
+          const hasLocal = order.source.includes('local');
+          if(hasJson && hasLocal){
+            tags.push('<span class="order-tag order-tag--sync">Synced</span>');
+          }else{
+            if(hasJson) tags.push('<span class="order-tag order-tag--json">JSON</span>');
+            if(hasLocal) tags.push('<span class="order-tag order-tag--local">Local</span>');
+          }
+          const card = document.createElement('article');
+          card.className = 'order-card';
+          card.innerHTML = `
+            <div class="order-card__head">
+              <strong>${escapeHTML(order.fullName || 'Unknown name')}</strong>
+              <div class="order-card__tags">${tags.join('')}</div>
+            </div>
+            <span>Phone: ${escapeHTML(order.phone || 'Unknown')}</span>
+            <span>Email: ${order.email ? escapeHTML(order.email) : '-'}</span>
+            <span>Quantity: ${order.quantity != null ? escapeHTML(order.quantity) : '-'}</span>
+            <small>Submitted: ${formatDate(order.createdAt)}</small>
+          `;
+          frag.appendChild(card);
+        });
+        ordersFeed.appendChild(frag);
+      };
+
+      const loadOrders = async () => {
+        ordersFeed.classList.add('loading');
+        ordersFeed.innerHTML = '<div class="order-empty">Loading order data...</div>';
+        let fileOrders = [];
+        let fileError = false;
+        try{
+          fileOrders = await loadFileOrders();
+        }catch(err){
+          fileError = true;
+        }
+        const localOrders = readLocalOrders();
+        renderOrders(fileOrders, localOrders);
+        if(fileError){
+          const notice = document.createElement('div');
+          notice.className = 'order-empty';
+          notice.textContent = 'Unable to fetch data/orders.json. Please check the file.';
+          ordersFeed.prepend(notice);
+        }
+      };
+
+      loginForm?.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(loginForm);
+        const username = (formData.get('username') || '').toString().trim();
+        const password = (formData.get('password') || '').toString();
+        if(username === credentials.username && password === credentials.password){
+          loginError?.classList.remove('show');
+          setAuthState(true);
+          loadOrders();
+          document.getElementById('adminUser')?.blur();
+        }else{
+          loginError?.classList.add('show');
+        }
+      });
+
+      refreshBtn?.addEventListener('click', ()=> loadOrders());
+      logoutBtn?.addEventListener('click', ()=> setAuthState(false));
+
+      if(sessionStorage.getItem(authKey) === 'true'){
+        setAuthState(true);
+        loadOrders();
+      }
+    })();
+  </script>
+</body>
+</html>
