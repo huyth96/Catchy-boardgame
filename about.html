@@ -204,6 +204,20 @@
     .contact-entry b{display:block;color:#f4f1ff;font-size:.95rem}
     .contact-entry a{color:rgba(204,198,255,.9);font-weight:600;text-decoration:none}
     .contact-entry a:hover{text-decoration:underline}
+    @media (max-width:420px){
+      .contact-listing{gap:12px;justify-items:center;}
+      .contact-listing .contact-entry{
+        flex-direction:column;align-items:center;gap:.55rem;text-align:center;
+      }
+      .contact-listing .contact-entry > div{width:100%;}
+      .contact-listing .contact-icon{
+        width:42px;height:42px;border-radius:12px;
+        display:flex;align-items:center;justify-content:center;
+      }
+      .contact-listing .contact-entry b{font-size:.92rem;}
+      .contact-listing .contact-entry a,
+      .contact-listing .contact-entry span{display:block;word-break:break-word;}
+    }
     .inside ul{margin:.4rem 0 0 1rem}
     @media (max-width:900px){.inside{grid-template-columns:1fr}}
 
