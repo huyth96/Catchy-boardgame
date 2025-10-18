@@ -161,7 +161,19 @@
     }
     .order-tag--json{background:rgba(110,92,255,.24);border-color:rgba(160,150,255,.45);}
     .order-tag--local{background:rgba(255,199,0,.22);border-color:rgba(255,199,0,.4);color:#3f2c02;}
+    .order-tag--firestore{
+      color:#fff;background:linear-gradient(120deg,#ffb347,#ff5f6d,#ff9100);
+      background-size:200% 200%;border-color:rgba(255,125,32,.6);
+      box-shadow:0 0 10px rgba(255,120,34,.45),0 0 18px rgba(255,80,0,.35);
+      text-shadow:0 0 6px rgba(255,255,255,.45);
+      animation:flamePulse 1.6s ease-in-out infinite;
+    }
     .order-tag--sync{background:rgba(96,196,142,.24);border-color:rgba(120,210,162,.45);color:#0f4e31;}
+    @keyframes flamePulse{
+      0%{background-position:0% 50%;box-shadow:0 0 6px rgba(255,120,34,.35),0 0 14px rgba(255,80,0,.28);transform:translateY(0);}
+      45%{background-position:100% 50%;box-shadow:0 0 14px rgba(255,150,50,.6),0 0 26px rgba(255,90,0,.45);transform:translateY(-1px);}
+      100%{background-position:0% 50%;box-shadow:0 0 8px rgba(255,130,40,.45),0 0 18px rgba(255,70,0,.35);transform:translateY(0);}
+    }
     .order-empty{
       text-align:center;padding:2rem;border-radius:20px;border:1px dashed rgba(124,108,220,.4);
       background:linear-gradient(160deg,rgba(255,255,255,.88),rgba(245,243,255,.9));
@@ -257,17 +269,17 @@
           <div class="summary-card">
             <span>Total requests</span>
             <strong id="summaryTotal">0</strong>
-            <small>Includes live JSON records and current browser submissions.</small>
+            <small>Live count from your Firestore <code>orders</code> collection.</small>
           </div>
           <div class="summary-card">
-            <span>From JSON file</span>
-            <strong id="summaryFile">0</strong>
-            <small>Read from <code>data/orders.json</code> after login.</small>
+            <span>Latest submission</span>
+            <strong id="summaryLatest">-</strong>
+            <small>Based on the <code>createdAt</code> field (ISO string) in Firestore.</small>
           </div>
           <div class="summary-card">
-            <span>Local only</span>
-            <strong id="summaryLocal">0</strong>
-            <small>Stored in this browser and not yet pushed to the shared file.</small>
+            <span>Last refreshed</span>
+            <strong id="summaryRefreshed">-</strong>
+            <small>Timestamp of the most recent dashboard update.</small>
           </div>
         </div>
         <div id="ordersFeed" class="orders-feed" aria-live="polite">
@@ -283,6 +295,18 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    (function(){
+      const encodedConfig = 'eyJhcGlLZXkiOiJBSXphU3lEZG5ic1pfNkJDNzBZbUdSQXRvcnUxNnZQUl9NaUEtSUEiLCJhdXRoRG9tYWluIjoiY2F0Y2h5LWEyODY4LmZpcmViYXNlYXBwLmNvbSIsInByb2plY3RJZCI6ImNhdGNoeS1hMjg2OCIsInN0b3JhZ2VCdWNrZXQiOiJjYXRjaHktYTI4NjguZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiMTIxNTgzODU5NSIsImFwcElkIjoiMToxMjE1ODM4NTk1OndlYjpmOGM1NTk3YzYwYzUwZjQ1ZTlkZWI2IiwibWVhc3VyZW1lbnRJZCI6IkctRlRNWFFaS05MOSJ9';
+      try{
+        window.CATCHY_FIREBASE_CONFIG = window.CATCHY_FIREBASE_CONFIG || JSON.parse(atob(encodedConfig));
+      }catch(err){
+        console.error('Unable to decode Firebase config', err);
+      }
+    })();
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
     AOS.init({ duration: 900, once: true, offset: 80 });
 
@@ -352,7 +376,6 @@
 
     (function setupAdmin(){
       const credentials = { username:'admin', password:'123456' };
-      const storageKey = 'catchyOrderRequests';
       const authKey = 'catchyAdminAuthed';
 
       const loginSection = document.getElementById('adminLogin');
@@ -361,20 +384,37 @@
       const loginError = document.getElementById('loginError');
       const ordersFeed = document.getElementById('ordersFeed');
       const summaryTotal = document.getElementById('summaryTotal');
-      const summaryFile = document.getElementById('summaryFile');
-      const summaryLocal = document.getElementById('summaryLocal');
+      const summaryLatest = document.getElementById('summaryLatest');
+      const summaryRefreshed = document.getElementById('summaryRefreshed');
       const refreshBtn = document.getElementById('refreshBtn');
       const logoutBtn = document.getElementById('logoutBtn');
 
       const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
       })[ch]);
-      const formatDate = value => {
-        if(!value) return 'Unknown';
+      const toDate = value => {
+        if(!value) return null;
+        if(value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;
+        if(typeof value === 'object'){
+          if(typeof value.toDate === 'function'){
+            const d = value.toDate();
+            return Number.isNaN(d.getTime()) ? null : d;
+          }
+          if(typeof value.seconds === 'number'){
+            const millis = value.seconds * 1000 + Math.floor((value.nanoseconds || 0) / 1e6);
+            const d = new Date(millis);
+            return Number.isNaN(d.getTime()) ? null : d;
+          }
+        }
         const date = new Date(value);
-        if(Number.isNaN(date.getTime())) return 'Unknown';
+        return Number.isNaN(date.getTime()) ? null : date;
+      };
+      const formatDate = value => {
+        const date = toDate(value);
+        if(!date) return 'Unknown';
         return date.toLocaleString('en-GB', { hour12: false });
       };
+      const formatNow = () => new Date().toLocaleString('en-GB', { hour12: false });
 
       const setAuthState = authed => {
         if(authed){
@@ -390,88 +430,81 @@
         }
       };
 
-      const readLocalOrders = () => {
-        try{
-          const raw = localStorage.getItem(storageKey);
-          if(!raw) return [];
-          const parsed = JSON.parse(raw);
-          return Array.isArray(parsed) ? parsed : [];
-        }catch(err){
-          console.warn('Unable to read localStorage', err);
-          return [];
+      const firebaseApp = (() => {
+        if(typeof firebase === 'undefined'){
+          console.warn('Firebase SDK is not loaded.');
+          return null;
         }
-      };
-
-      const loadFileOrders = async () => {
-        try{
-          const res = await fetch('data/orders.json', { cache:'no-store' });
-          if(!res.ok) throw new Error(res.statusText || 'Request failed');
-          const data = await res.json();
-          return Array.isArray(data) ? data : [];
-        }catch(err){
-          console.warn('Unable to fetch data/orders.json', err);
-          throw err;
+        const config = window.CATCHY_FIREBASE_CONFIG;
+        if(!config || typeof config !== 'object'){
+          console.warn('Firebase config is missing.');
+          return null;
         }
-      };
+        try{
+          return firebase.apps?.length ? firebase.app() : firebase.initializeApp(config);
+        }catch(err){
+          console.error('Failed to initialise Firebase', err);
+          return null;
+        }
+      })();
 
-      const renderOrders = (fileOrders, localOrders) => {
-        const map = new Map();
-        const addOrder = (order, source) => {
-          if(!order || typeof order !== 'object') return;
-          const clone = { ...order };
-          clone.source = source;
-          clone.createdAt = clone.createdAt || clone.created_at || clone.date || null;
-          const key = clone.id || `${clone.fullName || 'unknown'}-${clone.phone || 'no-phone'}-${clone.createdAt || 'na'}-${source}`;
-          if(map.has(key)){
-            const prev = map.get(key);
-            if(!prev.source.includes(source)){
-              prev.source = `${prev.source}+${source}`;
-            }
-          }else{
-            map.set(key, clone);
+      const firestore = firebaseApp ? firebaseApp.firestore() : null;
+      const ordersCollection = firestore ? firestore.collection('orders') : null;
+
+      const loadFirestoreOrders = async () => {
+        if(!ordersCollection){
+          const error = new Error('Firestore is not available');
+          error.code = 'firebase-unavailable';
+          throw error;
+        }
+        const fetchSnapshot = async (applyOrder) => {
+          if(applyOrder){
+            return ordersCollection.orderBy('createdAt', 'desc').get();
           }
+          return ordersCollection.get();
         };
-        fileOrders.forEach(o => addOrder(o, 'json'));
-        localOrders.forEach(o => addOrder(o, 'local'));
+        try{
+          const snapshot = await fetchSnapshot(true);
+          return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        }catch(err){
+          console.warn('Ordering Firestore by createdAt failed, falling back to unordered fetch.', err);
+          const snapshot = await fetchSnapshot(false);
+          return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        }
+      };
 
-        const combined = Array.from(map.values()).sort((a,b)=>{
-          const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      const renderOrders = orders => {
+        const sorted = [...orders].sort((a,b)=>{
+          const dateA = toDate(a?.createdAt);
+          const dateB = toDate(b?.createdAt);
+          const timeA = dateA ? dateA.getTime() : 0;
+          const timeB = dateB ? dateB.getTime() : 0;
           return timeB - timeA;
         });
 
-        summaryTotal.textContent = combined.length;
-        summaryFile.textContent = fileOrders.length;
-        summaryLocal.textContent = combined.filter(order => order.source.includes('local') && !order.source.includes('json')).length;
+        summaryTotal.textContent = sorted.length;
+        summaryLatest.textContent = sorted.length ? formatDate(sorted[0].createdAt) : '-';
+        summaryRefreshed.textContent = formatNow();
 
         ordersFeed.innerHTML = '';
         ordersFeed.classList.remove('loading');
 
-        if(!combined.length){
+        if(!sorted.length){
           const empty = document.createElement('div');
           empty.className = 'order-empty';
-          empty.textContent = 'No orders found in data/orders.json.';
+          empty.textContent = 'No orders found in Firestore.';
           ordersFeed.appendChild(empty);
           return;
         }
 
         const frag = document.createDocumentFragment();
-        combined.forEach(order => {
-          const tags = [];
-          const hasJson = order.source.includes('json');
-          const hasLocal = order.source.includes('local');
-          if(hasJson && hasLocal){
-            tags.push('<span class="order-tag order-tag--sync">Synced</span>');
-          }else{
-            if(hasJson) tags.push('<span class="order-tag order-tag--json">JSON</span>');
-            if(hasLocal) tags.push('<span class="order-tag order-tag--local">Local</span>');
-          }
+        sorted.forEach(order => {
           const card = document.createElement('article');
           card.className = 'order-card';
           card.innerHTML = `
             <div class="order-card__head">
               <strong>${escapeHTML(order.fullName || 'Unknown name')}</strong>
-              <div class="order-card__tags">${tags.join('')}</div>
+              <div class="order-card__tags"><span class="order-tag order-tag--firestore">Firestore</span></div>
             </div>
             <span>Phone: ${escapeHTML(order.phone || 'Unknown')}</span>
             <span>Email: ${order.email ? escapeHTML(order.email) : '-'}</span>
@@ -486,20 +519,22 @@
       const loadOrders = async () => {
         ordersFeed.classList.add('loading');
         ordersFeed.innerHTML = '<div class="order-empty">Loading order data...</div>';
-        let fileOrders = [];
-        let fileError = false;
         try{
-          fileOrders = await loadFileOrders();
+          const firestoreOrders = await loadFirestoreOrders();
+          renderOrders(firestoreOrders);
         }catch(err){
-          fileError = true;
-        }
-        const localOrders = readLocalOrders();
-        renderOrders(fileOrders, localOrders);
-        if(fileError){
+          console.error('Unable to load orders from Firestore', err);
+          ordersFeed.classList.remove('loading');
+          ordersFeed.innerHTML = '';
           const notice = document.createElement('div');
           notice.className = 'order-empty';
-          notice.textContent = 'Unable to fetch data/orders.json. Please check the file.';
-          ordersFeed.prepend(notice);
+          notice.textContent = err?.code === 'firebase-unavailable'
+            ? 'Firestore connection is not configured. Please update your Firebase credentials.'
+            : 'Unable to load orders from Firestore. Please try again shortly.';
+          ordersFeed.appendChild(notice);
+          summaryTotal.textContent = '0';
+          summaryLatest.textContent = '-';
+          summaryRefreshed.textContent = formatNow();
         }
       };
 
