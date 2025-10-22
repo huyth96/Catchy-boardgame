@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Hamburger logic đồng bộ với Homepage
   const hamburgerBtn = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
-  const closeBtn = document.querySelector('.nav-close');
   const overlay = document.querySelector('.nav-overlay');
 
   if (hamburgerBtn && navLinks) {
@@ -103,13 +102,11 @@ document.addEventListener('DOMContentLoaded', function () {
       hamburgerBtn.setAttribute('aria-expanded', String(open));
       overlay?.classList.toggle('show', open);
       document.body.classList.toggle('menu-open', open);
-      if (open) closeBtn?.focus();
     };
 
     hamburgerBtn.addEventListener('click', () => {
       setMenuOpen(!navLinks.classList.contains('open'));
     });
-    closeBtn?.addEventListener('click', () => setMenuOpen(false));
     overlay?.addEventListener('click', () => setMenuOpen(false));
 
     navLinks.querySelectorAll('a').forEach(link => {

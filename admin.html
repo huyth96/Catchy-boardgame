@@ -207,7 +207,6 @@
         <span></span>
       </div>
       <div class="nav-links">
-        <button class="nav-close" aria-label="Close menu"><span class="x"></span></button>
         <a href="Homepage.html">Home</a>
         <a href="about.html">About</a>
         <a href="order.html">Order</a>
@@ -360,16 +359,13 @@
     (function setupNav(){
       const navLinks = document.querySelector('.nav-links');
       const hamburger = document.querySelector('.hamburger');
-      const closeBtn = document.querySelector('.nav-close');
       if(!hamburger || !navLinks) return;
       const setNavOpen = open => {
         navLinks.classList.toggle('open', open);
         hamburger.setAttribute('aria-expanded', String(open));
         document.body.classList.toggle('menu-open', open);
-        if(open){ closeBtn?.focus(); }
       };
       hamburger.addEventListener('click', ()=> setNavOpen(!navLinks.classList.contains('open')));
-      closeBtn?.addEventListener('click', ()=> setNavOpen(false));
       navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=> setNavOpen(false)));
       document.addEventListener('keydown', e=>{ if(e.key === 'Escape') setNavOpen(false); });
     })();

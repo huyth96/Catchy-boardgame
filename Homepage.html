@@ -29,8 +29,6 @@
         </a>
       </div>
       <div class="nav-links">
-          <button class="nav-close" aria-label="Close menu"><span class="x"></span></button>
-
         <a href="Homepage.html" aria-current="page">Home</a>
         <a href="about.html">About</a>
         <a href="order.html">Order</a>
@@ -208,7 +206,6 @@
   <a class="hero-btn" href="assets/docs/How_to_play_catchy.pdf" target="_blank" rel="noopener noreferrer">See Full Rules</a>
 </section>
 
-
   <!-- Download -->
   <section class="section" id="download" data-aos="fade-up">
     <div class="section-title decor" data-aos="fade-right">Downloads & Resources</div>
@@ -218,7 +215,6 @@
       <a class="hero-btn" href="assets/docs/How_to_play_catchy.pdf" download style="margin-top: 1.2rem;">Download now</a>
     </div>
   </section></div>
-
 
   <footer>
     © 2025 English Boardgame | Contact: <a href="mailto:catchyboardgame@gmail.com" style="color:#ffd973;text-decoration:none">catchyboardgame@gmail.com</a>
@@ -242,7 +238,6 @@ const hamburger = (()=> {
   const btn = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   const overlay  = document.querySelector('.nav-overlay'); // nếu có
-  const closeBtn = document.querySelector('.nav-close');
   if(!btn || !navLinks) return;
 
   const setOpen = (open) => {
@@ -250,11 +245,9 @@ const hamburger = (()=> {
     btn.setAttribute('aria-expanded', String(open));
     overlay?.classList.toggle('show', open);
     document.body.classList.toggle('menu-open', open);
-    if(open) closeBtn?.focus();
   };
 
   btn.addEventListener('click', () => setOpen(!navLinks.classList.contains('open')));
-  closeBtn?.addEventListener('click', () => setOpen(false));
   overlay?.addEventListener('click', () => setOpen(false));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> setOpen(false)));
   document.addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
@@ -293,8 +286,6 @@ const sectionObserver = new IntersectionObserver((entries) => {
   });
 },{ root: null, threshold: 0.15 });
 document.querySelectorAll('.section').forEach(sec => sectionObserver.observe(sec));
-
-
 
 /* ============ Cursor trail particles (neon) ============ */
 const cursorTrail = (() => {
@@ -368,5 +359,4 @@ window.addEventListener('load', ()=>{
   </script>
 </body>
 </html>
-
 
