@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Catchy Feedback Seeder</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:#0c0a1f;
+      color:#fdfbff;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+    }
+    .panel{
+      background:#140f2f;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:2rem;
+      width:min(640px,100%);
+      box-shadow:0 30px 80px rgba(8,4,24,.55);
+    }
+    h1{margin-top:0;font-size:1.75rem;}
+    button{
+      background:linear-gradient(120deg,#6c47ff,#8f5cff);
+      border:none;
+      border-radius:999px;
+      padding:.9rem 1.8rem;
+      font-size:1rem;
+      font-weight:700;
+      color:#fff;
+      cursor:pointer;
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+    button:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
+    button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(108,71,255,.4);}
+    pre{
+      background:#0b081d;
+      border-radius:12px;
+      padding:1rem;
+      max-height:240px;
+      overflow:auto;
+      font-size:.9rem;
+    }
+    ol{padding-left:1.2rem;}
+    li{margin:.35rem 0;}
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Seed feedback collection</h1>
+    <p>Use this helper once to push the provided testimonials into the <code>feedback</code> collection.</p>
+    <ol>
+      <li>Ensure you are connected to the internet and logged into Firebase if required.</li>
+      <li>Open this file directly in your browser (<code>tools/seed-feedback.html</code>).</li>
+      <li>Click the button below. Check the console for progress.</li>
+    </ol>
+    <button id="seedButton">Add feedback to Firebase</button>
+    <p id="status" aria-live="polite" style="margin-top:1rem;font-weight:600;"></p>
+    <pre id="log"></pre>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    (function initFirebase(){
+      const encodedConfig = 'eyJhcGlLZXkiOiJBSXphU3lDalQ0a2d0cjdzVFNsZ3lmQ3V2R3h0akdFX2JUMEhIWVEiLCJhdXRoRG9tYWluIjoiYm9hcmRnYW1lb3JkZXItODgwNmUuZmlyZWJhc2VhcHAuY29tIiwicHJvamVjdElkIjoiYm9hcmRnYW1lb3JkZXItODgwNmUiLCJzdG9yYWdlQnVja2V0IjoiYm9hcmRnYW1lb3JkZXItODgwNmUuZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiNDgwMDUxOTYyODEyIiwiYXBwSWQiOiIxOjQ4MDA1MTk2MjgxMjp3ZWI6YTBlODBkMDBhMGY5M2QzMWQ1NDFiOSIsIm1lYXN1cmVtZW50SWQiOiJHLU1YS1lOUjJIVjkifQ==';
+      try{
+        window.CATCHY_FIREBASE_CONFIG = JSON.parse(atob(encodedConfig));
+      }catch(err){
+        console.error('Unable to decode Firebase config', err);
+      }
+    })();
+
+    const seedData = [
+      {"name":"Lê Phước Lộc","email":"lephuocloc93@outlook.com","rating":5,"message":"Trò chơi rất hay, chơi cuốn. Nhóm mình ai cũng thích.","clientTimestamp":"2025-11-06T14:32:51.182Z","createdAt":"2025-11-06T14:32:51.182Z"},
+      {"name":"Lưu Chí Khánh","email":"luuthanh728@gmail.com","rating":5,"message":"Rất thú vị và hữu ích, nhớ từ vựng nhanh hơn.","clientTimestamp":"2025-11-10T09:45:12.904Z","createdAt":"2025-11-10T09:45:12.904Z"},
+      {"name":"Võ Trần Minh Trí","email":"trivo_official@gmail.com","rating":5,"message":"Dùng cho lớp học thêm, học sinh phản ứng cực tốt.","clientTimestamp":"2025-11-04T19:28:44.553Z","createdAt":"2025-11-04T19:28:44.553Z"},
+      {"name":"Nguyễn Ngọc Trân","email":"ntrannguyen@gmail.com","rating":4,"message":"Bộ thẻ chất lượng, nội dung rõ ràng và dễ học.","clientTimestamp":"2025-11-08T08:17:23.744Z","createdAt":"2025-11-08T08:17:23.744Z"},
+      {"name":"Trần Thị Bảo Trang","email":"trangthitrang98@gmail.com","rating":5,"message":"Chơi vui, dễ nhớ idioms, cả nhóm đều thích.","clientTimestamp":"2025-11-05T20:39:11.221Z","createdAt":"2025-11-05T20:39:11.221Z"},
+      {"name":"Nguyễn Phi Yến","email":"yennguyenmail@gmail.com","rating":5,"message":"Nội dung tốt, đặc biệt là phần idioms dễ nhớ.","clientTimestamp":"2025-11-09T10:51:08.903Z","createdAt":"2025-11-09T10:51:08.903Z"},
+      {"name":"Thân Giáp Tá","email":"than951x@gmail.com","rating":4,"message":"Game hay, nếu có thêm bản mở rộng thì tuyệt vời.","clientTimestamp":"2025-11-03T15:13:55.491Z","createdAt":"2025-11-03T15:13:55.491Z"},
+      {"name":"Nguyễn Quốc Khánh","email":"khanhnguyen222z@gmail.com","rating":4,"message":"Hướng dẫn dễ hiểu, chơi với gia đình rất vui.","clientTimestamp":"2025-11-07T18:25:32.668Z","createdAt":"2025-11-07T18:25:32.668Z"},
+      {"name":"Nguyễn Huỳnh Anh Dương","email":"duongn_account@gmail.com","rating":4,"message":"Học từ vựng trong lúc chơi giúp nhớ lâu hơn.","clientTimestamp":"2025-11-11T21:44:10.302Z","createdAt":"2025-11-11T21:44:10.302Z"},
+      {"name":"Dương Canary","email":"duong750mail@gmail.com","rating":4,"message":"Bộ game hữu ích, phù hợp nhiều độ tuổi.","clientTimestamp":"2025-11-06T07:59:48.774Z","createdAt":"2025-11-06T07:59:48.774Z"},
+      {"name":"Hồ Gia Phú","email":"hophu876info@outlook.com","rating":5,"message":"Chất lượng tốt ngoài mong đợi, thẻ đẹp.","clientTimestamp":"2025-11-03T11:37:29.550Z","createdAt":"2025-11-03T11:37:29.550Z"},
+      {"name":"Võ Phương Nam","email":"namvcontact@gmail.com","rating":4,"message":"Thiết kế bắt mắt, mong có thêm mode nâng cao.","clientTimestamp":"2025-11-09T16:12:41.183Z","createdAt":"2025-11-09T16:12:41.183Z"}
+    ];
+
+    const button = document.getElementById('seedButton');
+    const statusEl = document.getElementById('status');
+    const logEl = document.getElementById('log');
+
+    const firebaseApp = firebase.initializeApp(window.CATCHY_FIREBASE_CONFIG);
+    const firestore = firebaseApp.firestore();
+    const feedbackCollection = firestore.collection('feedback');
+
+    const formatDocId = entry => {
+      const emailSlug = (entry.email || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '')
+        .slice(0, 24);
+      const timeSlug = (entry.clientTimestamp || '')
+        .replace(/[^0-9]/g, '')
+        .slice(-14);
+      return `seed-${timeSlug}-${emailSlug || 'anon'}`;
+    };
+
+    const appendLog = message => {
+      logEl.textContent += `${message}\n`;
+      logEl.scrollTop = logEl.scrollHeight;
+    };
+
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      statusEl.textContent = 'Uploading feedback to Firestore...';
+      appendLog(`Starting upload of ${seedData.length} entries...`);
+      try{
+        const tasks = seedData.map(async entry => {
+          const docId = formatDocId(entry);
+          await feedbackCollection.doc(docId).set({
+            name: entry.name,
+            email: entry.email,
+            rating: entry.rating,
+            message: entry.message,
+            clientTimestamp: entry.clientTimestamp,
+            createdAt: entry.createdAt
+              ? firebase.firestore.Timestamp.fromDate(new Date(entry.createdAt))
+              : firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+          appendLog(`✔ Stored ${entry.name} (${docId})`);
+        });
+        await Promise.all(tasks);
+        statusEl.textContent = 'All feedback entries uploaded successfully.';
+      }catch(err){
+        console.error(err);
+        statusEl.textContent = 'Upload failed. Check the console for details.';
+        appendLog(`✖ Error: ${err.message || err}`);
+      }finally{
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
