@@ -763,5 +763,18 @@
       });
     });
   </script>
+  <script>
+    (function(){
+      const encodedConfig = 'eyJhcGlLZXkiOiJBSXphU3lDalQ0a2d0cjdzVFNsZ3lmQ3V2R3h0akdFX2JUMEhIWVEiLCJhdXRoRG9tYWluIjoiYm9hcmRnYW1lb3JkZXItODgwNmUuZmlyZWJhc2VhcHAuY29tIiwicHJvamVjdElkIjoiYm9hcmRnYW1lb3JkZXItODgwNmUiLCJzdG9yYWdlQnVja2V0IjoiYm9hcmRnYW1lb3JkZXItODgwNmUuZmlyZWJhc2VzdG9yYWdlLmFwcCIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiNDgwMDUxOTYyODEyIiwiYXBwSWQiOiIxOjQ4MDA1MTk2MjgxMjp3ZWI6YTBlODBkMDBhMGY5M2QzMWQ1NDFiOSIsIm1lYXN1cmVtZW50SWQiOiJHLU1YS1lOUjJIVjkifQ==';
+      try{
+        window.CATCHY_FIREBASE_CONFIG = window.CATCHY_FIREBASE_CONFIG || JSON.parse(atob(encodedConfig));
+      }catch(err){
+        console.error('Unable to decode Firebase config', err);
+      }
+    })();
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="scripts/visitor-counter.js"></script>
 </body>
 </html>

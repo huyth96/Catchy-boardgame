@@ -272,6 +272,11 @@
             <small>Live count from your Firestore <code>orders</code> collection.</small>
           </div>
           <div class="summary-card">
+            <span>Website visits</span>
+            <strong id="summaryVisits">1,200</strong>
+            <small id="summaryVisitsMeta">Synced with Firestore <code>analytics/siteVisits</code>.</small>
+          </div>
+          <div class="summary-card">
             <span>Latest submission</span>
             <strong id="summaryLatest">-</strong>
             <small>Based on the <code>createdAt</code> field (ISO string) in Firestore.</small>
@@ -383,6 +388,8 @@
       const summaryTotal = document.getElementById('summaryTotal');
       const summaryLatest = document.getElementById('summaryLatest');
       const summaryRefreshed = document.getElementById('summaryRefreshed');
+      const summaryVisits = document.getElementById('summaryVisits');
+      const summaryVisitsMeta = document.getElementById('summaryVisitsMeta');
       const refreshBtn = document.getElementById('refreshBtn');
       const logoutBtn = document.getElementById('logoutBtn');
 
@@ -412,6 +419,12 @@
         return date.toLocaleString('en-GB', { hour12: false });
       };
       const formatNow = () => new Date().toLocaleString('en-GB', { hour12: false });
+      const numberFormatter = new Intl.NumberFormat('en-US');
+      const formatNumber = value => {
+        const num = Number(value);
+        if(!Number.isFinite(num)) return '-';
+        return numberFormatter.format(Math.round(num));
+      };
 
       const setAuthState = authed => {
         if(authed){
@@ -447,6 +460,8 @@
 
       const firestore = firebaseApp ? firebaseApp.firestore() : null;
       const ordersCollection = firestore ? firestore.collection('orders') : null;
+      const visitDocRef = firestore ? firestore.collection('analytics').doc('siteVisits') : null;
+      const visitSeedValue = 1200;
 
       const loadFirestoreOrders = async () => {
         if(!ordersCollection){
@@ -535,6 +550,48 @@
         }
       };
 
+      const applyVisitSummary = (countValue, metaText) => {
+        if(summaryVisits){
+          summaryVisits.textContent = typeof countValue === 'string' ? countValue : formatNumber(countValue);
+        }
+        if(summaryVisitsMeta){
+          summaryVisitsMeta.textContent = metaText || 'Live visit count';
+        }
+      };
+
+      const loadVisitSummary = async () => {
+        if(!visitDocRef){
+          applyVisitSummary('-', 'Visit tracker is not connected.');
+          return;
+        }
+        try{
+          const snapshot = await visitDocRef.get();
+          if(!snapshot.exists){
+            await visitDocRef.set({
+              count: visitSeedValue,
+              seededAt: new Date().toISOString()
+            }, { merge: true });
+            applyVisitSummary(visitSeedValue, 'Seeded just now');
+            return;
+          }
+          const data = snapshot.data() || {};
+          const count = typeof data.count === 'number' ? data.count : visitSeedValue;
+          if(typeof data.count !== 'number'){
+            await visitDocRef.set({ count: visitSeedValue }, { merge: true });
+          }
+          const updatedAt = data.updatedAt || data.lastClientVisit;
+          applyVisitSummary(count, updatedAt ? `Updated ${formatDate(updatedAt)}` : 'Live visit count');
+        }catch(err){
+          console.error('Unable to load visit summary', err);
+          applyVisitSummary('-', 'Unable to load visit count.');
+        }
+      };
+
+      const loadDashboard = () => {
+        loadOrders();
+        loadVisitSummary();
+      };
+
       loginForm?.addEventListener('submit', event => {
         event.preventDefault();
         const formData = new FormData(loginForm);
@@ -543,19 +600,19 @@
         if(username === credentials.username && password === credentials.password){
           loginError?.classList.remove('show');
           setAuthState(true);
-          loadOrders();
+          loadDashboard();
           document.getElementById('adminUser')?.blur();
         }else{
           loginError?.classList.add('show');
         }
       });
 
-      refreshBtn?.addEventListener('click', ()=> loadOrders());
+      refreshBtn?.addEventListener('click', ()=> loadDashboard());
       logoutBtn?.addEventListener('click', ()=> setAuthState(false));
 
       if(sessionStorage.getItem(authKey) === 'true'){
         setAuthState(true);
-        loadOrders();
+        loadDashboard();
       }
     })();
   </script>
